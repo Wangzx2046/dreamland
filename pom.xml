@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <packaging>pom</packaging>
+    <groupId>com.zero</groupId>
+    <artifactId>dreamland</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>dreamland</name>
+    <description>Demo project for Spring Boot</description>
+
+    <modules>
+        <module>dreamland-api</module>
+       <!-- <module>dreamland-auth</module>
+        <module>dreamland-biz</module>
+        <module>dreamland-common</module>
+        <module>dreamland-plugin</module>
+        <module>dreamland-redis</module>
+        <module>dreamland-swagger2</module>
+        <module>dreamland-wechat</module>-->
+    </modules>
+
+    <properties>
+        <project.version>0.0.1-SNAPSHOT</project.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <guava.version>28.0-jre</guava.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <druid.version>1.1.21</druid.version>
+        <fastjson.version>1.2.66</fastjson.version>
+        <java-jwt.version>3.8.1</java-jwt.version>
+        <commons-codec.version>1.14</commons-codec.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <knife4j.version>2.0.2</knife4j.version>
+        <pagehelper.version>1.2.13</pagehelper.version>
+        <auth0.java-jwt.version>3.9.0</auth0.java-jwt.version>
+        <jjwt.version>0.11.0</jjwt.version>
+        <quartz.version>2.3.1</quartz.version>
+        <hutool-all.version>5.3.2</hutool-all.version>
+        <UserAgentUtils.version>1.21</UserAgentUtils.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
+        <poi.version>4.1.2</poi.version>
+        <ip2region.version>1.7.2</ip2region.version>
+        <aliyun.java.sdk.core.version>4.1.0</aliyun.java.sdk.core.version>
+        <wxjava.version>3.8.0</wxjava.version>
+    </properties>
+
+    <!--dependencyManagement仅仅声明版本-->
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--Spring boot start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--Spring boot start-->
+    </dependencies>
+
+
+</project>
