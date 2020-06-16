@@ -6,7 +6,6 @@
         <groupId>com.zero</groupId>
         <artifactId>dreamland</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>com.zero</groupId>
@@ -17,7 +16,22 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-common</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

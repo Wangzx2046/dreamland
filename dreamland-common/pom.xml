@@ -6,7 +6,6 @@
         <groupId>com.zero</groupId>
         <artifactId>dreamland</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>com.zero</groupId>
@@ -16,8 +15,15 @@
     <description>Demo project for Spring Boot</description>
 
 
-
     <dependencies>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
 
     </dependencies>
 

@@ -6,7 +6,7 @@
         <groupId>com.zero</groupId>
         <artifactId>dreamland</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+
     </parent>
     <packaging>jar</packaging>
     <groupId>com.zero</groupId>
@@ -16,13 +16,59 @@
     <description>Demo project for Spring Boot</description>
 
 
-
     <dependencies>
+
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-biz</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-common</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-auth</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-redis</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-wechat</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!--替换tomcat为undertow-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
         </dependency>
 
     </dependencies>

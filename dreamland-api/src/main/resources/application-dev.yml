@@ -1,0 +1,88 @@
+#debug: true
+
+server:
+  port: 8088
+  servlet:
+    session:
+      timeout: 3600
+    context-path: /dreamland
+  mail:
+    default-encoding: UTF-8
+    host: smtp.163.com
+    username: jbinfoecard@163.com
+    password: jbinfo2019
+    expiration: 5 #验证码有效时间，自己加的变量
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
+          required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+
+#静态资源对外暴露的访问路径
+file:
+  staticAccessPath: /files/**
+  staticFolder: d://automataFile/
+
+jwt:
+  secret: JO6HN3NGIU25G2FIG8V7VD6CK9B6T2Z5OASDON19ANDJNANSS2
+  expire: 7200 # tocken 过期时间，单位秒
+  header: Authorization
+  # 令牌前缀
+  token-start-with: 'Bearer '
+  # 必须使用最少88位的Base64对该令牌进行编码
+  base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
+  # 在线用户key
+  # online-key: online-token
+  # 验证码
+  # code-key: code-key
+
+swagger:
+  enabled: true
+  title: 零-项目API
+  description: 接口API文档
+  version: 1.0
+  basePackage: com.zero.dreamland.api;com.zero.dreamland.auth.rest
+
+
+
+
+
+
+
+
+login:
+  single: true     #是否限制多处登录
+  verification_code:      #登录图形验证码有效时间/分钟
+    expiration: 5
+
+#密码加密传输，前端公钥加密，后端私钥解密
+rsa:
+  private_key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAPXNvcHMgEjiaLiKtaAXBS3bx1IBDD5qnMaAhPJE1OmsbeFCmgySdSAJtNhLOFZTFUylxiDw/zOLgw1ynaHDaYhyAqO/2aQpOhtkOTA185rPBthUu8kK2g/uK46DPRoJut67pOCsnFGIYx3Zn1jDsmSKCwuz0r8sa+FnHTT3AM4hAgMBAAECgYAlaJh2hB8J+JsjasjVgmthXU9qZYptfWA6vZh+HoegwINAgxhazXdR1uhU+q2qRZ66OYh7vvG38IWTaFwhIFJRC1s8PNCHR1+svOKTbd31siSkvRQFmuqzQ/o2oWxA1Tw5WzgEcACtRfd5Fuy0QHAzDxSJMV6J5fDdrQhm2mFQ2QJBAP9BqeDc4l35fiBI6MNDyrBOlpAeFkWRcKnYUQe6UQVG4HPXS4u1eoRwz4ivVsTmIwV0p7fbN8kbPEB/beO/hJcCQQD2hQdr+w+D7P0+nhYNx+ZLHU9Tw/m9oI07QKRQD2GK0SX5va2QD7hNLiI149znOWdegih9vquQ1ARtqOuAfQIHAkEAoHS5ghW34pUMOOU8FEsQJcYxFUUkgPTNGqdVQINZnPSR8Z/b6GXbL1fuzaBS7hEw4KQVLhkKt0t8k5rHDEx+3wJAY3Cd4czQIWNDdDLIqp5sIvibuypeX0OYNMKKhVDvA9QCAY+lp2rv6RIm8p4Lyam6LMFMHA0Bn9YmQyXUeWvzmQJAOonPfmQqBvUnKnB1iEK2tmLOfkMHHg1LP5i1yGvgMA48BVusGIxmWo9mX0CLVf2zeuVK0y7tIJAyu+Us5Qxj8w==
+
+#日志
+logging:
+  level:
+    com.zero.dreamland.dao : DEBUG
+    root: info
+    org.springframework.web: INFO
+    com.github.binarywang.demo.wx.mp: DEBUG
+    me.chanjar.weixin: DEBUG
+
+
+
+
+wx:
+  mp:
+    configs:
+#      - appId: 1111 （一个公众号的appid）
+#        secret: 1111（公众号的appsecret）
+#        token: 111 （接口配置里的Token值）
+#        aesKey: 111 （接口配置里的EncodingAESKey值）
+      - appId: wx8685ef5056aec30f
+        secret: fad900dad060193e1c1ac8073eea1b64
+        token: qdjbinfoecard
+        aesKey: 111

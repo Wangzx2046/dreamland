@@ -1,0 +1,44 @@
+#debug: true
+
+server:
+  port: 8089
+  servlet:
+    session:
+      timeout: 3600
+    context-path: /origin
+
+
+#静态资源对外暴露的访问路径
+file:
+  staticAccessPath: /files/**
+#w外部目录映射（注意Linux和Windows上的目录结构不同）
+#uploadFolder=/root/uploadFiles/
+  staticFolder: d://originFile/
+
+
+#pagehelper分页 ,由于mybatisplus与pagehelper不兼容，本项目使用自带分页
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count\=countSql
+  
+jwt:
+  secret: A0DKASMJO6HN3NGIU25G2FIG8V7VD6CDDSK9B6T2Z533S
+  expire: 1800
+
+swagger:
+  enabled: false
+  title: 零-项目API
+  description: 接口API文档
+  version: 1.0
+  basePackage: com.zero.dreamland.api
+
+
+
+
+logging:
+  level:
+    com.zero.origin.dao : DEBUG
+
+
