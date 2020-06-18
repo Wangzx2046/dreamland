@@ -66,7 +66,7 @@ rsa:
 #日志
 logging:
   level:
-    com.zero.dreamland.dao : DEBUG
+ #   com.zero.dreamland.biz.**.dao : DEBUG
     root: info
     org.springframework.web: INFO
     com.github.binarywang.demo.wx.mp: DEBUG

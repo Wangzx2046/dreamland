@@ -1,5 +1,5 @@
 package com.zero.dreamland.auth.jwt;/*
-package com.zero.devil.auth.jwt;
+package com.zero.dreamland.auth.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

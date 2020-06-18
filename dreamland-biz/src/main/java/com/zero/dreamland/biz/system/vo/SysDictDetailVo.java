@@ -1,6 +1,6 @@
 package com.zero.dreamland.biz.system.vo;
 
-import com.zero.dreamland.biz.system.entity.SystemDictDetail;
+import com.zero.dreamland.biz.system.entity.SysDictDetail;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,12 +17,12 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "SystemDictDetail对象", description = "数据字典详情")
-public class SystemDictDetailVo extends SystemDictDetail {
+public class SysDictDetailVo extends SysDictDetail {
 
     private static final long serialVersionUID = 1L;
 
 
-    private String name;
+    private String dictName;
 
 
 

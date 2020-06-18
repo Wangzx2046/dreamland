@@ -5,20 +5,21 @@ server:
   servlet:
     session:
       timeout: 3600
-    context-path: /devil
+    context-path: /dreamland
 
 
 #静态资源对外暴露的访问路径
 file:
   staticAccessPath: /files/**
 #w外部目录映射（注意Linux和Windows上的目录结构不同）
-#uploadFolder=/home/devil/uploadFiles/
-  staticFolder: d://automataFile/
+#uploadFolder=/home/dreamland/uploadFiles/
+  staticFolder: d://dreamland/
 
 #spring  
 spring:
   mvc:
-    date-format : "yyyy-MM-dd HH:mm:ss"
+    format:
+      date: "yyyy-MM-dd HH:mm:ss"
   profiles:
     include: hikari,redis
     active: dev
@@ -33,13 +34,14 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapping/**/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
-  type-aliases-package: com.zero.dreamland.entity  # 注意：对应实体类的路径
+  type-aliases-package: com.zero.dreamland.biz.**.entity  # 注意：对应实体类的路径
   configuration:
     map-underscore-to-camel-case: true # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
   global-config:
     db-config:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 #pagehelper分页

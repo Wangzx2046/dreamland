@@ -151,8 +151,6 @@ public class SecurityLoginController {
         onlineUserService.logout(token);
         log.info("用户（" + jwtUtil.getUsernameFromToken(token) + ")退出系统");
         return new ResponseEntity<>(HttpStatus.OK);
-
-
     }
 
 

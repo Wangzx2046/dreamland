@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 /**
 *
@@ -52,13 +51,7 @@ public class SysDictDetail extends BaseModel {
     @TableField("dict_sort")
     private Integer dictSort;//排序
 
-    @ApiModelProperty(value = "创建日期")
-    @TableField("create_time")
-    private LocalDateTime createTime;//创建日期
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("update_time")
-    private LocalDateTime updateTime;//更新时间
 
 
 }

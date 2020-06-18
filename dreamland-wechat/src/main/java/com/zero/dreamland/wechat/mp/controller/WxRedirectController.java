@@ -47,7 +47,7 @@ public class WxRedirectController {
             , @PathVariable("appid") String appid
     ) throws IOException, NoSuchFieldException, SecurityException, WxErrorException {
 
-        String url = "http://faker.51vip.biz/devil/wx/redirect/" + appid + "/callBack?targetUrl=toIndex";
+        String url = "http://faker.51vip.biz/dreamland/wx/redirect/" + appid + "/callBack?targetUrl=toIndex";
         String s = wxService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, "STATE#wechat_redirect");
 
      /*   String url = "https://open.weixin.qq.com/connect/oauth2/authorize?"

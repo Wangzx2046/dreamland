@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zero.dreamland.common.MyValidation.AddGroup;
 import com.zero.dreamland.common.MyValidation.UpdateGroup;
 import io.swagger.annotations.ApiModelProperty;
@@ -55,4 +56,8 @@ public class BaseModel implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private LocalDateTime updateDate;//更新时间
+
+    @TableField(exist = false)
+    @JsonIgnore
+    private String blurry;//模糊
 }
