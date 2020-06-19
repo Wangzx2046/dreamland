@@ -40,7 +40,7 @@ public class FastJsonConfiguration {
         // 设置时间格式
         fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+        fastMediaTypes.add(MediaType.APPLICATION_JSON);
         fastJsonHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
 
         // 在转换器中添加配置信息

@@ -4,8 +4,8 @@ package com.zero.dreamland.api.system;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zero.dreamland.api.common.core.BaseController;
-import com.zero.dreamland.biz.system.entity.SysDict;
-import com.zero.dreamland.biz.system.service.ISysDictService;
+import com.zero.dreamland.biz.system.entity.SysJob;
+import com.zero.dreamland.biz.system.service.ISysJobService;
 import com.zero.dreamland.common.MyValidation.AddGroup;
 import com.zero.dreamland.common.MyValidation.UpdateGroup;
 import com.zero.dreamland.common.exception.BadRequestException;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -35,76 +34,72 @@ import java.util.Set;
 
 /**
  * @author : Wang.zx
- * @Description ：数据字典
- * @since : 2020-04-07
+ * @Description ：岗位
+ * @since : 2020-06-19
  */
-@Api(tags = "系统：字典管理")
+@Api(tags = "岗位")
 @Slf4j
 @RestController
-@RequestMapping("/sys/sys-dict")
-public class SysDictController extends BaseController {
+@RequestMapping("/sys/sys-job")
+public class SysJobController extends BaseController {
 
     @Resource
-    private ISysDictService sysDictService;
+    private ISysJobService sysJobService;
 
 
-    @ApiOperation(value = "数据字典-查看全部", notes = "列表查看数据字典的记录")
-    //  @PreAuthorize("hasRole('admin')")
+    @ApiOperation(value = "岗位-查看", notes = "列表查看岗位的记录")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<Object> all(SysDict sysDict, Pageable pageable) {
-
+    public ResponseEntity<Object> all(SysJob sysJob, Pageable pageable) {
 
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        List<SysDict> list = sysDictService.list(sysDict);
+        List<SysJob> list = sysJobService.list(sysJob);
         PageInfo pageInfo = new PageInfo<>(list);
 
         return new ResponseEntity<>(pageInfo, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "数据字典-新增", notes = "新增一条数据字典的记录")
-    // @PreAuthorize("hasRole('admin')")
+
+    @ApiOperation(value = "岗位-新增", notes = "新增一条岗位的记录")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    @ResponseBody
-    public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysDict sysDict, BindingResult bindingResult) {
+    public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysJob sysJob, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
         }
-        sysDictService.save(sysDict);
+        sysJobService.save(sysJob);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    @ApiOperation(value = "数据字典-编辑", notes = "编辑一条数据字典的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "岗位-编辑", notes = "编辑一条岗位的记录")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
-    @ResponseBody
-    public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysDict sysDict, BindingResult bindingResult) {
+    public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysJob sysJob, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
         }
-        sysDictService.updateById(sysDict);
+        sysJobService.updateById(sysJob);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "数据字典-删除", notes = "删除一条数据字典的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    @ApiOperation(value = "岗位-删除", notes = "删除一条岗位的记录")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping
-    @ResponseBody
     public ResponseEntity<Object> delete(@NotBlank(message = "id should not be empty") @RequestBody Set<String> ids) {
-        sysDictService.removeByIds(ids);
+        sysJobService.removeByIds(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-   // @Log("导出字典数据")
-    @ApiOperation("导出字典数据")
+    // @Log("导出岗位数据")
+    @ApiOperation("导出岗位数据")
     @GetMapping(value = "/download")
-  //  @PreAuthorize("@el.check('dict:list')")
-    public void download(HttpServletResponse response,SysDict sysDict) throws IOException {
-        sysDictService.download(sysDict, response);
+    //  @PreAuthorize("@el.check('job:list')")
+    public void download(HttpServletResponse response, SysJob sysJob) throws IOException {
+        sysJobService.download(sysJobService.list(sysJob), response);
     }
-
-
 
 
 }

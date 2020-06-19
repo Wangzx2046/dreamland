@@ -17,11 +17,20 @@ public interface ISysDeptService extends IService<SysDept> {
 
     /**
      * 获取
+     *
      * @param deptId
      * @param deptList
      * @return
      */
     List<String> getDeptChildren(String deptId, List<SysDept> deptList);
 
+    List<SysDept> list(SysDept sysDept);
 
+    boolean save(SysDept sysDept);
+
+    List<SysDept> getSuperior(SysDept deptDto, List<SysDept> depts);
+
+    Object buildTree(List<SysDept> sysDepts);
+
+    List<SysDept> queryAll(SysDept sysDept, boolean isQuery) throws Exception;;
 }

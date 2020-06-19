@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 /**
 *
@@ -39,20 +38,13 @@ public class SysJob extends BaseModel {
 
     @ApiModelProperty(value = "岗位状态")
     @TableField("enabled")
-    @NotBlank(message="岗位状态不得为空！")
     private Boolean enabled;//岗位状态
 
     @ApiModelProperty(value = "排序")
     @TableField("job_sort")
     private Integer jobSort;//排序
 
-    @ApiModelProperty(value = "创建日期")
-    @TableField("create_time")
-    private LocalDateTime createTime;//创建日期
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("update_time")
-    private LocalDateTime updateTime;//更新时间
 
 
 }

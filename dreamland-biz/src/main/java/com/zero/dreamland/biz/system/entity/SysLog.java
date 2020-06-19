@@ -1,16 +1,13 @@
 package com.zero.dreamland.biz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import com.zero.dreamland.biz.common.base.BaseModel;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.zero.dreamland.biz.common.base.BaseModel;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.ToString;
-import javax.validation.constraints.NotBlank;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -69,8 +66,6 @@ public class SysLog extends BaseModel {
     @Length(max=65535 ,message="内容过长，请检查！")
     private String exceptionDetail;//
 
-    @TableField("create_time")
-    private LocalDateTime createTime;//
 
 
 }
