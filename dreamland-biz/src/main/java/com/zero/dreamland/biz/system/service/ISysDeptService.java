@@ -3,7 +3,10 @@ package com.zero.dreamland.biz.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zero.dreamland.biz.system.entity.SysDept;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -32,5 +35,18 @@ public interface ISysDeptService extends IService<SysDept> {
 
     Object buildTree(List<SysDept> sysDepts);
 
-    List<SysDept> queryAll(SysDept sysDept, boolean isQuery) throws Exception;;
+    List<SysDept> queryAll(SysDept sysDept, boolean isQuery) throws Exception;
+
+    ;
+
+    boolean updateById(SysDept sysDept);
+
+    /**
+     * 验证是否被角色或用户关联
+     *
+     * @param deptDtos /
+     */
+    void verification(Set<SysDept> deptDtos);
+
+    void download(SysDept sysDept, HttpServletResponse response) throws IOException;
 }

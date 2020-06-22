@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -64,7 +63,6 @@ public class SysDictController extends BaseController {
     @ApiOperation(value = "数据字典-新增", notes = "新增一条数据字典的记录")
     // @PreAuthorize("hasRole('admin')")
     @PostMapping
-    @ResponseBody
     public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysDict sysDict, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
@@ -77,7 +75,6 @@ public class SysDictController extends BaseController {
     @ApiOperation(value = "数据字典-编辑", notes = "编辑一条数据字典的记录")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
-    @ResponseBody
     public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysDict sysDict, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
@@ -89,22 +86,19 @@ public class SysDictController extends BaseController {
     @ApiOperation(value = "数据字典-删除", notes = "删除一条数据字典的记录")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping
-    @ResponseBody
     public ResponseEntity<Object> delete(@NotBlank(message = "id should not be empty") @RequestBody Set<String> ids) {
         sysDictService.removeByIds(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-   // @Log("导出字典数据")
+    // @Log("导出字典数据")
     @ApiOperation("导出字典数据")
     @GetMapping(value = "/download")
-  //  @PreAuthorize("@el.check('dict:list')")
-    public void download(HttpServletResponse response,SysDict sysDict) throws IOException {
+    //  @PreAuthorize("@el.check('dict:list')")
+    public void download(HttpServletResponse response, SysDict sysDict) throws IOException {
         sysDictService.download(sysDict, response);
     }
-
-
 
 
 }

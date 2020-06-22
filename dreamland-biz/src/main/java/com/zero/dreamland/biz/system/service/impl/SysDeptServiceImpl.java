@@ -6,13 +6,22 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.dreamland.biz.system.dao.SysDeptDao;
 import com.zero.dreamland.biz.system.entity.SysDept;
+import com.zero.dreamland.biz.system.entity.SysRolesDepts;
+import com.zero.dreamland.biz.system.entity.SysUser;
 import com.zero.dreamland.biz.system.service.ISysDeptService;
+import com.zero.dreamland.biz.system.service.ISysRolesDeptsService;
+import com.zero.dreamland.biz.system.service.ISysUserService;
+import com.zero.dreamland.common.exception.BadRequestException;
+import com.zero.dreamland.common.utils.FileUtil;
 import com.zero.dreamland.redis.utils.RedisUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +40,11 @@ import java.util.stream.Collectors;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> implements ISysDeptService {
     @Resource
     private SysDeptDao sysDeptDao;
+    @Resource
+    private ISysUserService iSysUserService;
+    @Resource
+    private ISysRolesDeptsService iSysRolesDeptsService;
+
 
     @Resource
     private RedisUtil redisUtils;
@@ -67,6 +81,28 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> impleme
     }
 
     @Override
+    public boolean updateById(SysDept sysDept) {
+        // 旧的部门
+        String oldPid = sysDeptDao.selectById(sysDept.getId()).getPid();
+        String newPid = sysDept.getPid();
+        if (sysDept.getPid() != null && sysDept.getId().equals(sysDept.getPid())) {
+            throw new BadRequestException("上级不能为自己");
+        }
+        SysDept dept = sysDeptDao.selectById(sysDept.getId());
+        if (dept == null) {
+            throw new BadRequestException("部门不存在");
+        }
+
+        sysDept.setId(dept.getId());
+        sysDeptDao.updateById(sysDept);
+        // 更新父节点中子节点数目
+        updateSubCnt(oldPid);
+        updateSubCnt(newPid);
+
+        return true;
+    }
+
+    @Override
     public List<SysDept> list(SysDept sysDept) {
         QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>(sysDept);
 
@@ -90,7 +126,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> impleme
     @Override
     public List<SysDept> getSuperior(SysDept sysDept, List<SysDept> depts) {
         if (sysDept.getPid() == null) {
-            depts.addAll(sysDeptDao.selectList(new QueryWrapper<SysDept>().isNotNull("pid")));
+            depts.addAll(sysDeptDao.selectList(new QueryWrapper<SysDept>().isNull("pid")));
             return depts;
         }
         depts.addAll(sysDeptDao.selectList(new QueryWrapper<SysDept>().eq("pid", sysDept.getPid())));
@@ -129,8 +165,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> impleme
             trees = depts;
         }
         Map<String, Object> map = new HashMap<>(2);
-        map.put("totalElements", sysDepts.size());
-        map.put("content", CollectionUtil.isEmpty(trees) ? sysDepts : trees);
+        map.put("total", sysDepts.size());
+        map.put("list", CollectionUtil.isEmpty(trees) ? sysDepts : trees);
         return map;
     }
 
@@ -144,5 +180,31 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> impleme
             sysDept.setId(deptId);
             sysDeptDao.updateById(sysDept);
         }
+    }
+
+
+    @Override
+    public void verification(Set<SysDept> deptDtos) {
+        Set<String> deptIds = deptDtos.stream().map(SysDept::getId).collect(Collectors.toSet());
+        if (iSysUserService.count(new QueryWrapper<SysUser>().in("dept_id", deptIds)) > 0) {
+            throw new BadRequestException("所选部门存在用户关联，请解除后再试！");
+        }
+        if (iSysRolesDeptsService.count(new QueryWrapper<SysRolesDepts>().in("dept_id", deptIds)) > 0) {
+            throw new BadRequestException("所选部门存在角色关联，请解除后再试！");
+        }
+    }
+
+    @Override
+    public void download(SysDept sysDept, HttpServletResponse response) throws IOException {
+        List<SysDept> deptList=this.list(sysDept);
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (SysDept deptDTO : deptList) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("部门名称", deptDTO.getName());
+            map.put("部门状态", deptDTO.getEnabled() ? "启用" : "停用");
+            map.put("创建日期", deptDTO.getCreateDate());
+            list.add(map);
+        }
+        FileUtil.downloadExcel(list, response);
     }
 }

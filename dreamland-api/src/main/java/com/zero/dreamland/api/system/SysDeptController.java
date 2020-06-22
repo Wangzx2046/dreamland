@@ -9,8 +9,6 @@ import com.zero.dreamland.biz.system.service.ISysDeptService;
 import com.zero.dreamland.common.MyValidation.AddGroup;
 import com.zero.dreamland.common.MyValidation.UpdateGroup;
 import com.zero.dreamland.common.exception.BadRequestException;
-import com.zero.dreamland.common.returnMsg.Result;
-import com.zero.dreamland.common.returnMsg.ResultUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -87,9 +86,9 @@ public class SysDeptController extends BaseController {
     @ApiOperation(value = "系统部门表-删除", notes = "删除一条系统部门表的记录")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping
-    public Result del(@NotBlank(message = "id should not be empty") @PathVariable("id") String id) {
-        sysDeptService.removeById(id);
-        return ResultUtil.success();
+    public ResponseEntity<Object> delete(@NotBlank(message = "id should not be empty") @RequestBody Set<String> ids) {
+        sysDeptService.removeByIds(ids);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -105,6 +104,16 @@ public class SysDeptController extends BaseController {
             deptDtos.addAll(depts);
         }
         return new ResponseEntity<>(sysDeptService.buildTree(new ArrayList<>(deptDtos)), HttpStatus.OK);
+    }
+
+
+
+    // @Log("导出字典数据")
+    @ApiOperation("导出部门数据")
+    @GetMapping(value = "/download")
+    //  @PreAuthorize("@el.check('dict:list')")
+    public void download(HttpServletResponse response, SysDept sysDept) throws IOException {
+        sysDeptService.download(sysDept, response);
     }
 
 }
