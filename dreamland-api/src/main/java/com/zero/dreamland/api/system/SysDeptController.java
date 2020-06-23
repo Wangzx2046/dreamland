@@ -47,7 +47,7 @@ public class SysDeptController extends BaseController {
 
 
     @ApiOperation(value = "系统部门表-查看", notes = "列表查看系统部门表的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasAnyRole('normal','admin')")
     @GetMapping
     public ResponseEntity<Object> all(SysDept sysDept) throws Exception {
 
@@ -84,7 +84,7 @@ public class SysDeptController extends BaseController {
 
 
     @ApiOperation(value = "系统部门表-删除", notes = "删除一条系统部门表的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('admin')")
     @DeleteMapping
     public ResponseEntity<Object> delete(@NotBlank(message = "id should not be empty") @RequestBody Set<String> ids) {
         sysDeptService.removeByIds(ids);

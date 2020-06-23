@@ -15,26 +15,24 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
-*
-* @Description ：系统菜单
-*
-* @author : Wang.zx
-* @since : 2020-06-11
-*/
+ * @author : Wang.zx
+ * @Description ：系统菜单
+ * @since : 2020-06-11
+ */
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_menu")
-@ApiModel(value="SysMenu对象", description="系统菜单")
+@ApiModel(value = "SysMenu对象", description = "系统菜单")
 public class SysMenu extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "上级菜单ID")
     @TableField("pid")
-    @NotBlank(message="上级菜单ID不得为空！")
-    @Length(max=32 ,message="上级菜单ID内容过长，请检查！")
+    @NotBlank(message = "上级菜单ID不得为空！")
+    @Length(max = 32, message = "上级菜单ID内容过长，请检查！")
     private String pid;//上级菜单ID
 
     @ApiModelProperty(value = "子菜单数目")
@@ -47,17 +45,17 @@ public class SysMenu extends BaseModel {
 
     @ApiModelProperty(value = "菜单标题")
     @TableField("title")
-    @Length(max=255 ,message="菜单标题内容过长，请检查！")
+    @Length(max = 255, message = "菜单标题内容过长，请检查！")
     private String title;//菜单标题
 
     @ApiModelProperty(value = "组件名称")
-    @TableField("name")
-    @Length(max=255 ,message="组件名称内容过长，请检查！")
-    private String name;//组件名称
+    @TableField("component_name")
+    @Length(max = 255, message = "组件名称内容过长，请检查！")
+    private String componentName;//组件名称
 
     @ApiModelProperty(value = "组件")
     @TableField("component")
-    @Length(max=255 ,message="组件内容过长，请检查！")
+    @Length(max = 255, message = "组件内容过长，请检查！")
     private String component;//组件
 
     @ApiModelProperty(value = "排序")
@@ -66,12 +64,12 @@ public class SysMenu extends BaseModel {
 
     @ApiModelProperty(value = "图标")
     @TableField("icon")
-    @Length(max=255 ,message="图标内容过长，请检查！")
+    @Length(max = 255, message = "图标内容过长，请检查！")
     private String icon;//图标
 
     @ApiModelProperty(value = "链接地址")
     @TableField("path")
-    @Length(max=255 ,message="链接地址内容过长，请检查！")
+    @Length(max = 255, message = "链接地址内容过长，请检查！")
     private String path;//链接地址
 
     @ApiModelProperty(value = "是否外链")
@@ -88,7 +86,7 @@ public class SysMenu extends BaseModel {
 
     @ApiModelProperty(value = "权限")
     @TableField("permission")
-    @Length(max=255 ,message="权限内容过长，请检查！")
+    @Length(max = 255, message = "权限内容过长，请检查！")
     private String permission;//权限
 
     @ApiModelProperty(value = "菜单级别")
@@ -97,10 +95,26 @@ public class SysMenu extends BaseModel {
 
     @ApiModelProperty(value = "菜单描述")
     @TableField("remark")
-    @Length(max=255 ,message="菜单描述内容过长，请检查！")
+    @Length(max = 255, message = "菜单描述内容过长，请检查！")
     private String remark;//菜单描述
 
 
     @TableField(exist = false)
     private List<SysMenu> children;
+
+    @TableField(exist = false)
+    private Boolean pidIsNull;
+
+
+    public Boolean getHasChildren() {
+        return subCount > 0;
+    }
+
+    public Boolean getLeaf() {
+        return subCount <= 0;
+    }
+
+    public String getLabel() {
+        return title;
+    }
 }

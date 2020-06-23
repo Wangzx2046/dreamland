@@ -52,9 +52,37 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> impleme
     @Resource
     private ISysMenuService sysMenuService;
 
+    @Override
+    public List<SysRole> list(SysRole sysRole) {
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>(sysRole);
+        if (StringUtils.isNotBlank(sysRole.getBlurry())) {
+            queryWrapper.eq("role_name", sysRole.getBlurry())
+                    .or().eq("description", sysRole.getBlurry());
+        }
+        List<SysRole> roleList = sysRoleDao.selectList(queryWrapper);
+        roleList.stream().forEach(x -> {
+            List<SysRolesMenus> rms = sysRolesMenusService.list(new QueryWrapper<SysRolesMenus>()
+                    .eq("role_id", x.getId()));
+            if (rms.size() != 0) {
+                List<String> menuIds = new ArrayList<>();
+                rms.stream().collect(
+                        collectingAndThen(
+                                toCollection(() -> new TreeSet<>(Comparator.comparing(SysRolesMenus::getMenuId))), ArrayList::new)
+                ).forEach(y -> {
+                    menuIds.add(y.getMenuId());
+                });
+
+
+                x.setMenus(new HashSet<>(sysMenuService.listByIds((List<String>) (List) menuIds)));
+            }
+        });
+
+
+        return roleList;
+    }
 
     @Override
-   // @Cacheable(key = "'auth:' + #p0.id")
+    // @Cacheable(key = "'auth:' + #p0.id")
     public List<GrantedAuthority> mapToGrantedAuthorities(SysUser user) {
         Set<String> permissions = new HashSet<>();
         // 如果是管理员直接返回
