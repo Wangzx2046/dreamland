@@ -20,6 +20,8 @@ public interface ISysJobService extends IService<SysJob> {
 
     List<SysJob> list(SysJob sysJob);
 
+    List<SysJob> findByUsersId(String currentUserId);
+
     boolean removeByIds(Set<String> ids);
 
     /**

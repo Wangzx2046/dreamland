@@ -1,9 +1,11 @@
 package com.zero.dreamland.biz.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zero.dreamland.biz.system.entity.SysRole;
 import com.zero.dreamland.biz.system.entity.SysUsersRoles;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -17,4 +19,7 @@ public interface ISysUsersRolesService extends IService<SysUsersRoles> {
 
     List<String> getRoleIdsByUserId(String userId);
 
+    int update(String id, Set<SysRole> roles);
+
+    int insert(String userId, Set<SysRole> roles);
 }

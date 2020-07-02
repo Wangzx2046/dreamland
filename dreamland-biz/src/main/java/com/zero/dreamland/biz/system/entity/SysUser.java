@@ -14,7 +14,9 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -40,7 +42,7 @@ public class SysUser extends BaseModel {
 
     @ApiModelProperty(value = "密码")
     @TableField("user_password")
-    @NotBlank(message = "密码不得为空！")
+    //@NotBlank(message = "密码不得为空！")
     @Length(max = 100, message = "密码内容过长，请检查！")
     @JsonIgnore
     private String userPassword;//密码
@@ -60,7 +62,8 @@ public class SysUser extends BaseModel {
     @ApiModelProperty(value = "联系电话")
     @TableField("phone")
     @NotBlank(message = "联系电话不得为空！")
-    private Integer phone;//联系电话
+    @Pattern(message = "非法手机号码", regexp = "^1[\\d]{10}$")
+    private String phone;//联系电话
 
     @ApiModelProperty(value = "邮箱")
     @TableField("email")
@@ -135,5 +138,8 @@ public class SysUser extends BaseModel {
 
     @TableField(exist = false)
     private SysDept dept;
+
+    @TableField(exist = false)
+    private Set<String> deptIds=new HashSet<>();
 
 }

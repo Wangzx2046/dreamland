@@ -1,19 +1,17 @@
 package com.zero.dreamland.api.system;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zero.dreamland.api.common.core.BaseController;
-import com.zero.dreamland.biz.system.entity.SysDict;
-import com.zero.dreamland.biz.system.entity.SysDictDetail;
-import com.zero.dreamland.biz.system.service.ISysDictDetailService;
-import com.zero.dreamland.biz.system.service.ISysDictService;
-import com.zero.dreamland.biz.system.vo.SysDictDetailVo;
+import com.zero.dreamland.auth.utils.SecurityUtils;
+import com.zero.dreamland.biz.system.entity.SysUser;
+import com.zero.dreamland.biz.system.service.ISysUserService;
+import com.zero.dreamland.biz.system.service.ISysUsersRolesService;
 import com.zero.dreamland.common.MyValidation.AddGroup;
 import com.zero.dreamland.common.MyValidation.UpdateGroup;
 import com.zero.dreamland.common.exception.BadRequestException;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -36,79 +34,65 @@ import java.util.Set;
 
 /**
  * @author : Wang.zx
- * @Description ：数据字典详情
- * @since : 2020-04-07
+ * @Description ：
+ * @since : 2020-06-23
  */
+@Api(tags = "")
 @Slf4j
 @RestController
-@RequestMapping("/sys/sys-dict-detail")
-public class SysDictDetailController extends BaseController {
+@RequestMapping("/sys/sys-user")
+public class SysUserController extends BaseController {
 
     @Resource
-    private ISysDictDetailService sysDictDetailService;
+    private ISysUserService sysUserService;
     @Resource
-    private ISysDictService sysDictService;
+    private ISysUsersRolesService iSysUsersRolesService;
 
 
-    @ApiOperation(value = "数据字典详情-查看", notes = "列表查看数据字典详情的记录")
+    @ApiOperation(value = "-查看", notes = "列表查看的记录")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<Object> list(SysDictDetailVo sysDictDetail,
-                                       Pageable pageable) {
-
-        if (StringUtils.isNotBlank(sysDictDetail.getDictName())) {
-            sysDictDetail.setDictId(
-                    sysDictService.getOne(
-                            new QueryWrapper<SysDict>()
-                                    .eq("name", sysDictDetail.getDictName()))
-                            .getId()
-            );
-            sysDictDetail.setDictName(null);
-        }
-
+    public ResponseEntity<Object> all(SysUser sysUser, Pageable pageable) {
 
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        List<SysDictDetail> list = sysDictDetailService.list(sysDictDetail);
+        List<SysUser> list = sysUserService.list(sysUser, SecurityUtils.getCurrentUsername());
         PageInfo pageInfo = new PageInfo<>(list);
 
         return new ResponseEntity<>(pageInfo, HttpStatus.OK);
-
     }
 
 
-    @ApiOperation(value = "数据字典详情-新增", notes = "新增一条数据字典详情的记录")
+    @ApiOperation(value = "-新增", notes = "新增一条的记录")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysDictDetail sysDictDetail, BindingResult bindingResult) {
+    public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysUser sysUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
         }
-        sysDictDetailService.save(sysDictDetail);
+        sysUserService.save(sysUser, SecurityUtils.getCurrentUserId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "数据字典详情-编辑", notes = "编辑一条数据字典详情的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    @ApiOperation(value = "-编辑", notes = "编辑一条的记录")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
-    public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysDictDetail sysDictDetail, BindingResult bindingResult) {
+    public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysUser sysUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
         }
-        sysDictDetailService.updateById(sysDictDetail);
+        sysUserService.updateById(sysUser, SecurityUtils.getCurrentUserId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    @ApiOperation(value = "数据字典详情-删除", notes = "删除一条数据字典详情的记录")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "-删除", notes = "删除一条的记录")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping
     public ResponseEntity<Object> delete(@NotBlank(message = "id should not be empty") @RequestBody Set<String> ids) {
-        sysDictDetailService.removeByIds(ids);
+        sysUserService.removeByIds(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
 
 
 }

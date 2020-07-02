@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * GYB
  * 20190219
  */
-@Service
+@Service("MyUserDetailsService")
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "data")
 public class MyUserDetailsService implements UserDetailsService {

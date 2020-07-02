@@ -19,6 +19,7 @@ import java.util.List;
  * @since 2020-06-11
  */
 @Service
+
 public class SysRolesMenusServiceImpl extends ServiceImpl<SysRolesMenusDao, SysRolesMenus> implements ISysRolesMenusService {
 
     @Resource

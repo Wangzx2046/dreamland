@@ -30,10 +30,11 @@ import java.util.Set;
  * @since 2020-06-19
  */
 @Service
+
 public class SysJobServiceImpl extends ServiceImpl<SysJobDao, SysJob> implements ISysJobService {
 
     @Resource
-    private SysJobDao sysJobServiceDao;
+    private SysJobDao sysJobDao;
 
     @Resource
     private ISysUsersJobsService iSysUsersJobsService;
@@ -46,14 +47,24 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobDao, SysJob> implements
             queryWrapper.eq("name", sysJob.getBlurry())
                     .or().eq("description", sysJob.getBlurry());
         }
-        return sysJobServiceDao.selectList(queryWrapper);
+        return sysJobDao.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<SysJob> findByUsersId(String currentUserId) {
+        List<String> sysUsersJobsList = iSysUsersJobsService.getJobIdsByUserId(currentUserId);
+        if (sysUsersJobsList.size() == 0) {
+            return new ArrayList<SysJob>();
+        }
+        List<SysJob> jobList = sysJobDao.selectBatchIds((List<String>) (List) sysUsersJobsList);
+        return jobList;
     }
 
 
     @Override
     public boolean removeByIds(Set<String> ids) {
         this.verification(ids);
-        sysJobServiceDao.deleteBatchIds(ids);
+        sysJobDao.deleteBatchIds(ids);
         return true;
     }
 

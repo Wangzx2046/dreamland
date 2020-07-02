@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +50,6 @@ public class CaprchaController {
      */
     @AnonymousAccess
     @ApiOperation("获取验证码")
-    @ResponseBody
     @GetMapping("/code")
     public ResponseEntity<Object> captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -77,7 +75,6 @@ public class CaprchaController {
 
     @AnonymousAccess
     @ApiOperation("校验验证码")
-    @ResponseBody
     @PostMapping("/checkCaptcha")
     public ResponseEntity<Object> checkCaptcha(@NotNull @RequestParam String verCode, @NotNull @RequestParam String verKey) {
         // 获取redis中的验证码

@@ -8,7 +8,7 @@ import com.zero.dreamland.api.common.core.BaseController;
 import com.zero.dreamland.auth.utils.SecurityUtils;
 import com.zero.dreamland.biz.system.entity.SysMenu;
 import com.zero.dreamland.biz.system.service.ISysMenuService;
-import com.zero.dreamland.biz.system.service.ISystemRoleService;
+import com.zero.dreamland.biz.system.service.ISysRoleService;
 import com.zero.dreamland.common.MyValidation.AddGroup;
 import com.zero.dreamland.common.MyValidation.UpdateGroup;
 import com.zero.dreamland.common.annotation.LogAnnotation;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -52,7 +51,7 @@ public class SysMenuController extends BaseController {
     @Resource
     private ISysMenuService sysMenuService;
     @Resource
-    private ISystemRoleService iSystemRoleService;
+    private ISysRoleService iSystemRoleService;
 
     @LogAnnotation(operateContent = "拉取web端页面菜单", operateType = "系统日志")
     @ApiOperation("获取前端所需菜单")
@@ -102,7 +101,6 @@ public class SysMenuController extends BaseController {
     @ApiOperation(value = "系统菜单-新增", notes = "新增一条系统菜单的记录")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    @ResponseBody
     public ResponseEntity<Object> add(@Validated({AddGroup.class}) @RequestBody SysMenu sysMenu, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());
@@ -115,7 +113,6 @@ public class SysMenuController extends BaseController {
     @ApiOperation(value = "系统菜单-编辑", notes = "编辑一条系统菜单的记录")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
-    @ResponseBody
     public ResponseEntity<Object> edit(@Validated({UpdateGroup.class}) @RequestBody SysMenu sysMenu, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(HttpStatus.BAD_REQUEST, "bad parameter：" + bindingResult.getFieldError().getDefaultMessage());

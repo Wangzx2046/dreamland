@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.dreamland.biz.system.dao.SysLogDao;
 import com.zero.dreamland.biz.system.entity.SysLog;
 import com.zero.dreamland.biz.system.service.ISysLogService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-06-11
  */
 @Service
+
 public class SysLogServiceImpl extends ServiceImpl<SysLogDao, SysLog> implements ISysLogService {
 
 }

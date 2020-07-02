@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.zero.dreamland.auth.jwt.JwtTokenUtil;
 import com.zero.dreamland.auth.service.IOnlineUserService;
 import com.zero.dreamland.auth.springSecurity.AuthUser;
+import com.zero.dreamland.auth.utils.SecurityUtils;
 import com.zero.dreamland.common.StringUtils.IpUtil;
 import com.zero.dreamland.common.annotation.AnonymousAccess;
 import com.zero.dreamland.common.exception.BadRequestException;
@@ -137,6 +138,12 @@ public class SecurityLoginController {
 
     }
 
+
+    @ApiOperation("获取用户信息")
+    @GetMapping(value = "/info")
+    public ResponseEntity<Object> getUserInfo() {
+        return ResponseEntity.ok(SecurityUtils.getCurrentUser());
+    }
 
     /**
      *   @Description    ：退出登录

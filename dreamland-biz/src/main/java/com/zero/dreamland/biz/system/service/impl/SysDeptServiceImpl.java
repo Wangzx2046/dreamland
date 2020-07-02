@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  * @since 2020-06-11
  */
 @Service
+
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDept> implements ISysDeptService {
     @Resource
     private SysDeptDao sysDeptDao;

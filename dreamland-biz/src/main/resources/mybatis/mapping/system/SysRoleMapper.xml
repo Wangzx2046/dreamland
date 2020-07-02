@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.dreamland.biz.system.dao.SysRoleDao">
+
+    <select id="getHighestLevel" resultType="java.lang.Integer"
+            parameterType="com.zero.dreamland.biz.system.entity.SysRole">
+        SELECT
+           min( t.LEVEL )
+        FROM
+         sys_role t
+        WHERE
+         t.id in
+        <foreach item="item" index="index" collection="collection"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

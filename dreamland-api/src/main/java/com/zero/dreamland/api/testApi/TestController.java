@@ -1,9 +1,6 @@
 package com.zero.dreamland.api.testApi;
 
-import com.zero.dreamland.biz.system.service.ISystemUserService;
-import com.zero.dreamland.common.returnMsg.Result;
-import com.zero.dreamland.common.returnMsg.ResultUtil;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.zero.dreamland.biz.system.service.ISysUserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,12 +18,8 @@ import javax.annotation.Resource;
 public class TestController {
 
     @Resource
-    private ISystemUserService iSystemUserService;
+    private ISysUserService iSystemUserService;
 
 
-    @GetMapping("/get")
-    public Result getJwt() {
 
-        return ResultUtil.success(iSystemUserService.list());
-    }
 }

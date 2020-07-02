@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.dreamland.biz.system.dao.SysUserDao">
+
+    <select id="getHighestLevel" resultType="java.lang.Integer">
+        SELECT
+            min( t.LEVEL )
+        FROM
+            sys_role t
+            LEFT JOIN sys_users_roles t1 ON t.id = t1.role_id
+        WHERE
+            t1.user_id = #{userId}
+
+    </select>
+
+</mapper>

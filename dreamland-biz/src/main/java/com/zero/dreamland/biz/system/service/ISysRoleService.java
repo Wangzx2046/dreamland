@@ -6,6 +6,7 @@ import com.zero.dreamland.biz.system.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -28,4 +29,14 @@ public interface ISysRoleService extends IService<SysRole> {
     List<SysRole> findByUsersId(String currentUserId);
 
     List<SysRole> list(SysRole sysRole);
+
+    boolean save(SysRole sysRole);
+
+    boolean updateById(SysRole sysRole);
+
+    void updateMenu(SysRole newRole, SysRole oldRole);
+
+    void verification(Set<String> ids);
+
+    Integer getHighestLevel(Set<String> roles);
 }

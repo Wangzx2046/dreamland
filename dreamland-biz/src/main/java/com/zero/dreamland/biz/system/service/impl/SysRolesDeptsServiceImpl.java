@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.dreamland.biz.system.dao.SysRolesDeptsDao;
 import com.zero.dreamland.biz.system.entity.SysRolesDepts;
 import com.zero.dreamland.biz.system.service.ISysRolesDeptsService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-06-11
  */
 @Service
+
 public class SysRolesDeptsServiceImpl extends ServiceImpl<SysRolesDeptsDao, SysRolesDepts> implements ISysRolesDeptsService {
 
 }

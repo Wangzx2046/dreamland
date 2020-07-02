@@ -10,6 +10,7 @@ import com.zero.dreamland.biz.system.service.ISysDictDetailService;
 import com.zero.dreamland.biz.system.service.ISysDictService;
 import com.zero.dreamland.biz.system.vo.SysDictDetailVo;
 import com.zero.dreamland.common.utils.FileUtil;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @since 2020-06-11
  */
 @Service
+
 public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDict> implements ISysDictService {
 
     @Resource

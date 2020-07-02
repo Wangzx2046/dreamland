@@ -2,6 +2,7 @@ package com.zero.dreamland.biz.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zero.dreamland.biz.system.entity.SysUsersRoles;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.zero.dreamland.biz.system.entity.SysUsersRoles;
  * @author Wang.zx
  * @since 2020-06-11
  */
+@Mapper
 public interface SysUsersRolesDao extends BaseMapper<SysUsersRoles> {
 
 }

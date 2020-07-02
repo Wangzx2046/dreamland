@@ -16,9 +16,11 @@ import com.zero.dreamland.biz.system.vo.MenuVo;
 import com.zero.dreamland.common.exception.BadRequestException;
 import com.zero.dreamland.common.exception.EntityExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
  * @since 2020-06-11
  */
 @Service
+
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenu> implements ISysMenuService {
 
     @Resource
@@ -262,7 +265,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenu> impleme
 
 
     @Override
-    public List<SysMenu> getSuperior(SysMenu menuDto, List<SysMenu> menus) {
+    public List<SysMenu> getSuperior(@NotBlank SysMenu menuDto, List<SysMenu> menus) {
         if (menuDto.getPid() == null) {
             menus.addAll(sysMenuDao.selectList(new QueryWrapper<SysMenu>().isNull("pid")));
             return menus;

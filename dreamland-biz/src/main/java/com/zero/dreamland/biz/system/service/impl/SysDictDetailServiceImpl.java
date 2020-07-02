@@ -7,6 +7,7 @@ import com.zero.dreamland.biz.system.dao.SysDictDetailDao;
 import com.zero.dreamland.biz.system.entity.SysDictDetail;
 import com.zero.dreamland.biz.system.service.ISysDictDetailService;
 import com.zero.dreamland.biz.system.vo.SysDictDetailVo;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2020-06-11
  */
 @Service
+
 public class SysDictDetailServiceImpl extends ServiceImpl<SysDictDetailDao, SysDictDetail> implements ISysDictDetailService {
 
     @Resource
