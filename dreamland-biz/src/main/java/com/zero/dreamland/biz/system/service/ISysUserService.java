@@ -3,6 +3,7 @@ package com.zero.dreamland.biz.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zero.dreamland.biz.system.entity.SysUser;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,4 +29,6 @@ public interface ISysUserService extends IService<SysUser> {
     SysUser getByUserName(String currentUsername);
 
     Integer getHighestLevel(String currentUserId);
+
+    HashMap<String, Object> getUserRolesAndPermissionsByUserId(String id);
 }

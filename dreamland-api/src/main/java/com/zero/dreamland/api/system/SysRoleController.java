@@ -85,7 +85,7 @@ public class SysRoleController {
      * @return /
      */
     private int getLevels(Integer level) {
-        List<Integer> levels = sysRoleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(SysRole::getLevel).collect(Collectors.toList());
+        List<Integer> levels = sysRoleService.getByUsersId(SecurityUtils.getCurrentUserId()).stream().map(SysRole::getLevel).collect(Collectors.toList());
 
         int min = Collections.min(levels);
         if (level != null) {

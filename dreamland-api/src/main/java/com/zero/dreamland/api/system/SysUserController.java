@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,7 +51,7 @@ public class SysUserController extends BaseController {
 
 
     @ApiOperation(value = "-查看", notes = "列表查看的记录")
-    //@PreAuthorize("{'admin','ADMIN','dept:list'}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')||hasAuthority('user:list')")
     @GetMapping
     public ResponseEntity<Object> all(SysUser sysUser, Pageable pageable) {
 

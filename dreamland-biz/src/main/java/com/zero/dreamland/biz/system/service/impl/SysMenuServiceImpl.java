@@ -16,7 +16,6 @@ import com.zero.dreamland.biz.system.vo.MenuVo;
 import com.zero.dreamland.common.exception.BadRequestException;
 import com.zero.dreamland.common.exception.EntityExistException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,7 +62,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenu> impleme
 
     @Override
     //   @Cacheable(key = "'user:' + #p0.id")
-    public List<SysMenu> getByUserId(String currentUserId) {
+    public List<SysMenu> getMenuByUserId(String currentUserId) {
 
         List<String> roleIds = sysUsersRolesService.getRoleIdsByUserId(currentUserId);
 
@@ -74,6 +73,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenu> impleme
                 .ne("type", 2));
         return menuList;
     }
+
+    @Override
+    public List<SysMenu> getAllByUserId(String currentUserId) {
+        List<String> roleIds = sysUsersRolesService.getRoleIdsByUserId(currentUserId);
+
+        List<String> menuIds = sysRolesMenusService.getMenuIdsByRoleIds(roleIds);
+
+        List<SysMenu> menuList = sysMenuDao.selectList(new QueryWrapper<SysMenu>()
+                .in("id", menuIds));
+        return menuList;
+    }
+
 
     @Override
     public List<SysMenu> buildTree(List<SysMenu> menuList) {

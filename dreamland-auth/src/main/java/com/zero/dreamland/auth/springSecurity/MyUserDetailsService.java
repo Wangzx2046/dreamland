@@ -1,6 +1,8 @@
 package com.zero.dreamland.auth.springSecurity;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zero.dreamland.biz.system.entity.SysMenu;
+import com.zero.dreamland.biz.system.entity.SysRole;
 import com.zero.dreamland.biz.system.entity.SysUser;
 import com.zero.dreamland.biz.system.service.DataService;
 import com.zero.dreamland.biz.system.service.ISysRoleService;
@@ -15,6 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 
 /**
@@ -38,20 +44,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private DataService dataService;
 
- /*   @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        GrantedAuthority au = new SimpleGrantedAuthority("ROLE_USER");
-        list.add(au);
-        //123456 自定义MD5加密后=e10adc3949ba59abbe56e057f20f883e
-        AuthUser authUser = new AuthUser(s, "e10adc3949ba59abbe56e057f20f883e", list);
-        if (authUser == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username."));
-        }
-        System.out.println(authUser);
-        return authUser;
-    }*/
-
 
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
@@ -72,10 +64,19 @@ public class MyUserDetailsService implements UserDetailsService {
                 throw new BadRequestException("账号未激活");
             }
 
-            AuthUser authUser = new AuthUser(sysUser,
+
+            HashMap<String, Object> map = sysUserService.getUserRolesAndPermissionsByUserId(sysUser.getId());
+            List<SysMenu> permiList = (List<SysMenu>) map.get("permiList");
+            List<SysRole> roleList = (List<SysRole>) map.get("roleList");
+            sysUser.setPermissions((new HashSet(permiList)));
+            sysUser.setRoles(new HashSet(roleList));
+            return AuthUserFactory.create(sysUser);
+
+
+          /*  AuthUser authUser = new AuthUser(sysUser,
                     dataService.getDeptIds(sysUser),
                     sysRoleService.mapToGrantedAuthorities(sysUser));
-            return authUser;
+            return authUser;*/
             /*HashMap<String, Object> map = sysUserService.getUserRolesAndPermissionsByUserId(sysUser.getId());
             List<SystemPermi> permiList = (List<SystemPermi>) map.get("permiList");
             List<SystemRole> roleList = (List<SystemRole>) map.get("roleList");

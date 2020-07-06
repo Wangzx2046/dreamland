@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.dreamland.biz.system.dao.SysUserDao;
 import com.zero.dreamland.biz.system.entity.SysDept;
+import com.zero.dreamland.biz.system.entity.SysMenu;
+import com.zero.dreamland.biz.system.entity.SysRole;
 import com.zero.dreamland.biz.system.entity.SysUser;
 import com.zero.dreamland.biz.system.service.DataService;
 import com.zero.dreamland.biz.system.service.ISysDeptService;
 import com.zero.dreamland.biz.system.service.ISysJobService;
+import com.zero.dreamland.biz.system.service.ISysMenuService;
 import com.zero.dreamland.biz.system.service.ISysRoleService;
 import com.zero.dreamland.biz.system.service.ISysUserService;
 import com.zero.dreamland.biz.system.service.ISysUsersJobsService;
@@ -22,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +52,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private ISysRoleService sysRoleService;
     @Resource
     private ISysJobService sysJobService;
+    @Resource
+    private ISysMenuService sysMenusService;
+
 
     @Resource
     private DataService dataService;
@@ -85,7 +92,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         List<SysUser> userList = sysUserDao.selectList(new QueryWrapper<SysUser>(sysUser));
         userList.stream().forEach(x -> {
             x.setDept(iSysDeptService.getById(x.getDeptId()));
-            x.setRoles(new HashSet(sysRoleService.findByUsersId(x.getId())));
+            x.setRoles(new HashSet(sysRoleService.getByUsersId(x.getId())));
             x.setJobs(new HashSet(sysJobService.findByUsersId(x.getId())));
         });
 
@@ -104,6 +111,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         // 默认密码 123456
         sysUser.setUserPassword(passwordEncoder.encode("123456"));
 
+        if (null != sysUser.getDept()) {
+            sysUser.setDeptId(sysUser.getDept().getId());
+        }
         if (getByUserName(sysUser.getUserName()) != null) {
             throw new EntityExistException(SysUser.class, "username", sysUser.getUserName());
         }
@@ -111,7 +121,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         sysUsersRolesService.insert(sysUser.getId(), sysUser.getRoles());
         iSysUsersJobsService.insert(sysUser.getId(), sysUser.getJobs());
 
-        return  true;
+        return true;
     }
 
 
@@ -127,7 +137,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         if (user1 != null && !sysUser.getId().equals(user1.getId())) {
             throw new EntityExistException(SysUser.class, "userName", sysUser.getUserName());
         }
-
+        if (null != sysUser.getDept()) {
+            user.setDeptId(sysUser.getDept().getId());
+        }
         user.setUserName(sysUser.getUserName());
         user.setEmail(sysUser.getEmail());
         user.setEnabled(sysUser.getEnabled());
@@ -161,5 +173,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     @Override
     public Integer getHighestLevel(String currentUserId) {
         return sysUserDao.getHighestLevel(currentUserId);
+    }
+
+    @Override
+    public HashMap<String, Object> getUserRolesAndPermissionsByUserId(String userId) {
+        //1.获取全部角色
+        List<SysRole> roleList = sysRoleService.getByUsersId(userId);
+        //  List<String> roleTypes = roleList.stream().map(e -> e.getRoleName()).collect(Collectors.toList());
+
+        //获取角色的全部权限
+        List<SysMenu> permiList = sysMenusService.getAllByUserId(userId);
+        //  List<String> permiSignList = permiList.stream().map(e -> e.getPermission()).collect(Collectors.toList());
+
+        HashMap<String, Object> reMap = new HashMap<String, Object>();
+        reMap.put("roleList", roleList);
+        reMap.put("permiList", permiList);
+      /*HashMap<String,Set<String>> reMap=new  HashMap<String,Set<String>>();
+        reMap.put("roles",new HashSet(roleTypes));
+        reMap.put("permis",new HashSet(permiSignList));*/
+        return reMap;
     }
 }

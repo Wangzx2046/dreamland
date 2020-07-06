@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.zero.dreamland.auth.jwt.JwtTokenUtil;
 import com.zero.dreamland.auth.springSecurity.AuthUser;
+import com.zero.dreamland.auth.springSecurity.AuthUserFactory;
 import com.zero.dreamland.biz.online.OnlineUser;
 import com.zero.dreamland.common.StringUtils.IpUtil;
 import com.zero.dreamland.common.properties.Constant;
@@ -182,11 +183,11 @@ public class IOnlineUserService {
         String userName = jwtTokenUtil.getUsernameFromToken(token);
         String redisAuthInfo = (String) redisUtils.get(Constant.PREFIX_SECURITY_ACCESS_INFO + userName);
         JSONObject json = (JSONObject) JSON.parse(redisAuthInfo);
-        AuthUser authUser = JSONObject.parseObject(redisAuthInfo, AuthUser.class);
+        //  AuthUser authUser = JSONObject.parseObject(redisAuthInfo, AuthUser.class);
         //  AuthUser authUser =new AuthUser(json);
 
 
-        return authUser;
+        return AuthUserFactory.create(json);
     }
 
     /**

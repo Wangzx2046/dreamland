@@ -18,7 +18,10 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     List<SysMenu> list(SysMenu sysMenu);
 
-    List<SysMenu> getByUserId(String currentUserId);
+
+    List<SysMenu> getMenuByUserId(String currentUserId);
+
+    List<SysMenu> getAllByUserId(String currentUserId);
 
     List<SysMenu> buildTree(List<SysMenu> menuList);
 

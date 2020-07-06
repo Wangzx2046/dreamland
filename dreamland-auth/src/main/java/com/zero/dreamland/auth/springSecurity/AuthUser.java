@@ -2,28 +2,36 @@ package com.zero.dreamland.auth.springSecurity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zero.dreamland.biz.system.entity.SysUser;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-@AllArgsConstructor
 public class AuthUser implements UserDetails {
 
 
+    private SysUser user;
 
-    private final SysUser user;
+    private List<String> dataScopes;
 
-    private final List<String> dataScopes;
+    //权限
+//    @JsonIgnore
+//    private final List<GrantedAuthority> authorities;
 
     //权限
     @JsonIgnore
-    private final List<GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
 
 
     public Set<String> getRoles() {
@@ -69,7 +77,6 @@ public class AuthUser implements UserDetails {
     public boolean isEnabled() {
         return user.getEnabled();
     }
-
 
 
     //获得当前登陆用户对应的对象。

@@ -57,7 +57,7 @@ public class SysMenuController extends BaseController {
     @ApiOperation("获取前端所需菜单")
     @GetMapping(value = "/build")
     public ResponseEntity<Object> buildMenus() {
-        List<SysMenu> menuList = sysMenuService.getByUserId(SecurityUtils.getCurrentUserId());
+        List<SysMenu> menuList = sysMenuService.getMenuByUserId(SecurityUtils.getCurrentUserId());
         List<SysMenu> menuDtos = sysMenuService.buildTree(menuList);
         return new ResponseEntity<>(sysMenuService.buildMenus(menuDtos), HttpStatus.OK);
     }

@@ -142,4 +142,7 @@ public class SysUser extends BaseModel {
     @TableField(exist = false)
     private Set<String> deptIds=new HashSet<>();
 
+    @TableField(exist = false)
+    private Set<SysMenu> permissions ;
+
 }

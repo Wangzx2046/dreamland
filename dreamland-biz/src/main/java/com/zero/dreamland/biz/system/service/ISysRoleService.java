@@ -26,7 +26,7 @@ public interface ISysRoleService extends IService<SysRole> {
      */
     List<GrantedAuthority> mapToGrantedAuthorities(SysUser user);
 
-    List<SysRole> findByUsersId(String currentUserId);
+    List<SysRole> getByUsersId(String currentUserId);
 
     List<SysRole> list(SysRole sysRole);
 

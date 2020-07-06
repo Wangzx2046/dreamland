@@ -183,7 +183,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> impleme
      * @return /
      */
     @Override
-    public List<SysRole> findByUsersId(String currentUserId) {
+    public List<SysRole> getByUsersId(String currentUserId) {
         List<String> sysUsersRolesList = sysUsersRolesService.getRoleIdsByUserId(currentUserId);
         if (sysUsersRolesList.size() == 0) {
             return new ArrayList<SysRole>();
