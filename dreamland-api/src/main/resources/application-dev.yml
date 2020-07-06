@@ -6,6 +6,9 @@ server:
     session:
       timeout: 3600
     context-path: /dreamland
+
+
+spring:
   mail:
     default-encoding: UTF-8
     host: smtp.163.com

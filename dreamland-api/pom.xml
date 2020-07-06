@@ -48,6 +48,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-quartz</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!--替换tomcat为undertow-->
         <dependency>
@@ -71,10 +77,7 @@
             <artifactId>easy-captcha</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
+
 
     </dependencies>
 

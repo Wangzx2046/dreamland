@@ -24,6 +24,8 @@ public interface ISysJobService extends IService<SysJob> {
 
     boolean removeByIds(Set<String> ids);
 
+
+
     /**
      * 验证是否被用户关联
      *
@@ -33,10 +35,12 @@ public interface ISysJobService extends IService<SysJob> {
 
     /**
      * 导出数据
+     *
      * @param queryAll 待导出的数据
      * @param response /
      * @throws IOException /
      */
     void download(List<SysJob> queryAll, HttpServletResponse response) throws IOException;
+
 
 }

@@ -13,6 +13,7 @@ import com.zero.dreamland.common.returnMsg.Result;
 import com.zero.dreamland.common.rsa.RsaProperties;
 import com.zero.dreamland.common.rsa.RsaUtils;
 import com.zero.dreamland.redis.utils.RedisUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -155,8 +156,14 @@ public class SecurityLoginController {
     @DeleteMapping("cancellationToken")
     private ResponseEntity<Object> cancellationToken(HttpServletRequest request, HttpServletResponse response) {
         String token = jwtUtil.getRequestToken(request);
-        onlineUserService.logout(token);
-        log.info("用户（" + jwtUtil.getUsernameFromToken(token) + ")退出系统");
+        try {
+            onlineUserService.logout(token);
+            log.info("用户（" + jwtUtil.getUsernameFromToken(token) + ")退出系统");
+        } catch (ExpiredJwtException e) {
+            log.info("退出登录时捕获无效token:" + token);
+            return new ResponseEntity<>(HttpStatus.OK);//退出登录无所谓了，
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -71,8 +71,8 @@ public class MyJwtTokenFilter extends OncePerRequestFilter {
                     throw new RuntimeException("Token已经失效或被系统强制下线(The Token has expired.)");
                 }
                 //验证token,具体怎么验证看需求，可以只验证token不查库，把权限放在jwt中即可
-                UserDetails UserDetails = myUserDetailsService.loadUserByUsername(account);
-                AuthUser userDetails = iOnlineUserService.getUserDetails(authToken);
+                AuthUser userDetails = (AuthUser) myUserDetailsService.loadUserByUsername(account);
+                // AuthUser userDetails = iOnlineUserService.getUserDetails(authToken);
 
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

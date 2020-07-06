@@ -50,7 +50,7 @@ public class SysUserController extends BaseController {
 
 
     @ApiOperation(value = "-查看", notes = "列表查看的记录")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("{'admin','ADMIN','dept:list'}")
     @GetMapping
     public ResponseEntity<Object> all(SysUser sysUser, Pageable pageable) {
 

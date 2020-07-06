@@ -40,6 +40,7 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobDao, SysJob> implements
     private ISysUsersJobsService iSysUsersJobsService;
 
 
+
     @Override
     public List<SysJob> list(SysJob sysJob) {
         QueryWrapper<SysJob> queryWrapper = new QueryWrapper<>(sysJob);
@@ -67,6 +68,8 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobDao, SysJob> implements
         sysJobDao.deleteBatchIds(ids);
         return true;
     }
+
+
 
     @Override
     public void verification(Set<String> ids) {

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class AuthUser implements UserDetails {
 
 
+
     private final SysUser user;
 
     private final List<String> dataScopes;
@@ -24,11 +25,10 @@ public class AuthUser implements UserDetails {
     @JsonIgnore
     private final List<GrantedAuthority> authorities;
 
+
     public Set<String> getRoles() {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
-
-
 
     @Override
     @JsonIgnore
@@ -69,6 +69,8 @@ public class AuthUser implements UserDetails {
     public boolean isEnabled() {
         return user.getEnabled();
     }
+
+
 
     //获得当前登陆用户对应的对象。
 /*   public static AuthUser getCurUser() {

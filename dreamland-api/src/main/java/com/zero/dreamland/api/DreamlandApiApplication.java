@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @ServletComponentScan   //扫描Servlet
 @EnableTransactionManagement(proxyTargetClass = true)//开启事务管理的注解
-@MapperScan("com.zero.dreamland.biz.*.dao")//这里mapper是你的mybatis的mapper目录。
+@MapperScan({"com.zero.dreamland.biz.*.dao","com.zero.dreamland.quartz.dao"})//这里mapper是你的mybatis的mapper目录。
 @SpringBootApplication
 @ComponentScan({"com.zero.dreamland"})
 public class DreamlandApiApplication {

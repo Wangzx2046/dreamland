@@ -6,7 +6,7 @@ spring:
 #    url: jdbc:mysql://47.105.130.1:3306/genesis?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
 #    username: wzx
 #    password: As123456
-    url: jdbc:mysql://47.105.130.1:3306/genesis?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://47.105.130.1:3306/dreamland?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
     username: wzx
     password: As123456
     driverClassName: com.mysql.cj.jdbc.Driver

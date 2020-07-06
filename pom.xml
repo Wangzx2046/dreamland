@@ -24,6 +24,7 @@
          <module>dreamland-plugin</module>
          <module>dreamland-redis</module>
          <module>dreamland-wechat</module>
+         <module>dreamland-quartz</module>
     </modules>
 
     <properties>
@@ -43,7 +44,7 @@
         <pagehelper.version>1.2.13</pagehelper.version>
         <auth0.java-jwt.version>3.9.0</auth0.java-jwt.version>
         <jjwt.version>0.11.0</jjwt.version>
-        <quartz.version>2.3.1</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <hutool-all.version>5.3.2</hutool-all.version>
         <UserAgentUtils.version>1.21</UserAgentUtils.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
@@ -51,6 +52,7 @@
         <ip2region.version>1.7.2</ip2region.version>
         <aliyun.java.sdk.core.version>4.1.0</aliyun.java.sdk.core.version>
         <wxjava.version>3.8.0</wxjava.version>
+        <mail.version>1.4.7</mail.version>
     </properties>
 
     <!--dependencyManagement仅仅声明版本-->
@@ -58,11 +60,21 @@
 
 
         <dependencies>
+
+
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy-captcha.version}</version>
             </dependency>
+
             <!--微信小程序：weixin-java-miniapp
                 微信支付：weixin-java-pay
                 微信开放平台：weixin-java-open
@@ -114,11 +126,7 @@
                 <version>${pagehelper.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -134,6 +142,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -124,8 +124,8 @@ public class IOnlineUserService {
      * @throws Exception /
      */
     public void kickOut(String key) throws Exception {
-     //   key = Constant.PREFIX_SECURITY_REFRESH_TOKEN + EncryptUtils.desDecrypt(key);
-        key = Constant.PREFIX_SECURITY_REFRESH_TOKEN +key;
+        //   key = Constant.PREFIX_SECURITY_REFRESH_TOKEN + EncryptUtils.desDecrypt(key);
+        key = Constant.PREFIX_SECURITY_REFRESH_TOKEN + key;
         redisUtils.delete(key);
     }
 
@@ -182,8 +182,11 @@ public class IOnlineUserService {
         String userName = jwtTokenUtil.getUsernameFromToken(token);
         String redisAuthInfo = (String) redisUtils.get(Constant.PREFIX_SECURITY_ACCESS_INFO + userName);
         JSONObject json = (JSONObject) JSON.parse(redisAuthInfo);
-        AuthUser au = JSONObject.parseObject(redisAuthInfo, AuthUser.class);
-        return au;
+        AuthUser authUser = JSONObject.parseObject(redisAuthInfo, AuthUser.class);
+        //  AuthUser authUser =new AuthUser(json);
+
+
+        return authUser;
     }
 
     /**
