@@ -16,15 +16,17 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>dreamland-api</module>
+        <module>dreamland-common</module>
+        <module>dreamland-biz</module>
         <module>dreamland-swagger2</module>
-         <module>dreamland-auth</module>
-         <module>dreamland-biz</module>
-         <module>dreamland-common</module>
-         <module>dreamland-plugin</module>
-         <module>dreamland-redis</module>
-         <module>dreamland-wechat</module>
-         <module>dreamland-quartz</module>
+
+        <module>dreamland-plugin</module>
+        <module>dreamland-redis</module>
+        <module>dreamland-wechat</module>
+        <module>dreamland-quartz</module>
+        <module>dreamland-auth</module>
+
+        <module>dreamland-api</module>
     </modules>
 
     <properties>
@@ -60,7 +62,6 @@
 
 
         <dependencies>
-
 
 
             <dependency>
@@ -199,7 +200,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
 
 
         <dependency>
