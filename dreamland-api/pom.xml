@@ -6,7 +6,7 @@
         <groupId>com.zero</groupId>
         <artifactId>dreamland</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <groupId>com.zero</groupId>
