@@ -8,12 +8,7 @@ server:
     context-path: /dreamland
 
 
-#静态资源对外暴露的访问路径
-file:
-  staticAccessPath: /files/**
-#w外部目录映射（注意Linux和Windows上的目录结构不同）
-#uploadFolder=/home/dreamland/uploadFiles/
-  staticFolder: d://dreamland/
+
 
 #spring  
 spring:
