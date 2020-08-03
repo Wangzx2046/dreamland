@@ -15,6 +15,7 @@
  */
 package com.zero.dreamland.quartz.task;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,29 +30,23 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class EmailRemindTask {
+public class EmailTestTask {
 
     @Autowired
     private JavaMailSender mailSender;
 
-    public void Remind() {
-        log.info("run 执行成功");
-    }
 
-    public void Remind2(String str) {
+    public void sendTOts(JSONObject str) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("jbinfoecard@163.com");// 发送者.
-        message.setTo("443082604@qq.com");// 接收者.
+        message.setTo(str.getString("to"));// 接收者.
         message.setSubject("打车提醒");// 邮件主题.
-        message.setText(str);// 邮件内容.
+        message.setText(str.getString("text"));// 邮件内容.
         mailSender.send(message);// 发送邮件
         log.info("Remind2 执行成功，参数为： {}" + str);
     }
 
-    public void Remind3() {
-        log.info("run2 执行成功");
-    }
 
 
 }
