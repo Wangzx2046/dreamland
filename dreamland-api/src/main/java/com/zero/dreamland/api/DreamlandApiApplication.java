@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.TimeZone;
+
 
 @Slf4j
 @ServletComponentScan   //扫描Servlet
@@ -20,6 +22,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DreamlandApiApplication {
 
     public static void main(String[] args) {
+        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
+        //TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
         SpringApplication.run(DreamlandApiApplication.class, args);
     }
 

@@ -36,7 +36,9 @@ public class EmailTestTask {
     private JavaMailSender mailSender;
 
 
-    public void sendTOts(JSONObject str) {
+    public void SendTOts(String strs) {
+
+        JSONObject str=JSONObject.parseObject(strs);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("jbinfoecard@163.com");// 发送者.
