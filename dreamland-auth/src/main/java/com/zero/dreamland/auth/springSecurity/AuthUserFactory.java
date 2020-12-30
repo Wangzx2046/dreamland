@@ -70,12 +70,12 @@ public final class AuthUserFactory {
 
 
     /***
-     *  @Description    ：将redis中保存的权限信息转化回来
-     *  @Method_Name    ：jsonToGrantedAuthorities 
+     *@Description：将redis中保存的权限信息转化回来
+     *@Method_Name：jsonToGrantedAuthorities
      *  @Param            : [json]
-     *  @return           : java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority>    
-     *  @Creation Date    ：2019/9/5 14:56       
-     *  @Author           ：wzx
+     *@return           : java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority>
+     *@Creation Date    ：2019/9/514:56
+     *@Author           ：wzx
      */
     private static List<SimpleGrantedAuthority> jsonToGrantedAuthorities(JSONArray json) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

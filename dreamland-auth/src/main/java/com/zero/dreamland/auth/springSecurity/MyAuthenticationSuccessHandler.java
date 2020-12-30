@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 /**
- *   @Description    ：Spring security登录成功处理类,返回jwtToken
- *   @Creation Date    ：2019/9/3 15:34       
- *   @Author           ：wzx
+ * @Description：Spring security登录成功处理类,返回jwtToken
+ * @Creation Date    ：2019/9/315:34
+ * @Author           ：wzx
  */
 @Slf4j
 @Component

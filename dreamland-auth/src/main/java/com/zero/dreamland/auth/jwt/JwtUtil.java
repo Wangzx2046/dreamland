@@ -19,9 +19,9 @@ import java.util.Date;
 
 */
 /**
- *   @Description    ：JwtUtil   auth0版本
- *   @Creation Date    ：2019/9/2 15:24       
- *   @Author           ：wzx
+ * @Description：JwtUtil   auth0版本
+ * @Creation Date    ：2019/9/215:24
+ * @Author           ：wzx
  *//*
 
 @Configuration

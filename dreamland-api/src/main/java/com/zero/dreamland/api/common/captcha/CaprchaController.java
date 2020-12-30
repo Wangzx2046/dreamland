@@ -41,12 +41,12 @@ public class CaprchaController {
 
 
     /***
-     *  @Description    :/获取验证码
-     *  @Method_Name    ：getCaptcha 
-     *  @Param            : []
-     *  @return           : com.zero.devil.common.returnMsg.Result    
-     *  @Creation Date    ：2020/3/16 16:39       
-     *  @Author           ：wzx
+     *@Description:/获取验证码
+     *@Method_Name：getCaptcha
+     *@Param            : []
+     *@return           : com.zero.devil.common.returnMsg.Result
+     *@Creation Date    ：2020/3/1616:39
+     *@Author           ：wzx
      */
     @AnonymousAccess
     @ApiOperation("获取验证码")

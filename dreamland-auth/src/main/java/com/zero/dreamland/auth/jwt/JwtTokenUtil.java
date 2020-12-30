@@ -52,12 +52,12 @@ public class JwtTokenUtil {
     private RedisUtil redisUtil;
 
     /**
-     *  @Description    ：从请求中获取token
-     *  @Method_Name    ： 
+     *@Description：从请求中获取token
+     *@Method_Name：
      *   @Param            :
-     *  @return           :     
-     *  @Creation Date    ：2020/3/26 17:05       
-     *  @Author           ：wzx
+     *@return           :
+     *@Creation Date    ：2020/3/2617:05
+     *@Author           ：wzx
      */
     public String getRequestToken(HttpServletRequest request){
         String token = request.getHeader(header);

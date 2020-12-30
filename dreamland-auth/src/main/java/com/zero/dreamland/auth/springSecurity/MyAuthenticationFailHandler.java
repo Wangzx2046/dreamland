@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /***
- *  @Description    ：Spring security登录失败处理类
- *  @Creation Date    ：2019/9/3 15:36       
- *  @Author           ：wzx
+ *@Description：Spring security登录失败处理类
+ *@Creation Date    ：2019/9/315:36
+ *@Author           ：wzx
  */
 @Slf4j
 @Component

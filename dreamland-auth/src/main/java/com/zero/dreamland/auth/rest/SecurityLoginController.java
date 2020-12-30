@@ -72,13 +72,13 @@ public class SecurityLoginController {
 
 
     /**
-     *   @Description    ：登录
-     *   @Method_Name    ：login 
+     * @Description：登录
+     * @Method_Name：login
      *
      * @Param : [loginUser]
-     *   @return           : com.zero.devil.common.returnMsg.Result    
-     *   @Creation Date    ：2020/3/26 10:13       
-     *   @Author           ：wzx
+     * @return           : com.zero.devil.common.returnMsg.Result
+     * @Creation Date    ：2020/3/2610:13
+     * @Author           ：wzx
      */
     @AnonymousAccess
     @ApiOperation("获取token")
@@ -147,11 +147,11 @@ public class SecurityLoginController {
     }
 
     /**
-     *   @Description    ：退出登录
-     *   @Method_Name    ：cancellationToken 
-     *   @return           : com.wzx.genesis.util.returnMsg.Result    
-     *   @Creation Date    ：2019/4/30 14:03       
-     *   @Author           ：wzx
+     * @Description：退出登录
+     * @Method_Name：cancellationToken
+     * @return           : com.wzx.genesis.util.returnMsg.Result
+     * @Creation Date    ：2019/4/3014:03
+     * @Author           ：wzx
      */
     @DeleteMapping("cancellationToken")
     private ResponseEntity<Object> cancellationToken(HttpServletRequest request, HttpServletResponse response) {
@@ -169,13 +169,13 @@ public class SecurityLoginController {
 
 
     /**
-     *   @Description    ：测试登录
-     *   @Method_Name    ：article 
+     * @Description：测试登录
+     * @Method_Name：article
      *
      * @Param : []
-     *   @return           : com.nier.automata.plugin.returnMsg.Result    
-     *   @Creation Date    ：2019/7/19 15:34       
-     *   @Author           ：wzx
+     * @return           : com.nier.automata.plugin.returnMsg.Result
+     * @Creation Date    ：2019/7/1915:34
+     * @Author           ：wzx
      */
     @GetMapping("/article")
     public Result article(Principal principal) {

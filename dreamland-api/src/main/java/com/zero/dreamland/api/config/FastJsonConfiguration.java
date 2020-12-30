@@ -17,12 +17,12 @@ import java.util.List;
 
 
 /***
-    *  @Description    ：用FastJson解决接口收到
-    *  @Method_Name    ： 
+    *@Description：用FastJson解决接口收到
+    *@Method_Name：
     *   @Param            :
-    *  @return           :     
-    *  @Creation Date    ：2020/3/27 15:09       
-    *  @Author           ：wzx
+    *@return           :
+    *@Creation Date    ：2020/3/2715:09
+    *@Author           ：wzx
     */
 @Configuration
 public class FastJsonConfiguration {

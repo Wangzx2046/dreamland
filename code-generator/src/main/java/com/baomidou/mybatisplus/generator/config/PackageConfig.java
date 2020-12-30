@@ -82,12 +82,12 @@ public class PackageConfig {
 
 
     /***
-     *  @Description    ：不区分模块时的写法
-     *  @Method_Name    ： 
+     *@Description：不区分模块时的写法
+     *@Method_Name：
      *   @Param            :
-     *  @return           :     
-     *  @Creation Date    ：2019/8/21 14:55       
-     *  @Author           ：wzx
+     *@return           :
+     *@Creation Date    ：2019/8/2114:55
+     *@Author           ：wzx
      */
     /*public String getParent() {
         if (StringUtils.isNotEmpty(moduleName)) {
