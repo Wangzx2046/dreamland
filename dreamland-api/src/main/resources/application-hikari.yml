@@ -6,9 +6,9 @@ spring:
 #    url: jdbc:mysql://47.105.130.1:3306/genesis?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
 #    username: wzx
 #    password: As123456
-    url: jdbc:mysql://47.105.130.1:3306/dreamland?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
-    username: wzx
-    password: As123456
+    url: jdbc:mysql://127.0.0.1:3306/dreamland?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123123
     driverClassName: com.mysql.cj.jdbc.Driver
   # Hikari will use the above plus the following to setup connection pooling
   #Spring Boot 2.0 includes HikariDataSource by default

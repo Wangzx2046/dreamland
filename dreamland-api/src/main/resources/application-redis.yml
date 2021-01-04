@@ -1,10 +1,12 @@
 #Redis配置
 spring:
   redis:
-#    host: 123.206.103.188
-    host: 47.105.130.1
+#    host: 47.105.130.1
+#    port: 6379
+#    password: wzx@2020 #根据需要
+
+    host: 127.0.0.1
     port: 6379
-    password: wzx@2020 #根据需要
 
 #    公司45
 #    host: 192.168.30.45

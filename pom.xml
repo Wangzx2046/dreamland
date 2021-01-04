@@ -51,7 +51,7 @@
         <poi.version>4.1.2</poi.version>
         <ip2region.version>1.7.2</ip2region.version>
         <aliyun.java.sdk.core.version>4.1.0</aliyun.java.sdk.core.version>
-        <wxjava.version>4.0.0</wxjava.version>
+        <wxjava.version>3.8.0</wxjava.version>
         <mail.version>1.4.7</mail.version>
     </properties>
 
@@ -216,6 +216,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.20</version>
             <scope>runtime</scope>
         </dependency>
         <!--DB-end-->

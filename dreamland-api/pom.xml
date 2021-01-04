@@ -26,6 +26,12 @@
         </dependency>
         <dependency>
             <groupId>com.zero</groupId>
+            <artifactId>dreamland-mqtt</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
             <artifactId>dreamland-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
