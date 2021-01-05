@@ -50,6 +50,7 @@ public class MqttPushClient {
             options.setPassword(password.toCharArray());
             options.setConnectionTimeout(timeout);
             options.setKeepAliveInterval(keepalive);
+            options.setWill("dreamLand/will","{'message':'我是遗嘱消息，我已经发生了异常'}".getBytes(),0,false);//设置遗嘱消息
             MqttPushClient.setClient(client);
             try {
                 client.setCallback(pushCallback);

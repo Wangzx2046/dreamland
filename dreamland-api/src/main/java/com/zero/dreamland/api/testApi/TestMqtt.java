@@ -33,6 +33,7 @@ public class TestMqtt {
 
         mqttPushClient.publish(0,false,"test/haier","测试一下发布消息test-haier");
         mqttPushClient.publish(0,false,"test/jbinfo","测试一下发布消息haier-test");
+        mqttPushClient.publish(0,false,"test/2020/cs","测试一下通配符消息test/2020/cs");
         mqttPushClient.publish(0,false,"haier","测试一下发布消息haier");
         return new ResponseEntity<>(HttpStatus.OK);
     }
