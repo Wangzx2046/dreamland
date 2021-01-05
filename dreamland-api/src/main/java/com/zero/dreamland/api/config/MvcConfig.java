@@ -41,7 +41,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .allowCredentials(true)
-                .allowedOrigins("*");
+                .allowedOriginPatterns("*");
+               // .allowedOrigins("*");
     }
 
     //配置同步支持

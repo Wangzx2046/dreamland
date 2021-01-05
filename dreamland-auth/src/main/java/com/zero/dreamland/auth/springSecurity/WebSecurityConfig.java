@@ -145,7 +145,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/wx/**",
                         "/swagger-resources/configuration/ui",
-                        "/swagge‌​r-ui.html"
+                        "/swagger-ui.html"
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/tokenAuth/**").permitAll()
