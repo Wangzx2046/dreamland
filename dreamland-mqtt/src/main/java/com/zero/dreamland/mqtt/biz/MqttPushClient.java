@@ -45,11 +45,17 @@ public class MqttPushClient {
         try {
             client = new MqttClient(host, clientID, new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
-            options.setCleanSession(true);
+            // 设置是否关闭连接会话
+            // 设置为 true 时,客户端每次都会以新的身份连接
+            // 设置为 false 时,客户端再次连接会继续之前的会话，再次连接后无需再次订阅即可收到之前已订阅过的主题消息，包括断线后发布的消息。
+            // 设置为 false 有个前置条件就是 clientId 不变
+            options.setCleanSession(false);
             options.setUserName(username);
             options.setPassword(password.toCharArray());
             options.setConnectionTimeout(timeout);
             options.setKeepAliveInterval(keepalive);
+            // 断线后是否自动重连
+            options.setAutomaticReconnect(true);
             options.setWill("dreamLand/will","{'message':'我是遗嘱消息，我已经发生了异常'}".getBytes(),0,false);//设置遗嘱消息
             MqttPushClient.setClient(client);
             try {
