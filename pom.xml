@@ -17,6 +17,8 @@
 
     <modules>
         <module>dreamland-common</module>
+       <!-- <module>dreamland-crawler</module>-->
+       <!-- <module>dreamland-mqtt</module>-->
         <module>dreamland-biz</module>
         <module>dreamland-swagger2</module>
         <module>dreamland-plugin</module>
@@ -53,14 +55,24 @@
         <aliyun.java.sdk.core.version>4.1.0</aliyun.java.sdk.core.version>
         <wxjava.version>3.8.0</wxjava.version>
         <mail.version>1.4.7</mail.version>
+        <webmagic.version>0.7.3</webmagic.version>
     </properties>
 
     <!--dependencyManagement仅仅声明版本-->
     <dependencyManagement>
-
-
         <dependencies>
-
+            <!--webmagic-->
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+            <!--webmagic-->
 
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
