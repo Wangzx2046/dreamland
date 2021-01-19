@@ -28,6 +28,16 @@ public class GithubRepoPageProcessor implements PageProcessor {
 
     @Override
     public Site getSite() {
+
+        //对应需要登录的网站
+        site = Site.me()
+                .setRetryTimes(3)
+                .setSleepTime(2000)
+                .setTimeOut(60000)
+                .setCharset("utf-8")
+                .addCookie("域", "名称", "内容")
+                .addCookie("域", "名称", "内容");
+
         return site;
     }
 
