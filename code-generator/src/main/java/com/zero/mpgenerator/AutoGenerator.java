@@ -31,7 +31,8 @@ public class AutoGenerator {
     public static void main(String[] args) {
 
         Map<String, String> tableNames = new HashMap<String, String>();
-        tableNames.put("tool_email_config".toLowerCase(), "邮箱配置");
+        tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
+  //      tableNames.put("tool_email_config".toLowerCase(), "邮箱配置");
  //       tableNames.put("sys_quartz_job".toLowerCase(), "系统定时任务");
 //        tableNames.put("sys_quartz_log".toLowerCase(), "系统定时任务日志表");
   //      tableNames.put("sys_user".toLowerCase(), "系统用户表");
@@ -72,11 +73,18 @@ public class AutoGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://47.105.130.1:3306/dreamland? useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
+//        dsc.setUrl("jdbc:mysql://47.105.130.1:3306/dreamland?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
+//        // dsc.setSchemaName("public");
+//        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+//        dsc.setUsername("wzx");
+//        dsc.setPassword("As123456");
+
+
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/dreamland?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&zeroDateTimeBehavior=convertToNull");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("wzx");
-        dsc.setPassword("As123456");
+        dsc.setUsername("root");
+        dsc.setPassword("123123");
 
 
         // 代码生成器
