@@ -31,7 +31,10 @@ public class AutoGenerator {
     public static void main(String[] args) {
 
         Map<String, String> tableNames = new HashMap<String, String>();
-        tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
+        tableNames.put("zkb_xgyz".toLowerCase(), "ZK8-小鸽驿站");
+
+     //   tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
+
   //      tableNames.put("tool_email_config".toLowerCase(), "邮箱配置");
  //       tableNames.put("sys_quartz_job".toLowerCase(), "系统定时任务");
 //        tableNames.put("sys_quartz_log".toLowerCase(), "系统定时任务日志表");
