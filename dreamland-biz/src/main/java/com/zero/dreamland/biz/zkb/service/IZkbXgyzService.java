@@ -15,6 +15,7 @@ import java.util.List;
  */
 public interface IZkbXgyzService extends IService<ZkbXgyz> {
 
- List<ZkbXgyz> list(ZkbXgyz zkbXgyz);
+    List<ZkbXgyz> list(ZkbXgyz zkbXgyz);
+
 
 }

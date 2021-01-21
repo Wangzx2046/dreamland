@@ -1,7 +1,6 @@
 package com.zero.dreamland.biz.zkb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.dreamland.biz.zkb.dao.ZkbXgyzDao;
 import com.zero.dreamland.biz.zkb.entity.ZkbXgyz;
@@ -28,10 +27,10 @@ public class ZkbXgyzServiceImpl extends ServiceImpl<ZkbXgyzDao, ZkbXgyz> impleme
     @Override
     public List<ZkbXgyz> list(ZkbXgyz zkbXgyz) {
         QueryWrapper<ZkbXgyz> queryWrapper = new QueryWrapper<>(zkbXgyz);
-        if (StringUtils.isNotBlank(zkbXgyz.getBlurry())) {
+        /*if (StringUtils.isNotBlank(zkbXgyz.getBlurry())) {
             queryWrapper.eq("name", zkbXgyz.getBlurry())
                     .or().eq("description", zkbXgyz.getBlurry());
-        }
+        }*/
         return zkbXgyzDao.selectList(queryWrapper);
     }
 
