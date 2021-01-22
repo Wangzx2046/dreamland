@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -59,6 +60,16 @@ public class ZkbXgyzTask {
             }
         });
         log.info("小鸽驿站执行访问结束");
+    }
+
+
+
+    public void delHistory(){
+        log.info("小鸽驿站执行：删除历史数据");
+        LocalDate day=LocalDate.now().minusDays(2);
+
+        iZkbXgyzService.deleteBeforeDate(day);
+
     }
 
 

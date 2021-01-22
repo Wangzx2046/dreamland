@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zero.dreamland.biz.zkb.dao.ZkbXgyzDao">
 
+    <delete id="deleteBeforeDate">
+        DELETE
+        FROM zkb_xgyz
+        where zkb_xgyz.relTime &lt; #{dayTime}
+    </delete>
 </mapper>

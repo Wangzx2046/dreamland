@@ -8,6 +8,7 @@ import com.zero.dreamland.biz.zkb.service.IZkbXgyzService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -32,6 +33,11 @@ public class ZkbXgyzServiceImpl extends ServiceImpl<ZkbXgyzDao, ZkbXgyz> impleme
                     .or().eq("description", zkbXgyz.getBlurry());
         }*/
         return zkbXgyzDao.selectList(queryWrapper);
+    }
+
+    @Override
+    public int deleteBeforeDate(LocalDate day) {
+        return zkbXgyzDao.deleteBeforeDate(day);
     }
 
 

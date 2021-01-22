@@ -3,6 +3,7 @@ package com.zero.dreamland.biz.zkb.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zero.dreamland.biz.zkb.entity.ZkbXgyz;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,4 +19,5 @@ public interface IZkbXgyzService extends IService<ZkbXgyz> {
     List<ZkbXgyz> list(ZkbXgyz zkbXgyz);
 
 
+    int deleteBeforeDate(LocalDate day);
 }
