@@ -16,7 +16,7 @@ spring:
     format:
       date: "yyyy-MM-dd HH:mm:ss"
   profiles:
-    include: hikari,redis,mqtt
+    include: hikari,redis    #,mqtt
     active: dev
   thymeleaf:
     cache: false

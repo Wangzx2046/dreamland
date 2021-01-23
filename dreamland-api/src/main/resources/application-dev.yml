@@ -24,6 +24,21 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
             port: 465
+  mqtt:
+    enabled: true
+    username: admin							# 账号
+    password: public						# 密码
+    hostUrl: tcp://127.0.0.1:1883					# mqtt连接tcp地址
+    #client-id: haier							# 客户端Id，每个启动的id要不同
+    default-topic: test-mqtt						# 默认主题
+    timeout: 300							# 超时时间
+    keepalive: 100							# 保持连接数
+    sender:
+      client-id: mqttProducer-haier # 生产者连接服务器默认客户端ID
+      default-topic: test1 # 默认的推送主题，实际可在调用接口时指定
+    receiver:
+      client-id: ${random.value}  # 消费者连接服务器默认客户端ID（这里使用随机数）
+      default-topic: test-mqtt  # 默认的接收主题，实际可在调用接口时指定
 
 #静态资源对外暴露的访问路径
 file:

@@ -21,17 +21,16 @@ import com.zero.dreamland.biz.zkb.entity.ZkbXgyz;
 import com.zero.dreamland.biz.zkb.service.IZkbXgyzService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 测试用
+ * 定时任务-小鸽驿站
  *
- * @author Zheng Jie
- * @date 2019-01-08
+ * @author wzx
+ * @date 2021-01-22
  */
 @Slf4j
 @Component
@@ -40,33 +39,33 @@ public class ZkbXgyzTask {
     @Autowired
     private IZkbXgyzService iZkbXgyzService;
 
+    private boolean flag = false;
 
+    /*
+        小鸽驿站每分钟抓一次赚吧数据，因此定时任务设置为每分钟的第5S去抓一次小鸽驿站的数据
+     */
     public void CrawlerXgyz(String keys) {
 
-
-        log.info("小鸽驿站执行访问");
         String url = "http://zuan.xiaogeyizhan.com/msgPush/contentList?keys" + keys + "&offset=0";
         String rel = HttpUtil.get(url);
 
         JSONArray ja = JSONArray.parseArray(rel);
-        log.info(ja.toJSONString());
         List<ZkbXgyz> list = ja.toJavaList(ZkbXgyz.class);
 
         list.forEach(x -> {
             try {
-                iZkbXgyzService.save(x);
-            } catch (DuplicateKeyException e) {
-                iZkbXgyzService.updateById(x);
+                iZkbXgyzService.saveOrUpdate(x);
+
+            }catch (Exception e){
+                log.error(e.getMessage());
             }
         });
-        log.info("小鸽驿站执行访问结束");
     }
 
 
-
-    public void delHistory(){
+    public void delHistory() {
         log.info("小鸽驿站执行：删除历史数据");
-        LocalDate day=LocalDate.now().minusDays(2);
+        LocalDate day = LocalDate.now().minusDays(2);
 
         iZkbXgyzService.deleteBeforeDate(day);
 

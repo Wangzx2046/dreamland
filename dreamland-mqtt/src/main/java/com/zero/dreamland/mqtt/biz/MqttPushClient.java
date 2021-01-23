@@ -1,3 +1,4 @@
+/*
 package com.zero.dreamland.mqtt.biz;
 
 import org.eclipse.paho.client.mqttv3.*;
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+*/
 /**
  * @Classname MqttPushClient
  * @Description mqtt推送客户端
  * @Date 2019/4/11 23:22
- */
+ *//*
+
 @Component
 public class MqttPushClient {
     private static final Logger logger = LoggerFactory.getLogger(MqttPushClient.class);
@@ -30,7 +33,8 @@ public class MqttPushClient {
         MqttPushClient.client = client;
     }
 
-    /**
+    */
+/**
      * 客户端连接
      *
      * @param host      ip+端口
@@ -39,7 +43,8 @@ public class MqttPushClient {
      * @param password  密码
      * @param timeout   超时时间
      * @param keepalive 保留数
-     */
+     *//*
+
     public void connect(String host, String clientID, String username, String password, int timeout, int keepalive) {
         MqttClient client;
         try {
@@ -69,14 +74,16 @@ public class MqttPushClient {
         }
     }
 
-    /**
+    */
+/**
      * 发布
      *
      * @param qos         连接方式
      * @param retained    是否保留
      * @param topic       主题
      * @param pushMessage 消息体
-     */
+     *//*
+
     public void publish(int qos, boolean retained, String topic, String pushMessage) {
         MqttMessage message = new MqttMessage();
         message.setQos(qos);
@@ -97,12 +104,14 @@ public class MqttPushClient {
         }
     }
 
-    /**
+    */
+/**
      * 订阅某个主题
      *
      * @param topic 主题
      * @param qos   连接方式
-     */
+     *//*
+
     public void subscribe(String topic, int qos) {
         logger.info("开始订阅主题" + topic);
         try {
@@ -113,3 +122,4 @@ public class MqttPushClient {
     }
 }
 
+*/
