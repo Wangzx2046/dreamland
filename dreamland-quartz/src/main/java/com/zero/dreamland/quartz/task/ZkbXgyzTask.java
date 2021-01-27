@@ -56,7 +56,7 @@ public class ZkbXgyzTask {
             try {
                 iZkbXgyzService.saveOrUpdate(x);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         });
@@ -67,6 +67,13 @@ public class ZkbXgyzTask {
         log.info("小鸽驿站执行：删除历史数据");
         LocalDate day = LocalDate.now().minusDays(2);
 
+        iZkbXgyzService.deleteBeforeDate(day);
+
+    }
+
+    public void delHistoryByDays(int i) {
+        log.info("小鸽驿站执行：删除历史数据");
+        LocalDate day = LocalDate.now().minusDays(i);
         iZkbXgyzService.deleteBeforeDate(day);
 
     }

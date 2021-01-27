@@ -25,7 +25,7 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             port: 465
   mqtt:
-    enabled: true
+    enabled: false
     username: admin							# 账号
     password: public						# 密码
     hostUrl: tcp://127.0.0.1:1883					# mqtt连接tcp地址
