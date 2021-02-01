@@ -1,17 +1,13 @@
 #Redis配置
 spring:
   redis:
-#    host: 47.105.130.1
+    host: 10.138.228.199
+    port: 33711
+    password: 5IkiyQj@iT # 密码（默认为空）
+
+#    host: 127.0.0.1
 #    port: 6379
-#    password: wzx@2020 #根据需要
 
-    host: 127.0.0.1
-    port: 6379
-
-#    公司45
-#    host: 192.168.30.45
-#    password: Jbinfo12349@175Aa
-#    port: 6539
     timeout: 35000 # 连接超时时间（毫秒）   
     database: 15  # Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
     lettuce: # 这里标明使用lettuce配置

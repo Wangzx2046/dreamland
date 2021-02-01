@@ -1,8 +1,8 @@
 package com.zero.dreamland.mqtt.sender;
 
 /**
- * @author guigui
- * @create 2020-10-28 19:01
+ * @author wzx
+ * @create 2021-01-28 13:28
  */
 
 import com.zero.dreamland.mqtt.config.MqttSenderConfig;

@@ -15,9 +15,10 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
 /**
- * @author guigui
- * @create 2020-10-28 18:56
+ * @author wzx
+ * @create 2021-01-28 13:28
  */
+
 @Configuration
 @ConditionalOnProperty(prefix = "spring.mqtt", name = "enabled", havingValue = "true")
 public class MqttSenderConfig {

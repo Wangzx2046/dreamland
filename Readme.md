@@ -1,9 +1,9 @@
 # SpringBoot 多模块项目
 
-##说明
+## 说明
 本项目为SpringBoot多模块整合DEMO,及开发中常用工具类整合
 
-##架构
+## 架构
 * 构建工具：Maven
 * 接口文档工具：swagger2
 * 内置容器： undertow
@@ -28,6 +28,6 @@
 * wxjava
 
 
-##发版工具
+## 发版工具
 * jenkins
 
