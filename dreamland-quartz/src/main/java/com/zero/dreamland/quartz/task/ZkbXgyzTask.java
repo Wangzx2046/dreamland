@@ -15,6 +15,7 @@
  */
 package com.zero.dreamland.quartz.task;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.zero.dreamland.biz.zkb.entity.ZkbXgyz;
@@ -46,7 +47,9 @@ public class ZkbXgyzTask {
      */
     public void CrawlerXgyz(String keys) {
 
-        String url = "http://zuan.xiaogeyizhan.com/msgPush/contentList?keys" + keys + "&offset=0";
+        String[] strs = keys.split(",");
+
+        String url = "http://zuan.xiaogeyizhan.com/msgPush/contentList?keys=" + keys + "&offset=0";
         String rel = HttpUtil.get(url);
 
         JSONArray ja = JSONArray.parseArray(rel);
@@ -54,8 +57,13 @@ public class ZkbXgyzTask {
 
         list.forEach(x -> {
             try {
-                iZkbXgyzService.saveOrUpdate(x);
+                if (StrUtil.isNotBlank(keys)) {
+                    x.setKeyWord(StrUtil.containsAny(x.getLabel(), strs) ? "1" : "0");
+                } else {
+                    x.setKeyWord("");
+                }
 
+                iZkbXgyzService.saveOrUpdate(x);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }

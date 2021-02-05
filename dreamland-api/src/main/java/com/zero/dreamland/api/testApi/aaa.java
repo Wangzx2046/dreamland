@@ -1,5 +1,7 @@
 package com.zero.dreamland.api.testApi;
 
+import cn.hutool.core.util.StrUtil;
+
 /**
  * @ClassName: aaa
  * @Description: aaa*
@@ -10,5 +12,8 @@ package com.zero.dreamland.api.testApi;
 public class aaa {
     public static void main(String[] args) {
         System.out.println(String.join("", "1", "2"));
+
+        String strs[] = {"asda", "大水"};
+        System.out.println(StrUtil.containsAny("中航大水啦啊啊啊 啊", strs));
     }
 }

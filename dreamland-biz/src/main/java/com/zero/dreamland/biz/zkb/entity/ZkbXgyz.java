@@ -74,4 +74,10 @@ public class ZkbXgyz extends BaseModel {
     private String readNum;//阅读数
 
 
+
+    @ApiModelProperty(value = "关键字")
+    @TableField("keyWord")
+    @Length(max=50 ,message="关键字内容过长，请检查！")
+    private String keyWord;//关键字
+
 }
