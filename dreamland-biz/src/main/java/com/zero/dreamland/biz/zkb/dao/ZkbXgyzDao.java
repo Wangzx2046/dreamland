@@ -17,4 +17,6 @@ import java.time.LocalDate;
 public interface ZkbXgyzDao extends BaseMapper<ZkbXgyz> {
 
     int deleteBeforeDate(@Param("dayTime") LocalDate day);
+
+    Integer getLast();
 }

@@ -19,4 +19,6 @@ public interface IZkbXgyzService extends IService<ZkbXgyz> {
     List<ZkbXgyz> list(ZkbXgyz zkbXgyz);
 
     int deleteBeforeDate(LocalDate day);
+
+    Integer getLast();
 }

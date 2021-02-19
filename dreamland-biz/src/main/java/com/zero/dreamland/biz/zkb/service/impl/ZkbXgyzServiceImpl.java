@@ -40,5 +40,10 @@ public class ZkbXgyzServiceImpl extends ServiceImpl<ZkbXgyzDao, ZkbXgyz> impleme
         return zkbXgyzDao.deleteBeforeDate(day);
     }
 
+    @Override
+    public Integer getLast() {
+        return zkbXgyzDao.getLast();
+    }
+
 
 }

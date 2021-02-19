@@ -7,4 +7,8 @@
         FROM zkb_xgyz
         where zkb_xgyz.relTime &lt; #{dayTime}
     </delete>
+
+    <select id="getLast" resultType="java.lang.String">
+        select max(id) FROM zkb_xgyz
+    </select>
 </mapper>
