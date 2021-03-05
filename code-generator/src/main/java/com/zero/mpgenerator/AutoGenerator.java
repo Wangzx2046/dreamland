@@ -31,7 +31,7 @@ public class AutoGenerator {
     public static void main(String[] args) {
 
         Map<String, String> tableNames = new HashMap<String, String>();
-        tableNames.put("sg_equipment_record_attachment".toLowerCase(), "体温数据-附件");
+        tableNames.put("realtime_record_pv_details".toLowerCase(), "网关采集实时数据");
 
 
      //   tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
