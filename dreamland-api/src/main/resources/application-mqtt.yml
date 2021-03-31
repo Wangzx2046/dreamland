@@ -1,6 +1,7 @@
 #MQTT配置文件，仅作参考，实际不引入
 spring:
   mqtt:
+    enabled: true
     username: admin							# 账号
     password: public						# 密码
     host-url: tcp://127.0.0.1:1883					# mqtt连接tcp地址
@@ -10,7 +11,7 @@ spring:
     keepalive: 100							# 保持连接数
     sender:
       client-id: mqttProducer-haier # 生产者连接服务器默认客户端ID
-      default-topic: test1 # 默认的推送主题，实际可在调用接口时指定
+      default-topic: test-mqtt/yizhu # 默认的推送主题，实际可在调用接口时指定
     receiver:
       client-id: ${random.value}  # 消费者连接服务器默认客户端ID（这里使用随机数）
-      default-topic: test-mqtt  # 默认的接收主题，实际可在调用接口时指定
+      default-topic: test-mqtt/#  # 默认的接收主题，实际可在调用接口时指定

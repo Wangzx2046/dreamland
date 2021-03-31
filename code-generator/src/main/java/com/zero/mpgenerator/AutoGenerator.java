@@ -31,18 +31,21 @@ public class AutoGenerator {
     public static void main(String[] args) {
 
         Map<String, String> tableNames = new HashMap<String, String>();
-        tableNames.put("t_questionnaire_investigation".toLowerCase(), "企业问卷");
+        tableNames.put("t_questionnaire_record".toLowerCase(), "问卷-答题记录");
+        tableNames.put("t_questionnaire_question".toLowerCase(), "问卷-问题项目");
+        tableNames.put("t_questionnaire_item".toLowerCase(), "问卷-问题答案选项");
+        tableNames.put("t_questionnaire".toLowerCase(), "问卷调查表-主表");
 
 
-     //   tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
+        //   tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
 
-  //      tableNames.put("tool_email_config".toLowerCase(), "邮箱配置");
- //       tableNames.put("sys_quartz_job".toLowerCase(), "系统定时任务");
+        //      tableNames.put("tool_email_config".toLowerCase(), "邮箱配置");
+        //       tableNames.put("sys_quartz_job".toLowerCase(), "系统定时任务");
 //        tableNames.put("sys_quartz_log".toLowerCase(), "系统定时任务日志表");
-  //      tableNames.put("sys_user".toLowerCase(), "系统用户表");
+        //      tableNames.put("sys_user".toLowerCase(), "系统用户表");
 //        tableNames.put("sys_menu".toLowerCase(), "系统菜单表");
 //        tableNames.put("sys_dict".toLowerCase(), "系统字典表");
- //      tableNames.put("sys_role".toLowerCase(), "系统角色表");
+        //      tableNames.put("sys_role".toLowerCase(), "系统角色表");
 //        tableNames.put("sys_roles_menus".toLowerCase(), "系统角色表");
 //        tableNames.put("sys_role".toLowerCase(), "系统角色表");
        /* tableNames.put("sys_dept".toLowerCase(), "系统部门表");

@@ -68,7 +68,7 @@ public class MqttSenderConfig {
         // 但这个方法并没有重连的机制
         options.setKeepAliveInterval(20);
         // 设置“遗嘱”消息的话题，若客户端与服务器之间的连接意外中断，服务器将发布客户端的“遗嘱”消息。
-        options.setWill("willTopic", WILL_DATA, 2, false);
+        options.setWill("test-mqtt/yizhu", WILL_DATA, 2, true);
         return options;
     }
 
