@@ -2,16 +2,16 @@
 spring:
   mqtt:
     enabled: true
-    username: admin							# 账号
-    password: public						# 密码
-    host-url: tcp://127.0.0.1:1883					# mqtt连接tcp地址
+    username: sdqu00001                            # 账号
+    password: 235B0D70E7C54642B4CEC175E9DD262A            # 密码
+    hostUrl: tcp://223.167.111.251:9993                    # mqtt连接tcp地址
     #client-id: haier							# 客户端Id，每个启动的id要不同
-    default-topic: test-mqtt						# 默认主题
-    timeout: 300							# 超时时间
-    keepalive: 100							# 保持连接数
+    default-topic: test-mqtt                        # 默认主题
+    timeout: 300                            # 超时时间
+    keepalive: 100                            # 保持连接数
     sender:
-      client-id: mqttProducer-haier # 生产者连接服务器默认客户端ID
-      default-topic: test-mqtt/yizhu # 默认的推送主题，实际可在调用接口时指定
+      client-id: 10000100045217A8D8B0B7F960B54635 # 生产者连接服务器默认客户端ID
+      default-topic: YFSGW9D8J95S8O45D86A/12/update # 默认的推送主题，实际可在调用接口时指定
     receiver:
-      client-id: ${random.value}  # 消费者连接服务器默认客户端ID（这里使用随机数）
-      default-topic: test-mqtt/#  # 默认的接收主题，实际可在调用接口时指定
+      client-id: 10000100045217A8D8B0B7F960B54635  # 消费者连接服务器默认客户端ID（这里使用随机数）
+      default-topic: YFSGW9D8J95S8O45D86A/+/update,YFSGW9D8J95S8O45D86A/+/will   # 默认的接收主题，实际可在调用接口时指定

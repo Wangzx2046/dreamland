@@ -31,10 +31,13 @@ public class AutoGenerator {
     public static void main(String[] args) {
 
         Map<String, String> tableNames = new HashMap<String, String>();
-        tableNames.put("t_questionnaire_record".toLowerCase(), "问卷-答题记录");
-        tableNames.put("t_questionnaire_question".toLowerCase(), "问卷-问题项目");
+
+
+        tableNames.put("t_service_info".toLowerCase(), "服务企业数-叙数");
+/*        tableNames.put("t_questionnaire_record".toLowerCase(), "问卷-答题记录");*/
+/*        tableNames.put("t_questionnaire_question".toLowerCase(), "问卷-问题项目");
         tableNames.put("t_questionnaire_item".toLowerCase(), "问卷-问题答案选项");
-        tableNames.put("t_questionnaire".toLowerCase(), "问卷调查表-主表");
+        tableNames.put("t_questionnaire".toLowerCase(), "问卷调查表-主表");*/
 
 
         //   tableNames.put("zkb_article".toLowerCase(), "ZK8-大家谈");
