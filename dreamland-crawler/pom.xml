@@ -20,7 +20,6 @@
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>
-            <version>${webmagic.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -31,7 +30,6 @@
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-extension</artifactId>
-            <version>${webmagic.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

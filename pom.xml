@@ -55,7 +55,7 @@
         <aliyun.java.sdk.core.version>4.1.0</aliyun.java.sdk.core.version>
         <wxjava.version>3.8.0</wxjava.version>
         <mail.version>1.4.7</mail.version>
-        <webmagic.version>0.7.3</webmagic.version>
+        <webmagic.version>0.7.4</webmagic.version>
     </properties>
 
     <!--dependencyManagement仅仅声明版本-->
