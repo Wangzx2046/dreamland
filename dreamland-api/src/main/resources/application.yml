@@ -60,7 +60,10 @@ task:
 
 
 
-
-
+#监控
+security:
+  user:
+    name:user
+    password: pwd
 
 

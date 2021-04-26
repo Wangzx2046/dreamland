@@ -1,6 +1,8 @@
 package com.zero.dreamland.api;
 
 import com.zero.dreamland.common.utils.SpringContextHolder;
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +16,8 @@ import java.util.TimeZone;
 
 
 @Slf4j
+@EnablePrometheusEndpoint //监控
+@EnableSpringBootMetricsCollector
 @ServletComponentScan   //扫描Servlet
 @EnableTransactionManagement(proxyTargetClass = true)//开启事务管理的注解
 @MapperScan({"com.zero.dreamland.biz.*.dao","com.zero.dreamland.quartz.dao"})//这里mapper是你的mybatis的mapper目录。
