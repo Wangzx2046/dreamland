@@ -63,7 +63,7 @@ task:
 #监控
 security:
   user:
-    name:user
+    name: user
     password: pwd
 
 
