@@ -1,0 +1,8 @@
+spring:
+  influx:
+    url: http://influxdb.s.cosmoplat.com:8086
+    token: BRj_y6Y457NRHFSRcWHi8oOcrRccE5Ho8Ul4zgZw6GFcSqJ2HzR1XrS0YKYjXXI3-jNhYUGAE64XCAfg7uZTAg==
+    org: cosmosd
+    bucket: him-iot
+    password: &3D26hRSLGpINxoU  #用户密码用不上
+    user: cosmo

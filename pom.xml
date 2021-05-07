@@ -18,6 +18,7 @@
     <modules>
         <module>dreamland-common</module>
         <module>dreamland-crawler</module>
+        <module>dreamland-influxdb</module>
         <module>dreamland-mqtt</module>
         <module>dreamland-biz</module>
         <module>dreamland-swagger2</module>
@@ -56,12 +57,20 @@
         <wxjava.version>3.8.0</wxjava.version>
         <mail.version>1.4.7</mail.version>
         <webmagic.version>0.7.4</webmagic.version>
-        <prometheus.version>0.9.0</prometheus.version>
+        <influxdb.version>2.2.0</influxdb.version>
     </properties>
 
     <!--dependencyManagement仅仅声明版本-->
     <dependencyManagement>
         <dependencies>
+            <!--influxdb客户端-->
+            <dependency>
+                <groupId>com.influxdb</groupId>
+                <artifactId>influxdb-client-java</artifactId>
+                <version>${influxdb.version}</version>
+            </dependency>
+
+
             <!--webmagic-->
             <dependency>
                 <groupId>us.codecraft</groupId>
@@ -161,7 +170,11 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-
+        <!-- 引入Actuator监控依赖 -->
+<!--    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -196,19 +209,6 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- 引入Actuator监控依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- 采集应用的指标信息，我们使用的是prometheus,相应的我们引入包： -->
-        <dependency>
-            <groupId>io.prometheus</groupId>
-            <artifactId>simpleclient_spring_boot</artifactId>
-            <version>${prometheus.version}</version>
         </dependency>
 
         <dependency>
