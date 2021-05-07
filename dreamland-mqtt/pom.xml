@@ -29,6 +29,13 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-mqtt</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>dreamland-influxdb</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 

@@ -18,6 +18,7 @@
     <modules>
         <module>dreamland-common</module>
         <module>dreamland-crawler</module>
+        <module>dreamland-influxdb</module>
         <module>dreamland-mqtt</module>
         <module>dreamland-biz</module>
         <module>dreamland-swagger2</module>
@@ -56,11 +57,20 @@
         <wxjava.version>3.8.0</wxjava.version>
         <mail.version>1.4.7</mail.version>
         <webmagic.version>0.7.4</webmagic.version>
+        <influxdb.version>2.2.0</influxdb.version>
     </properties>
 
     <!--dependencyManagement仅仅声明版本-->
     <dependencyManagement>
         <dependencies>
+            <!--influxdb客户端-->
+            <dependency>
+                <groupId>com.influxdb</groupId>
+                <artifactId>influxdb-client-java</artifactId>
+                <version>${influxdb.version}</version>
+            </dependency>
+
+
             <!--webmagic-->
             <dependency>
                 <groupId>us.codecraft</groupId>

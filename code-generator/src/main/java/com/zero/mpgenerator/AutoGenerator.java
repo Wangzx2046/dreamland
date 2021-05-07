@@ -33,7 +33,7 @@ public class AutoGenerator {
         Map<String, String> tableNames = new HashMap<String, String>();
 
 
-        tableNames.put("t_service_info".toLowerCase(), "服务企业数-叙数");
+        tableNames.put("t_act_sign".toLowerCase(), "活动签到");
 /*        tableNames.put("t_questionnaire_record".toLowerCase(), "问卷-答题记录");*/
 /*        tableNames.put("t_questionnaire_question".toLowerCase(), "问卷-问题项目");
         tableNames.put("t_questionnaire_item".toLowerCase(), "问卷-问题答案选项");
