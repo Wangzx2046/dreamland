@@ -61,9 +61,19 @@ task:
 
 
 #监控
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+    health:
+     show-details: always
+
 security:
   user:
-    name: user
-    password: pwd
+    name: wzx
+    password: 123
+    roles: ADMIN
 
 

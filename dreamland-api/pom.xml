@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.zero</groupId>
+            <artifactId>dreamland-influxdb</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zero</groupId>
             <artifactId>dreamland-biz</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

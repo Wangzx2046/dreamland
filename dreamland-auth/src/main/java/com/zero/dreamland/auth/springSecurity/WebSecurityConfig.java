@@ -138,14 +138,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/v2/api-docs",
                         "/configuration/ui",
-                        "/swagger-resources/**",
                         "/configuration/security",
-                        "/swagger-ui.html",
                         "/webjars/**",
                         "/static/**",
-                        "/wx/**",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-ui.html"
+                        "/wx/**"
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/tokenAuth/**").permitAll()
@@ -161,6 +157,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/file/**").permitAll()
                 // 阿里巴巴 druid
                 .antMatchers("/druid/**").permitAll()
+                //actuator监控
+                .antMatchers("/actuator/**").permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 自定义匿名访问所有url放行 ： 允许匿名和带权限以及登录用户访问
