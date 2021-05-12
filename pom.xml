@@ -206,7 +206,7 @@
         </dependency>
 
         <!-- 引入Actuator监控依赖 -->
-      <!--  <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>-->

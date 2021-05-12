@@ -1,6 +1,7 @@
 package com.zero.dreamland.mqtt.config;
 
 
+import com.zero.dreamland.mqtt.handle.MqttMessageHandler;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,10 +15,8 @@ import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.MessagingException;
 
 /**
  * @author wzx
@@ -124,16 +123,7 @@ public class MqttReceiverConfig {
     @Bean
     @ServiceActivator(inputChannel = CHANNEL_NAME_IN)
     public MessageHandler handler() {
-        return new MessageHandler() {
-            @Override
-            public void handleMessage(Message<?> message) throws MessagingException {
-                String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
-                String msg = message.getPayload().toString();
-//                if ()
-                System.out.println("\n--------------------START-------------------\n" +
-                        "接收到订阅消息:\ntopic:" + topic + "\nmessage:" + msg +
-                        "\n---------------------END--------------------");
-            }
-        };
+        return new MqttMessageHandler();
+
     }
 }
