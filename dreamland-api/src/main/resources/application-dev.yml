@@ -43,6 +43,7 @@ spring:
 #静态资源对外暴露的访问路径
 file:
   staticAccessPath: /files/**
+  #w外部目录映射（注意Linux和Windows上的目录结构不同）
   staticFolder: d://automataFile/
 
 jwt:
@@ -64,11 +65,6 @@ swagger:
   description: 接口API文档
   version: 1.0
   basePackage: com.zero.dreamland.api;com.zero.dreamland.auth.rest
-
-
-
-
-
 
 
 

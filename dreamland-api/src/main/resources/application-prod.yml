@@ -40,7 +40,6 @@ spring:
       client-id: 100001000451CDDAC4BF6926F8E95781  # 消费者连接服务器默认客户端ID（这里使用随机数）
       default-topic: YFSGW9D8J95S8O45D86A/ANXINMEIJI0000000009/update,YFSGW9D8J95S8O45D86A/+/will   # 默认的接收主题，实际可在调用接口时指定
 
-
 #静态资源对外暴露的访问路径
 file:
   staticAccessPath: /files/**
@@ -65,7 +64,7 @@ swagger:
   title: 零-项目API
   description: 接口API文档
   version: 1.0
-  basePackage: com.zero.dreamland.api
+  basePackage: com.zero.dreamland.api;com.zero.dreamland.auth.rest
 
 
 
