@@ -26,6 +26,8 @@
 * webMagic
 * quartz
 * wxjava
+* webmagic
+* influxdb2.x
 
 
 ## 发版工具

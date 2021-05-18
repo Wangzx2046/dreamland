@@ -16,34 +16,36 @@ public class FakerUtils {
 
     public static void main(String[] args) {
 
-     //   accessDevices();
+        accessDevices(10, "深圳市有方科技股份有限公司" , "共享雨伞" , "GXYS" , "MQTT" , "共享设备" , "中端" ,
+                "消费品" , "广东省" , "深圳市" , "10" , "设备状态" , "status" , "1" );
+
+        accessDevices(10, "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "共享设备" , "中端" ,
+                "消费品" , "广东省" , "深圳市" , "10" , "仓位数量" , "availableNum" , "24" );
     }
 
-    public static void accessDevices() {
-
-
+    public static void accessDevices(int num, String companyName, String productName, String productCode, String protocol, String classfy, String lever,
+                                     String dimension, String province, String city, String worth, String dataName, String mark, String value) {
         JSONObject pjb = new JSONObject();
-        pjb.put("industryName", "山东区域");
-        pjb.put("companyName", "鲁中耐火材料有限公司");
-        pjb.put("productName", "螺旋压机");
-        pjb.put("productCode", "LUOXUANYAJI");
-        pjb.put("protocol", "MQTT");
-        pjb.put("classfy", "焙烧/煅烧/烧结设备");
-        pjb.put("lever", "高端");
-        pjb.put("dimension", "工业品");
+        pjb.put("industryName" , "山东区域" );
+        pjb.put("companyName" , companyName);
+        pjb.put("productName" , productName);
+        pjb.put("productCode" , productCode);
+        pjb.put("protocol" , protocol);
+        pjb.put("classfy" , classfy);
+        pjb.put("lever" , lever);
+        pjb.put("dimension" , dimension);
 
         JSONArray deviceArr = new JSONArray();
         JSONArray deviceDataArr = new JSONArray();
-        for (int i = 0; i < 1000; i++) {
-
-            String deviceCode = "YFSGW0D0J0"+RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(6);
-            deviceArr.add(makeDevice(deviceCode));
-            deviceDataArr.add(makeDeviceData(deviceCode));
+        for (int i = 0; i < num; i++) {
+            String deviceCode = "YOUFANGKEJI" + RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(6);
+            deviceArr.add(makeDevice(deviceCode, productName + deviceCode, province, city, worth));
+            deviceDataArr.add(makeDeviceData(deviceCode, dataName, mark, value));
         }
 
 
-        pjb.put("device", deviceArr);
-        pjb.put("deviceData", deviceDataArr);
+        pjb.put("device" , deviceArr);
+        pjb.put("deviceData" , deviceDataArr);
 
 
         String rel = HttpUtil.post(ACCESSDEVICES_URL, pjb.toString());
@@ -53,24 +55,24 @@ public class FakerUtils {
     }
 
 
-    public static JSONObject makeDevice(String deviceCode) {
+    public static JSONObject makeDevice(String deviceCode, String name, String province, String city, String worth) {
         JSONObject jb = new JSONObject();
-        jb.put("deviceCode", deviceCode);
-        jb.put("name", "螺旋压机4号");
-        jb.put("province", "山东省");
-        jb.put("city", "淄博市");
-        jb.put("address", "淄川区罗村镇聂村");
-        jb.put("worth", "100");
+        jb.put("deviceCode" , deviceCode);
+        jb.put("name" , name);
+        jb.put("province" , province);
+        jb.put("city" , city);
+        jb.put("address" , "" );
+        jb.put("worth" , worth);
         return jb;
     }
 
-    public static JSONObject makeDeviceData(String deviceCode) {
+    public static JSONObject makeDeviceData(String deviceCode, String dataName, String mark, String value) {
         JSONObject jb = new JSONObject();
-        jb.put("deviceCode", deviceCode);
-        jb.put("name", "实时温度");
-        jb.put("mark", "temp");
-        jb.put("value", RandomUtil.randomInt(30, 50) + "");
-        jb.put("timestamp", LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() + "");
+        jb.put("deviceCode" , deviceCode);
+        jb.put("name" , dataName);
+        jb.put("mark" , mark);
+        jb.put("value" , value);
+        jb.put("timestamp" , LocalDateTime.now().toInstant(ZoneOffset.of("+8" )).toEpochMilli() + "" );
         return jb;
     }
 

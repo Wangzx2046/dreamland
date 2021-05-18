@@ -1,4 +1,4 @@
-package com.zero.dreamland.crawler;
+package com.zero.dreamland.crawler.demo;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -19,13 +19,13 @@ public class GetPhoto implements PageProcessor {
     public static void main(String[] args) {
 
         // 这里只爬取第一页的壁纸，如果要爬取其他页数修改for循环参数即可
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 50; i++) {
             // 启动爬虫
             Spider.create(new GetPhoto())
                     // 添加初始化的URL
                     .addUrl("https://wallhaven.cc/toplist?page=" + i)
                     // 使用单线程
-                    .thread(1)
+                    .thread(10)
                     // 运行
                     .run();
         }
@@ -44,7 +44,7 @@ public class GetPhoto implements PageProcessor {
      */
     public void process(Page page) {
         // 一页是24张图片
-        for (int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 1; i++) {
 
             // 使用Xpath解析，获取到单个图片的网页
             // WebMagic支持使用Xpath、CSS选择器、正则表达式、JsonPath来解析页面

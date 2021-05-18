@@ -1,4 +1,4 @@
-package com.zero.dreamland.crawler;
+package com.zero.dreamland.crawler.demo;
 
 import java.io.*;
 import java.net.HttpURLConnection;
