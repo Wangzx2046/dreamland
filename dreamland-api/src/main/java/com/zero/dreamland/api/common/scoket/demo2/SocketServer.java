@@ -24,7 +24,7 @@ public class SocketServer {
         ServerSocket server;
         try {
 
-            server = new ServerSocket(8001);
+            server = new ServerSocket(8002);
             System.out.println("监听建立 等你上线\n");
             while (true) {
                 Socket socket = server.accept();

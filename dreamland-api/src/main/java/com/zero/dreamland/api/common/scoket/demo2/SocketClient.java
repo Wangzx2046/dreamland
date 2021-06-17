@@ -22,7 +22,7 @@ public class SocketClient {
         Socket socket = null;
         try {
             // 与服务端建立连接
-            socket = new Socket("127.0.0.1", 8001);
+            socket = new Socket("127.0.0.1", 8002);
             socket.setKeepAlive(true);
             socket.setSoTimeout(_sec * 1000);
  
