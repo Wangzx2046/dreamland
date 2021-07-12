@@ -36,7 +36,7 @@ public class TestController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-   // @PreAuthorize("admin")
+    // @PreAuthorize("admin")
     @PreAuthorize("hasRoles({'ADMIN','dept:list'})")
     @GetMapping(value = "/a/{id}")//http://192.168.30.112:8088/dreamland/test/a/1
     // @PreAuthorize("@el.check('roles:list')")
@@ -44,5 +44,6 @@ public class TestController {
 
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
+
 
 }
