@@ -2,6 +2,7 @@ package com.zero.dreamland.mqtt.config;
 
 
 import com.zero.dreamland.mqtt.handle.MqttMessageHandler;
+import com.zero.dreamland.mqtt.handle.MqttMessageHandler2;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -34,6 +35,9 @@ public class MqttReceiverConfig {
      * 订阅的bean名称
      */
     public static final String CHANNEL_NAME_IN = "mqttInboundChannel";
+    public static final String CHANNEL_NAME_IN_2 = "mqttInboundChannel_2";
+
+
 
     // 客户端与服务器之间的连接意外中断，服务器将发布客户端的“遗嘱”消息
     private static final byte[] WILL_DATA;
@@ -92,6 +96,9 @@ public class MqttReceiverConfig {
 
     /**
      * MQTT信息通道（消费者）
+     *
+     *  mqtt消息入站通道，订阅消息后消息进入的通道。
+     *  可创建多个入站通道，对应多个不同的消息生产者。
      */
     @Bean(name = CHANNEL_NAME_IN)
     public MessageChannel mqttInboundChannel() {
@@ -99,8 +106,15 @@ public class MqttReceiverConfig {
     }
 
 
+
+
     /**
      * MQTT消息订阅绑定（消费者）
+     *
+     * 对于当前应用来讲，接收的mqtt消息的生产者。将生产者绑定到mqtt入站通道，即通过入站通道进入的消息为生产者生产的消息。
+     * 可创建多个消息生产者，对应多个不同的消息入站通道，同时生产者监听不同的topic
+     *
+     * @return
      */
     @Bean
     public MessageProducer inbound() {
@@ -122,8 +136,30 @@ public class MqttReceiverConfig {
      */
     @Bean
     @ServiceActivator(inputChannel = CHANNEL_NAME_IN)
-    public MessageHandler handler() {
-        return new MqttMessageHandler();
+    public MessageHandler handler() { return new MqttMessageHandler(); }
 
+
+
+    @Bean(name = CHANNEL_NAME_IN_2)
+    public MessageChannel mqttInboundChannel2() {return new DirectChannel();}
+
+    @Bean
+    @ServiceActivator(inputChannel = CHANNEL_NAME_IN_2)
+    public MessageHandler handler2() { return new MqttMessageHandler2();}
+
+    @Bean
+    public MessageProducer inbound2() {
+        // 可以同时消费（订阅）多个Topic
+        MqttPahoMessageDrivenChannelAdapter adapter =
+                new MqttPahoMessageDrivenChannelAdapter(
+                        clientId+"123", receiverMqttClientFactory(),
+                        defaultTopic.split(","));
+        adapter.setCompletionTimeout(5000);
+        adapter.setConverter(new DefaultPahoMessageConverter());
+        adapter.setQos(1);
+        // 设置订阅通道
+        adapter.setOutputChannel(mqttInboundChannel2());
+        return adapter;
     }
+
 }

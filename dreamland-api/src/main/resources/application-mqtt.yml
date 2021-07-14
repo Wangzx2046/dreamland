@@ -2,10 +2,13 @@
 spring:
   mqtt:
     enabled: true
-    username: sdqu00012                            # 账号
-    password: 27B54EC028024E2BAF1ADBC598B27744            # 密码
+    #username: sdqu00012                            # 账号
+    #password: 27B54EC028024E2BAF1ADBC598B27744            # 密码
     #hostUrl: tcp://223.167.111.251:9993
-    hostUrl: tcp://150.139.130.7:9993                    # mqtt连接tcp地址
+    #hostUrl: tcp://edge.cosmoplat.com:9993                    # mqtt连接tcp地址
+    hostUrl: tcp://127.0.0.1:1883
+    username: admin
+    password: public
     #client-id: haier							# 客户端Id，每个启动的id要不同
     default-topic: test-mqtt                        # 默认主题
     timeout: 300                            # 超时时间
@@ -15,4 +18,4 @@ spring:
       default-topic: YFSGW9D8J95S8O45D86A/12/update # 默认的推送主题，实际可在调用接口时指定
     receiver:
       client-id: 100001000451CDDAC4BF6926F8E95781  # 消费者连接服务器默认客户端ID（这里使用随机数）
-      default-topic: YFSGW9D8J95S8O45D86A/+/update,YFSGW9D8J95S8O45D86A/+/will   # 默认的接收主题，实际可在调用接口时指定
+      default-topic: YFSGW9D8J95S8O45D86A/+/update,YFSGW9D8J95S8O45D86A/+/will,YFSGW9D8J95S8O45D86A/YFSGW0D0J00S8O88D0F3/update   # 默认的接收主题，实际可在调用接口时指定

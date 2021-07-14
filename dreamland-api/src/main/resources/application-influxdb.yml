@@ -1,6 +1,6 @@
 spring:
   influx:
-    enabled: false
+    enabled: true
     url: http://influxdb.s.cosmoplat.com
     token: BRj_y6Y457NRHFSRcWHi8oOcrRccE5Ho8Ul4zgZw6GFcSqJ2HzR1XrS0YKYjXXI3-jNhYUGAE64XCAfg7uZTAg==
     org: cosmosd

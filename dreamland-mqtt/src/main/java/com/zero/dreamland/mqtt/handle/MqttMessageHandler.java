@@ -23,10 +23,10 @@ public class MqttMessageHandler implements MessageHandler {
         //1.解析MQTT消息
         String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
         String msg = message.getPayload().toString();
-       /* System.out.println("qw:" + Thread.currentThread().getName() + "-----");
+        System.out.println("qw:" + Thread.currentThread().getName() + "-----");
         System.out.println("\n--------------------START-------------------\n" +
                 "接收到订阅消息:\ntopic:" + topic + "\nmessage:" + msg +
-                "\n---------------------END--------------------");*/
+                "\n---------------------END--------------------");
         String[] arr = topic.split("/");
         JSONObject json = JSON.parseObject(msg);
         JSONObject reported = json.getJSONObject("reported");
