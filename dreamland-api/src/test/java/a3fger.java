@@ -1,3 +1,5 @@
+
+
 public class a3fger {
     public static void main(String[] args) {
 
@@ -7,6 +9,7 @@ public class a3fger {
         System.out.println(Color.valueOf("BLANK"));
         System.out.println(Color.getName(1));
         System.out.println(Color.BLANK.toString());
+
     /*    int i = 0;
         String str="Read timed out asdasdasd";
        // str="OK";
