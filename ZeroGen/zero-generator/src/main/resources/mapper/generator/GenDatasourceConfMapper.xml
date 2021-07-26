@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.generator.mapper.GenDatasourceConfMapper">
+    
+    <resultMap type="GenDatasourceConf" id="GenDatasourceConfResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="url"    column="url"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectGenDatasourceConfVo">
+        select id, name, url, username, password, create_date, update_date, del_flag from gen_datasource_conf
+    </sql>
+
+    <select id="selectGenDatasourceConfList" parameterType="GenDatasourceConf" resultMap="GenDatasourceConfResult">
+        <include refid="selectGenDatasourceConfVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="username != null  and username != ''"> and username = #{username}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectGenDatasourceConfById" parameterType="Long" resultMap="GenDatasourceConfResult">
+        <include refid="selectGenDatasourceConfVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGenDatasourceConf" parameterType="GenDatasourceConf" useGeneratedKeys="true" keyProperty="id">
+        insert into gen_datasource_conf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="url != null">url,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="url != null">#{url},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGenDatasourceConf" parameterType="GenDatasourceConf">
+        update gen_datasource_conf
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGenDatasourceConfById" parameterType="Long">
+        delete from gen_datasource_conf where id = #{id}
+    </delete>
+
+    <delete id="deleteGenDatasourceConfByIds" parameterType="String">
+        delete from gen_datasource_conf where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

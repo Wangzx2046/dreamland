@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.business.mapper.CompanyMapper">
+    
+    <resultMap type="Company" id="CompanyResult">
+        <result property="companyId"    column="company_id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyContacts"    column="company_contacts"    />
+        <result property="companyTel"    column="company_tel"    />
+        <result property="companyEmail"    column="company_email"    />
+        <result property="companyAddr"    column="company_addr"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="companyIntroduction"    column="company_introduction"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCompanyVo">
+        select company_id, company_name, company_contacts, company_tel, company_email, company_addr, longitude, latitude, company_introduction, del_flag, create_by, create_time, update_by, update_time from t_company
+    </sql>
+
+    <select id="selectCompanyList" parameterType="Company" resultMap="CompanyResult">
+        <include refid="selectCompanyVo"/>
+        <where>  
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="companyContacts != null  and companyContacts != ''"> and company_contacts = #{companyContacts}</if>
+            <if test="companyTel != null  and companyTel != ''"> and company_tel = #{companyTel}</if>
+            <if test="companyEmail != null  and companyEmail != ''"> and company_email = #{companyEmail}</if>
+            <if test="companyAddr != null  and companyAddr != ''"> and company_addr = #{companyAddr}</if>
+            <if test="longitude != null  and longitude != ''"> and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''"> and latitude = #{latitude}</if>
+            <if test="companyIntroduction != null  and companyIntroduction != ''"> and company_introduction = #{companyIntroduction}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompanyById" parameterType="Long" resultMap="CompanyResult">
+        <include refid="selectCompanyVo"/>
+        where company_id = #{companyId}
+    </select>
+        
+    <insert id="insertCompany" parameterType="Company">
+        insert into t_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">company_id,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyContacts != null">company_contacts,</if>
+            <if test="companyTel != null">company_tel,</if>
+            <if test="companyEmail != null">company_email,</if>
+            <if test="companyAddr != null">company_addr,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="companyIntroduction != null">company_introduction,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">#{companyId},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyContacts != null">#{companyContacts},</if>
+            <if test="companyTel != null">#{companyTel},</if>
+            <if test="companyEmail != null">#{companyEmail},</if>
+            <if test="companyAddr != null">#{companyAddr},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="companyIntroduction != null">#{companyIntroduction},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompany" parameterType="Company">
+        update t_company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="companyContacts != null">company_contacts = #{companyContacts},</if>
+            <if test="companyTel != null">company_tel = #{companyTel},</if>
+            <if test="companyEmail != null">company_email = #{companyEmail},</if>
+            <if test="companyAddr != null">company_addr = #{companyAddr},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="companyIntroduction != null">company_introduction = #{companyIntroduction},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where company_id = #{companyId}
+    </update>
+
+    <delete id="deleteCompanyById" parameterType="Long">
+        delete from t_company where company_id = #{companyId}
+    </delete>
+
+    <delete id="deleteCompanyByIds" parameterType="String">
+        delete from t_company where company_id in 
+        <foreach item="companyId" collection="array" open="(" separator="," close=")">
+            #{companyId}
+        </foreach>
+    </delete>
+
+</mapper>
