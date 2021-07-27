@@ -1,0 +1,1402 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 阿里云2年
+ Source Server Type    : MySQL
+ Source Server Version : 80025
+ Source Host           : 47.105.130.1:3306
+ Source Schema         : dreamland
+
+ Target Server Type    : MySQL
+ Target Server Version : 80025
+ File Encoding         : 65001
+
+ Date: 26/07/2021 15:03:02
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for gen_datasource_conf
+-- ----------------------------
+DROP TABLE IF EXISTS `gen_datasource_conf`;
+CREATE TABLE `gen_datasource_conf`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `create_date` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '数据源表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of gen_datasource_conf
+-- ----------------------------
+INSERT INTO `gen_datasource_conf` VALUES (9, 'def_dreamland', 'jdbc:mysql://47.105.130.1:3306/dreamland?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&&serverTimezone=GMT', 'wzx', 'qq/OW+GQANIQXq4KuQOYBg==', '2021-06-22 15:38:58', '2021-07-21 10:41:51', '0');
+INSERT INTO `gen_datasource_conf` VALUES (10, 'gen_gen1', 'jdbc:mysql://127.0.0.1:3306/ry?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&&serverTimezone=GMT', 'root', '0FKeJrPdZGJIDBWNPbZKog==', '2021-07-21 10:34:12', '2021-07-21 10:34:12', '0');
+
+-- ----------------------------
+-- Table structure for gen_form_conf
+-- ----------------------------
+DROP TABLE IF EXISTS `gen_form_conf`;
+CREATE TABLE `gen_form_conf`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `table_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `form_info` json NOT NULL COMMENT '表单信息',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `table_name`(`table_name`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '表单配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of gen_form_conf
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for mqtt_acl
+-- ----------------------------
+DROP TABLE IF EXISTS `mqtt_acl`;
+CREATE TABLE `mqtt_acl`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `allow` int NULL DEFAULT NULL COMMENT '0: deny, 1: allow',
+  `ipaddr` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IpAddress',
+  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Username',
+  `clientid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ClientId',
+  `access` int NOT NULL COMMENT '1: subscribe, 2: publish, 3: pubsub',
+  `topic` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'Topic Filter',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mqtt_acl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for mqtt_user
+-- ----------------------------
+DROP TABLE IF EXISTS `mqtt_user`;
+CREATE TABLE `mqtt_user`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `PASSWORD` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `salt` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `is_superuser` tinyint(1) NULL DEFAULT 0,
+  `created` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `mqtt_username`(`username`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mqtt_user
+-- ----------------------------
+INSERT INTO `mqtt_user` VALUES (1, 'admin', '98f4270f09c07130b91985c80ab067e3f09d61f24636eb30784634aea6958a69', NULL, 1, NULL);
+INSERT INTO `mqtt_user` VALUES (2, 'wzx', '98f4270f09c07130b91985c80ab067e3f09d61f24636eb30784634aea6958a69', NULL, 0, NULL);
+INSERT INTO `mqtt_user` VALUES (3, 'test', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, 0, NULL);
+INSERT INTO `mqtt_user` VALUES (4, 'cosmoplat', '98f4270f09c07130b91985c80ab067e3f09d61f24636eb30784634aea6958a69', NULL, 1, NULL);
+
+-- ----------------------------
+-- Table structure for realtime_record_pv_details
+-- ----------------------------
+DROP TABLE IF EXISTS `realtime_record_pv_details`;
+CREATE TABLE `realtime_record_pv_details`  (
+  `id` bigint NOT NULL COMMENT 'id',
+  `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户id',
+  `realtime_equip_id` bigint NULL DEFAULT NULL COMMENT '实时分析记录设备id',
+  `parameter_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数名',
+  `parameter_value` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数值',
+  `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `creator` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `creater_date` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `updater` bigint NULL DEFAULT NULL COMMENT '最新更新人',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '最新更新时间',
+  `delete_state` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '默认为0 删除1',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `Index_id`(`id`) USING BTREE,
+  INDEX `Index_tenant_id`(`tenant_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '实时分析记参数录明细表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of realtime_record_pv_details
+-- ----------------------------
+INSERT INTO `realtime_record_pv_details` VALUES (1193802288466812931, 1167650383570264066, 1193799130600497153, '温度', NULL, NULL, 1168097072970010625, NULL, 1168097072970010625, '2019-11-11 16:07:00', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1193802288471007234, 1167650383570264066, 1193799130600497153, '纬密1', NULL, NULL, 1168097072970010625, NULL, 1168097072970010625, '2019-11-11 16:07:00', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1193805113225699330, 1167650383570264066, 1193799130600497153, '温度', NULL, NULL, 1168097072970010625, NULL, 1168097072970010625, '2019-11-11 16:18:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1193805113225699331, 1167650383570264066, 1193799130600497153, '天报-上电时间', NULL, NULL, 1168097072970010625, NULL, 1168097072970010625, '2019-11-11 16:18:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1193805113229893634, 1167650383570264066, 1193799130600497153, '班报-其他停车时间', NULL, NULL, 1168097072970010625, NULL, 1168097072970010625, '2019-11-11 16:18:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1202009956168704003, NULL, 1196710358413217793, '道夫欠速', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2019-12-04 07:41:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1202009956172898305, NULL, 1196710358413217793, '清花', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2019-12-04 07:41:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213121948312997889, 1166643263487090690, 1197091802351210498, '主轴震动速度', NULL, NULL, 1166643265294835714, NULL, 1166643265294835714, '2020-01-03 23:36:26', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213122016281694210, 1166643263487090690, 1197091802351210498, '主轴震动速度', NULL, NULL, 1166643265294835714, NULL, 1166643265294835714, '2020-01-03 23:36:42', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213122016487215105, 1166643263487090690, 1197091802351210498, '电流', NULL, NULL, 1166643265294835714, NULL, 1166643265294835714, '2020-01-03 23:36:42', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213122016516575233, 1166643263487090690, 1197091802351210498, '主轴实时转速', NULL, NULL, 1166643265294835714, NULL, 1166643265294835714, '2020-01-03 23:36:42', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213379189981122562, NULL, 1197091802351210498, '主轴震动速度', NULL, NULL, 1210044664731471874, NULL, 1210044664731471874, '2020-01-04 16:38:37', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213379190014676993, NULL, 1197091802351210498, '主轴温度', NULL, NULL, 1210044664731471874, NULL, 1210044664731471874, '2020-01-04 16:38:37', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1213379190039842818, NULL, 1197091802351210498, '功率', NULL, NULL, 1210044664731471874, NULL, 1210044664731471874, '2020-01-04 16:38:37', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1214824143194066945, NULL, 1196710358413217793, '产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-01-08 16:20:21', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215174669526011906, 1214526705591902210, 1214551151692124162, 'A相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-09 15:33:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215174669555372034, 1214526705591902210, 1214551151692124162, 'B相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-09 15:33:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827396291629058, 1214526705591902210, 1214551151692124162, 'A相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:46:55', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827396320989185, 1214526705591902210, 1214551151692124162, 'B相负荷', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:46:55', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827396379709441, 1214526705591902210, 1214551216812888066, 'A相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:46:55', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827396404875265, 1214526705591902210, 1214551216812888066, 'B相负荷', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:46:55', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827575841394690, 1214526705591902210, 1214551151692124162, 'A相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:47:38', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827575866560514, 1214526705591902210, 1214551151692124162, 'B相因数', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:47:38', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1215827575895920641, 1214526705591902210, 1214551151692124162, 'C相负荷', NULL, NULL, 1214526705944223745, NULL, 1214526705944223745, '2020-01-11 10:47:38', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1217832496178565121, NULL, 1196710358413217793, '开松辊转速比', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-01-16 23:34:28', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1217832496203730945, NULL, 1196710358413217793, '产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-01-16 23:34:28', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1217832496228896769, NULL, 1196710358413217793, '满筒长度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-01-16 23:34:28', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1232862555968802817, NULL, 1218747991438299137, '排气', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-02-27 10:58:33', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1232862556002357249, NULL, 1218747991438299137, '二档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-02-27 10:58:33', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1232862556027523074, NULL, 1218747991438299137, '二档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-02-27 10:58:33', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1240895992474537986, 1169106725630996481, 1240213920739135490, '侯出高度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-03-20 15:00:34', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979720278018, 1169106725630996481, 1218747991438299137, '四档高度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979774803970, 1169106725630996481, 1218747991438299137, '三档次数', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979804164098, 1169106725630996481, 1218747991438299137, '返回速度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979833524225, 1169106725630996481, 1218747991438299137, '五档高度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979892244481, 1169106725630996481, 1218747991438299137, '二档速度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979921604610, 1169106725630996481, 1218747991438299137, '五档次数', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979946770433, 1169106725630996481, 1218747991438299137, '加速速度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1247448979971936257, 1169106725630996481, 1218747991438299137, '一档高度', NULL, NULL, 1169106726033649665, NULL, 1169106726033649665, '2020-04-07 16:59:48', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1252130597030498305, NULL, 1240893446792056834, '四档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-04-20 15:02:52', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1252130597064052737, NULL, 1240893446792056834, '侯出高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-04-20 15:02:52', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1252130597089218561, NULL, 1240893446792056834, '四档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-04-20 15:02:52', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1252502502627512321, NULL, 1197091802351210498, '主轴震动速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-04-21 15:40:42', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1262634648008560641, NULL, 1194158205099159553, '当前卷布长度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-05-19 14:42:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1262634648037920770, NULL, 1194158205099159553, '班报-纬停停车次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-05-19 14:42:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1262634648067280898, NULL, 1194158205099159553, '天报-上电时间', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-05-19 14:42:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1262634648092446721, NULL, 1194158205099159553, '温度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-05-19 14:42:13', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1280778203435823106, NULL, 1240213920739135490, '四档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-08 16:18:14', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1280778203469377537, NULL, 1240213920739135490, '四档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-08 16:18:14', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1280778203498737665, NULL, 1240213920739135490, '二档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-08 16:18:14', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1280778203788144642, NULL, 1240213920739135490, '返回速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-08 16:18:14', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1280778203817504769, NULL, 1240213920739135490, '总产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-08 16:18:14', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1281837876314304514, NULL, 1240213920739135490, '二档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-11 14:29:00', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1281837876339470337, NULL, 1240213920739135490, '总产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-11 14:29:00', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1281837876641460226, NULL, 1240213920739135490, '产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-11 14:29:00', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064388046850, NULL, 1240213920739135490, '一档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064421601282, NULL, 1240213920739135490, '加速速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064446767106, NULL, 1240213920739135490, '五档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064497098754, NULL, 1240213920739135490, '总产量', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064526458882, NULL, 1240213920739135490, '排气', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064807477249, NULL, 1240213920739135490, '二档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861064849420289, NULL, 1240213920739135490, '五档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1285861065210130433, NULL, 1240213920739135490, '一档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-22 16:55:43', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364475219969, NULL, 1240213920739135490, '四档高度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364512968706, NULL, 1240213920739135490, '四档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364550717441, NULL, 1240213920739135490, '点动速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364852707329, NULL, 1240213920739135490, '三档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364903038977, NULL, 1240213920739135490, '三档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663364949176321, NULL, 1240213920739135490, '五档速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1288663365276332033, NULL, 1240213920739135490, '五档次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-07-30 10:31:03', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1308221689577132033, NULL, 1192854729728516097, '班报-纬停停车次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-09-22 09:48:51', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1308221689916870658, NULL, 1192854729728516097, '班报-其他停次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-09-22 09:48:51', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1308221689950425089, NULL, 1192854729728516097, '天报-上电时间', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-09-22 09:48:51', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1308221690302746625, NULL, 1192854729728516097, '天报-纬停停车次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-09-22 09:48:51', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418426408961, NULL, 1196710358413217793, '棉层异物', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418464157697, NULL, 1196710358413217793, '盖板', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418501906434, NULL, 1196710358413217793, '防轧', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418745176065, NULL, 1196710358413217793, '盖板速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418778730498, NULL, 1196710358413217793, '开松辊转速比', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418816479233, NULL, 1196710358413217793, '异物', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1338742418875199490, NULL, 1196710358413217793, '锡林PTC', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-15 15:07:20', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339118227561492481, NULL, 1196653504446337025, '当前卷布长度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-16 16:00:40', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339118227603435522, NULL, 1196653504446337025, '噪音', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-16 16:00:40', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339118227636989954, NULL, 1196653504446337025, '班报-其他停次数', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-16 16:00:40', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339895228849303553, NULL, 1196710358413217793, '棉层异物', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-18 19:28:11', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339895229088378881, NULL, 1196710358413217793, '出条速度', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-18 19:28:11', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1339895229121933314, NULL, 1196710358413217793, '缺条筒', NULL, NULL, 1067246875800000001, NULL, 1067246875800000001, '2020-12-18 19:28:11', NULL);
+INSERT INTO `realtime_record_pv_details` VALUES (1364400381841440770, 1274993485638176769, 1358298130534383618, 'cnc_products', NULL, NULL, 1274993487043268610, NULL, 1274993487043268610, '2021-02-24 10:22:55', NULL);
+
+-- ----------------------------
+-- Table structure for sys_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dept`;
+CREATE TABLE `sys_dept`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `pid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上级部门',
+  `sub_count` int NULL DEFAULT 0 COMMENT '子部门数目',
+  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `dept_sort` int NULL DEFAULT 999 COMMENT '排序',
+  `enabled` bit(1) NOT NULL COMMENT '状态',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `inx_pid`(`pid`) USING BTREE,
+  INDEX `inx_enabled`(`enabled`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dept
+-- ----------------------------
+INSERT INTO `sys_dept` VALUES ('15', '8', 1, 'UI部门', 7, b'1', 0, 'admin', '无名之辈', '2020-05-13 22:56:53', '2020-06-22 01:01:39');
+INSERT INTO `sys_dept` VALUES ('2', '7', 0, '研发部', 3, b'1', 0, NULL, '无名之辈', '2019-03-25 09:15:32', '2020-06-21 21:22:36');
+INSERT INTO `sys_dept` VALUES ('26cf0756c5fef8baafebdc12b47626bf', NULL, 0, '阿斯达斯的', 999, b'1', 1, '无名之辈', '无名之辈', '2020-06-16 00:15:29', '2020-06-21 21:41:03');
+INSERT INTO `sys_dept` VALUES ('4ef571a7dc4efd18ebfacabb7cb232cc', '15', 0, 'JAVA组', 999, b'1', 0, '无名之辈', '无名之辈', '2020-06-20 19:22:35', '2020-06-22 01:01:39');
+INSERT INTO `sys_dept` VALUES ('5', '7', 0, '运维部', 4, b'1', 0, NULL, '无名之辈', '2019-03-24 20:20:44', '2020-06-22 01:01:39');
+INSERT INTO `sys_dept` VALUES ('6', '8', 0, '测试部', 6, b'1', 0, NULL, NULL, '2019-03-25 09:52:18', NULL);
+INSERT INTO `sys_dept` VALUES ('7', NULL, 2, '华南分部', 0, b'1', 0, NULL, '无名之辈', '2019-03-24 22:04:50', '2020-06-21 22:05:56');
+INSERT INTO `sys_dept` VALUES ('8', NULL, 2, '华北分部', 1, b'1', 0, NULL, 'admin', '2019-03-25 11:04:53', '2020-05-14 12:54:00');
+
+-- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES ('1', 'user_status', '用户状态', 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict` VALUES ('4', 'dept_status', '部门状态', 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict` VALUES ('5', 'job_status', '岗位状态', 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict` VALUES ('526e53ee2b45ff8f7e16cb63785cc27a', 'ageType', '年龄类型', 0, '无名之辈', '无名之辈', '2020-06-17 09:18:56', '2020-06-17 22:50:34');
+INSERT INTO `sys_dict` VALUES ('7cfe32b375aa0b1cc37f2146966c2355', 'asd', '阿斯达斯的', 1, '无名之辈', NULL, '2020-06-17 22:18:31', NULL);
+INSERT INTO `sys_dict` VALUES ('a302ad396d5a989f88c3fc39da003776', '安爱', '阿萨大', 0, '无名之辈', NULL, '2020-06-18 02:38:53', NULL);
+
+-- ----------------------------
+-- Table structure for sys_dict_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_detail`;
+CREATE TABLE `sys_dict_detail`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `dict_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字典id',
+  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典标签',
+  `value` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典值',
+  `dict_sort` int NULL DEFAULT NULL COMMENT '排序',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK5tpkputc6d9nboxojdbgnpmyb`(`dict_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典详情' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_detail
+-- ----------------------------
+INSERT INTO `sys_dict_detail` VALUES ('0ca86fd05236520813a0e8b8aebc90ac', 'a302ad396d5a989f88c3fc39da003776', 'asd', 'ffff', 999, 0, '无名之辈', NULL, '2020-06-18 03:00:23', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('0f2b979116488b75bc2221bdd36c5864', 'a302ad396d5a989f88c3fc39da003776', 'shibai', 'flase', 999, 0, '无名之辈', NULL, '2020-06-18 02:59:48', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('1', '1', '激活', 'true', 1, 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('105fd2fd936ad1a53e6d3383d70d574a', 'a302ad396d5a989f88c3fc39da003776', '成功', 'true', 999, 1, '无名之辈', NULL, '2020-06-18 02:59:00', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('2', '1', '禁用', 'false', 2, 0, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_detail` VALUES ('3', '4', '启用', 'true', 1, 0, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_detail` VALUES ('4', '4', '停用', 'false', 2, 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('5', '5', '启用', 'true', 1, 0, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_detail` VALUES ('6', '5', '停用', 'false', 2, 0, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO `sys_dict_detail` VALUES ('d9bca24d4c4568f9942d462c2bff0f6b', 'a302ad396d5a989f88c3fc39da003776', 'ad22', 'dddd22', 3, 1, '无名之辈', '无名之辈', '2020-06-17 01:04:01', '2020-06-18 03:04:20');
+
+-- ----------------------------
+-- Table structure for sys_job
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_job`;
+CREATE TABLE `sys_job`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '岗位名称',
+  `enabled` bit(1) NOT NULL COMMENT '岗位状态',
+  `job_sort` int NULL DEFAULT NULL COMMENT '排序',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uniq_name`(`name`) USING BTREE,
+  INDEX `inx_enabled`(`enabled`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '岗位' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_job
+-- ----------------------------
+INSERT INTO `sys_job` VALUES ('10', '产品经理', b'1', 4, 0, NULL, '无名之辈', NULL, '2020-06-21 21:20:35');
+INSERT INTO `sys_job` VALUES ('11', '全栈开发', b'1', 2, 0, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_job` VALUES ('12', '软件测试', b'1', 5, 0, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_job` VALUES ('23fa6bbfef72c6575bd86499b044e8b6', '大客户经理', b'1', 1, 1, '无名之辈', '无名之辈', '2020-06-18 12:24:22', '2020-06-19 01:24:34');
+INSERT INTO `sys_job` VALUES ('8', '人事专员', b'1', 3, 0, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `log_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `params` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `request_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `time` bigint NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `browser` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `exception_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `log_create_time_index`(`create_time`) USING BTREE,
+  INDEX `inx_log_type`(`log_type`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `pid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上级菜单ID',
+  `sub_count` int NULL DEFAULT 0 COMMENT '子菜单数目',
+  `type` int NULL DEFAULT NULL COMMENT '菜单类型',
+  `title` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
+  `component_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件名称',
+  `component` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件',
+  `menu_sort` int NULL DEFAULT NULL COMMENT '排序',
+  `icon` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
+  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '链接地址',
+  `i_frame` bit(1) NULL DEFAULT NULL COMMENT '是否外链',
+  `cache` bit(1) NULL DEFAULT b'0' COMMENT '缓存',
+  `hidden` bit(1) NULL DEFAULT b'0' COMMENT '隐藏',
+  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限',
+  `menu_level` int NULL DEFAULT NULL COMMENT '菜单级别',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单描述',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '状态标志（0正常 1删除 2停用）',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uniq_title`(`title`) USING BTREE,
+  UNIQUE INDEX `uniq_name`(`component_name`) USING BTREE,
+  INDEX `inx_pid`(`pid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_menu
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES ('1', NULL, 7, 0, '系统管理', NULL, NULL, 1, 'system', 'system', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('10', NULL, 5, 0, '组件管理', NULL, NULL, 50, 'zujian', 'components', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('102', '97', 0, 2, '删除', NULL, '', 999, '', '', b'0', b'0', b'0', 'deployHistory:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('103', '92', 0, 2, '服务器新增', NULL, '', 999, '', '', b'0', b'0', b'0', 'serverDeploy:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('104', '92', 0, 2, '服务器编辑', NULL, '', 999, '', '', b'0', b'0', b'0', 'serverDeploy:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('105', '92', 0, 2, '服务器删除', NULL, '', 999, '', '', b'0', b'0', b'0', 'serverDeploy:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('106', '93', 0, 2, '应用新增', NULL, '', 999, '', '', b'0', b'0', b'0', 'app:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('107', '93', 0, 2, '应用编辑', NULL, '', 999, '', '', b'0', b'0', b'0', 'app:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('108', '93', 0, 2, '应用删除', NULL, '', 999, '', '', b'0', b'0', b'0', 'app:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('109', '94', 0, 2, '部署新增', NULL, '', 999, '', '', b'0', b'0', b'0', 'deploy:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('11', '10', 0, 1, '图标库', 'Icons', 'components/icons/index', 51, 'icon', 'icon', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('110', '94', 0, 2, '部署编辑', NULL, '', 999, '', '', b'0', b'0', b'0', 'deploy:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('111', '94', 0, 2, '部署删除', NULL, '', 999, '', '', b'0', b'0', b'0', 'deploy:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('112', '98', 0, 2, '数据库新增', NULL, '', 999, '', '', b'0', b'0', b'0', 'database:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('113', '98', 0, 2, '数据库编辑', NULL, '', 999, '', '', b'0', b'0', b'0', 'database:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('114', '98', 0, 2, '数据库删除', NULL, '', 999, '', '', b'0', b'0', b'0', 'database:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('116', '36', 0, 1, '生成预览', 'Preview', 'generator/preview', 999, 'java', 'generator/preview/:tableName', b'0', b'1', b'1', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('14', '36', 0, 1, '邮件工具', 'Email', 'tools/email/index', 35, 'email', 'email', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('15', '10', 0, 1, '富文本', 'Editor', 'components/Editor', 52, 'fwb', 'tinymce', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('16', '36', 2, 1, '图床管理', 'Pictures', 'tools/picture/index', 33, 'image', 'pictures', b'0', b'0', b'0', 'pictures:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('18', '36', 3, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', b'0', b'0', b'0', 'storage:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('19', '36', 0, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 37, 'alipay', 'aliPay', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('2', '1', 3, 1, '用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', b'0', b'0', b'0', 'user:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('21', NULL, 2, 0, '多级菜单', NULL, '', 900, 'menu', 'nested', b'0', b'0', b'1', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('22', '21', 2, 1, '二级菜单1', NULL, 'nested/menu1/index', 999, 'menu', 'menu1', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('23', '21', 0, 1, '二级菜单2', NULL, 'nested/menu2/index', 999, 'menu', 'menu2', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('24', '22', 0, 1, '三级菜单1', NULL, 'nested/menu1/menu1-1', 999, 'menu', 'menu1-1', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('27', '22', 0, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 999, 'menu', 'menu1-2', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('28', '1', 3, 1, '任务调度', 'Timing', 'system/timing/index', 999, 'timing', 'timing', b'0', b'0', b'0', 'timing:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('3', '1', 3, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', b'0', b'0', b'0', 'roles:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('30', '36', 0, 1, '代码生成', 'GeneratorIndex', 'generator/index', 32, 'dev', 'generator', b'0', b'1', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('32', '6', 0, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 12, 'error', 'errorLog', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('33', '10', 0, 1, 'Markdown', 'Markdown', 'components/MarkDown', 53, 'markdown', 'markdown', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('34', '10', 0, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 54, 'dev', 'yaml', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('35', '1', 3, 1, '部门管理', 'Dept', 'system/dept/index', 6, 'dept', 'dept', b'0', b'0', b'0', 'dept:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('36', NULL, 8, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('37', '1', 3, 1, '岗位管理', 'Job', 'system/job/index', 7, 'Steve-Jobs', 'job', b'0', b'0', b'0', 'job:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('38', '36', 0, 1, '接口文档', 'Swagger', 'tools/swagger/index', 36, 'swagger', 'swagger2', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('39', '1', 3, 1, '字典管理', 'Dict', 'system/dict/index', 8, 'dictionary', 'dict', b'0', b'0', b'0', 'dict:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('39f1924aca91c7cda1aee2302db9bb44', '0', 0, 0, '山东荣登', NULL, NULL, 999, 'alipay', '/sdrd', b'0', b'0', b'0', NULL, NULL, NULL, '0', '无名之辈', '2020-06-22 03:13:01', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('41', '6', 0, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 10, 'Steve-Jobs', 'online', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('44', '2', 0, 2, '用户新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'user:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('45', '2', 0, 2, '用户编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'user:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('46', '2', 0, 2, '用户删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'user:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('48', '3', 0, 2, '角色创建', NULL, '', 2, '', '', b'0', b'0', b'0', 'roles:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('49', '3', 0, 2, '角色修改', NULL, '', 3, '', '', b'0', b'0', b'0', 'roles:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('5', '1', 3, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', b'0', b'0', b'0', 'menu:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('50', '3', 0, 2, '角色删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'roles:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('51fee3d7251c9f7daee780360daaafab', '92d2a68b7b96fd78bda75066e73000fd', 1, 1, '实施组', NULL, NULL, 999, 'date', '/ssz', b'0', b'0', b'0', 'asd', NULL, NULL, '0', '无名之辈', '2020-06-22 04:35:15', '无名之辈', '2020-06-22 21:30:41');
+INSERT INTO `sys_menu` VALUES ('52', '5', 0, 2, '菜单新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'menu:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('53', '5', 0, 2, '菜单编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'menu:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('54', '5', 0, 2, '菜单删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'menu:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('56', '35', 0, 2, '部门新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'dept:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('57', '35', 0, 2, '部门编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'dept:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('58', '35', 0, 2, '部门删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'dept:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('6', NULL, 5, 0, '系统监控', NULL, NULL, 10, 'monitor', 'monitor', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('60', '37', 0, 2, '岗位新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'job:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('61', '37', 0, 2, '岗位编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'job:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('62', '37', 0, 2, '岗位删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'job:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('64', '39', 0, 2, '字典新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'dict:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('65', '39', 0, 2, '字典编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'dict:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('66', '39', 0, 2, '字典删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'dict:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('6f37e548aa17dcdb6acc8632d7e8fd36', NULL, 0, 0, '蓝图嘉惠', NULL, NULL, 999, 'codeConsole', '/ltjh', b'0', b'0', b'0', NULL, NULL, NULL, '0', '无名之辈', '2020-06-22 03:14:41', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('7', '6', 0, 1, '操作日志', 'Log', 'monitor/log/index', 11, 'log', 'logs', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('70', '16', 0, 2, '图片上传', NULL, '', 2, '', '', b'0', b'0', b'0', 'pictures:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('71', '16', 0, 2, '图片删除', NULL, '', 3, '', '', b'0', b'0', b'0', 'pictures:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('73', '28', 0, 2, '任务新增', NULL, '', 2, '', '', b'0', b'0', b'0', 'timing:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('74', '28', 0, 2, '任务编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'timing:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('75', '28', 0, 2, '任务删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'timing:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('77', '18', 0, 2, '上传文件', NULL, '', 2, '', '', b'0', b'0', b'0', 'storage:add', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('78', '18', 0, 2, '文件编辑', NULL, '', 3, '', '', b'0', b'0', b'0', 'storage:edit', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('79', '18', 0, 2, '文件删除', NULL, '', 4, '', '', b'0', b'0', b'0', 'storage:del', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('80', '6', 0, 1, '服务监控', 'ServerMonitor', 'monitor/server/index', 14, 'codeConsole', 'server', b'0', b'0', b'0', 'monitor:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('82', '36', 0, 1, '生成配置', 'GeneratorConfig', 'generator/config', 33, 'dev', 'generator/config/:tableName', b'0', b'1', b'1', '', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('83', '10', 0, 1, '图表库', 'Echarts', 'components/Echarts', 50, 'chart', 'echarts', b'0', b'1', b'0', '', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('9', '6', 0, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 18, 'sqlMonitor', 'druid', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('90', NULL, 5, 1, '运维管理', 'Mnt', '', 20, 'mnt', 'mnt', b'0', b'0', b'0', NULL, NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('92', '90', 3, 1, '服务器', 'ServerDeploy', 'mnt/server/index', 22, 'server', 'mnt/serverDeploy', b'0', b'0', b'0', 'serverDeploy:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('92d2a68b7b96fd78bda75066e73000fd', NULL, 1, 0, '青鸟软通', NULL, NULL, 999, 'Steve-Jobs', '/jbinfo', b'0', b'0', b'0', NULL, NULL, NULL, '0', '无名之辈', '2020-06-22 03:01:16', '无名之辈', '2020-06-22 04:35:15');
+INSERT INTO `sys_menu` VALUES ('93', '90', 3, 1, '应用管理', 'App', 'mnt/app/index', 23, 'app', 'mnt/app', b'0', b'0', b'0', 'app:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('94', '90', 3, 1, '部署管理', 'Deploy', 'mnt/deploy/index', 24, 'deploy', 'mnt/deploy', b'0', b'0', b'0', 'deploy:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('97', '90', 1, 1, '部署备份', 'DeployHistory', 'mnt/deployHistory/index', 25, 'backup', 'mnt/deployHistory', b'0', b'0', b'0', 'deployHistory:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('98', '90', 3, 1, '数据库管理', 'Database', 'mnt/database/index', 26, 'database', 'mnt/database', b'0', b'0', b'0', 'database:list', NULL, NULL, '0', NULL, '2020-06-12 13:33:16', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('b8d44b2580e34e67ff92b34618dd5bc3', NULL, 0, 1, '乡宁扶贫', NULL, '/a/c/s', 999, 'anq', '/xnfp', b'0', b'0', b'0', 'role:add', NULL, NULL, '1', '无名之辈', '2020-06-22 03:16:02', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('d4b84dc1906a6ba660956a6a8e1be76b', '51fee3d7251c9f7daee780360daaafab', 2, 2, '签到', NULL, NULL, 999, NULL, NULL, b'0', b'0', b'0', 'asddd', NULL, NULL, '0', '无名之辈', '2020-06-22 21:30:41', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_quartz_job
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_quartz_job`;
+CREATE TABLE `sys_quartz_job`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Spring Bean名称',
+  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'cron 表达式',
+  `is_pause` bit(1) NULL DEFAULT NULL COMMENT '状态：1暂停、0启用',
+  `job_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务名称',
+  `method_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '方法名称',
+  `params` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `person_in_charge` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '负责人',
+  `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报警邮箱',
+  `sub_task` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子任务ID',
+  `pause_after_failure` bit(1) NULL DEFAULT NULL COMMENT '任务失败后是否暂停',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `inx_is_pause`(`is_pause`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_quartz_job
+-- ----------------------------
+INSERT INTO `sys_quartz_job` VALUES ('0', 'zkbXgyzTask', '0 0 11 * * ? ', b'1', '小鸽驿站-历史删除', 'delHistory', '', '定时删除历史数据', 'caoshuangna', NULL, NULL, b'0', 0, '无名之辈', NULL, '2020-07-30 18:56:35', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('1', 'zkbXgyzTask', '5 * * * * ? ', b'0', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', '定时抓取小鸽驿站', 'caoshuangna', NULL, NULL, b'0', 0, '无名之辈', NULL, '2020-07-30 18:56:35', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('2', 'zkbXgyzTask', '0 0 11 * * ? ', b'0', '小鸽驿站-历史按天删除', 'delHistoryByDays', '1', '定时删除历史数据', 'caoshuangna', NULL, NULL, b'0', 0, '无名之辈', NULL, '2020-07-30 18:56:35', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('3', 'testTask', '0/5 * * * * ?', b'1', '测试', 'run', '', '不带参测试', 'Zheng Jie', '', '2,6', b'1', 0, NULL, '无名之辈', '2019-09-26 16:44:39', '2020-07-02 21:59:41');
+INSERT INTO `sys_quartz_job` VALUES ('4', 'zkbXgyzTask', '5 * * * * ? ', b'1', '小鸽驿站数据抓取', 'CrawlerXgyz', '大水,有水,水了,速度,好价,神价,神券,大毛', '定时抓取小鸽驿站', 'caoshuangna', NULL, NULL, b'0', 0, '无名之辈', NULL, '2020-07-30 18:56:35', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('5', 'Test', '0/5 * * * * ?', b'1', '任务告警测试', 'run', NULL, '测试', 'test', '', NULL, b'1', 0, 'admin', NULL, '2020-05-05 20:32:41', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('6', 'testTask', '0/5 * * * * ?', b'1', '测试3', 'run2', NULL, '测试3', 'Zheng Jie', '', NULL, b'1', 0, 'admin', '无名之辈', '2020-05-05 20:35:41', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('99', 'testTask', '0/5 * * * * ?', b'1', '测试1', 'run1', 'test', '带参测试，多参使用json', '测试', NULL, NULL, b'1', 0, NULL, 'admin', '2019-08-22 14:08:29', '2020-05-05 17:26:19');
+INSERT INTO `sys_quartz_job` VALUES ('9b1d07b8391a58b52af151ab05e356c1', 'emailTestTask', '0 59 11 * * ?', b'1', '支付宝消费券', 'SendTOts', '{\"to\":\"443082604@qq.com\",\"text\":\"吃饭-支付宝消费券\"}', '中午提醒', '阿阿斯顿', NULL, NULL, b'1', 0, '无名之辈', '无名之辈', '2020-08-05 14:51:43', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('c58dc020042117920ec96dcc6aef1f6b', 'emailTestTask', '7 59 11 * * ?', b'1', '曹双娜打车', 'SendTOts', '{\"to\":\"caoshuangna@e12349.com\",\"text\":\"待办事项：\\n1.往群里发打车券\\n2.提醒大家领支付宝消费券\\n3.接着睡吧\"}', '提醒她发打车助力', 'caoshuangna', NULL, NULL, b'1', 0, '无名之辈', '无名之辈', '2020-07-30 18:56:35', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('dc00db1d68b42ae631bcc7c2102030f0', 'emailRemindTask', '0/5 * * * * ?', b'1', '定时提醒', 'Remind2', '吃饭啦，快跑', '每日提醒备忘事项', 'wzx', '443082604@qq.com', NULL, b'1', 0, '无名之辈', '无名之辈', '2020-07-05 09:45:11', NULL);
+INSERT INTO `sys_quartz_job` VALUES ('f8ca911576423944526b035fd76c036c', 'emailTestTask', '0 58 8-12 * * ?', b'1', '支付宝8月消费券', 'SendTOts', '{\"to\":\"wangzhengxiang-1@12349.com\",\"text\":\"年费plus\"}', '支付宝8月消费券', 'a', NULL, NULL, b'1', 0, '无名之辈', '无名之辈', '2020-08-05 01:34:57', NULL);
+
+-- ----------------------------
+-- Table structure for sys_quartz_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_quartz_log`;
+CREATE TABLE `sys_quartz_log`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_date` datetime NULL DEFAULT NULL,
+  `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `exception_detail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `is_success` bit(1) NULL DEFAULT NULL,
+  `job_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `method_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `params` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `time` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_quartz_log
+-- ----------------------------
+INSERT INTO `sys_quartz_log` VALUES ('002a3858b48f6650c93e7d3adab50576', 'zkbXgyzTask', '2021-04-29 08:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4613);
+INSERT INTO `sys_quartz_log` VALUES ('00312d05196215312819d4bc945fb43c', 'zkbXgyzTask', '2021-05-07 09:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4154);
+INSERT INTO `sys_quartz_log` VALUES ('013c573f4e2ca066f14a63e522a7e7c9', 'zkbXgyzTask', '2021-05-08 02:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4178);
+INSERT INTO `sys_quartz_log` VALUES ('01e6fd60496ce00ce7581156deda0373', 'zkbXgyzTask', '2021-05-08 02:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3877);
+INSERT INTO `sys_quartz_log` VALUES ('01ff87a5a07ec3da24715f79f6c36fc7', 'zkbXgyzTask', '2021-05-07 07:54:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3708);
+INSERT INTO `sys_quartz_log` VALUES ('02aec9e127a4f3aa5096295f52c3438a', 'zkbXgyzTask', '2021-04-29 08:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4413);
+INSERT INTO `sys_quartz_log` VALUES ('05a817f4759724b18a7e6008d7f1b0ec', 'zkbXgyzTask', '2021-05-08 05:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4510);
+INSERT INTO `sys_quartz_log` VALUES ('0690aeb8398cb84b7b5ce7f07902d06c', 'zkbXgyzTask', '2021-05-08 02:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4094);
+INSERT INTO `sys_quartz_log` VALUES ('06ceb29b393451848db251c04ad840c1', 'zkbXgyzTask', '2021-05-08 05:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4532);
+INSERT INTO `sys_quartz_log` VALUES ('07771c424b77e05513d03a26ab7fce2b', 'zkbXgyzTask', '2021-05-08 09:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4252);
+INSERT INTO `sys_quartz_log` VALUES ('0815a90a26e2d947ebca00c03fc12d5f', 'zkbXgyzTask', '2021-05-08 05:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4435);
+INSERT INTO `sys_quartz_log` VALUES ('0823e44e05955b5e0c342054a263604d', 'zkbXgyzTask', '2021-05-07 05:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4181);
+INSERT INTO `sys_quartz_log` VALUES ('08730d3bbd0a1a0fd78b1360e4b013bd', 'zkbXgyzTask', '2021-04-29 08:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4601);
+INSERT INTO `sys_quartz_log` VALUES ('08e6904470eaba63c8ab903a16f84765', 'zkbXgyzTask', '2021-05-10 03:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5575);
+INSERT INTO `sys_quartz_log` VALUES ('08efa1f8251329b1384842dc96dcc4d0', 'zkbXgyzTask', '2021-05-10 03:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5405);
+INSERT INTO `sys_quartz_log` VALUES ('0963821ed2611e53bb28f24d9e134969', 'zkbXgyzTask', '2021-04-29 08:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4345);
+INSERT INTO `sys_quartz_log` VALUES ('0997b251dd9a6f3a67cfb9d9ded1650e', 'zkbXgyzTask', '2021-05-10 02:36:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4454);
+INSERT INTO `sys_quartz_log` VALUES ('09f8cd61ee1f504dfe72ab93b7c82ea2', 'zkbXgyzTask', '2021-05-10 02:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4182);
+INSERT INTO `sys_quartz_log` VALUES ('09f9482d0a8fe0f4f911f2f7afaa4e4b', 'zkbXgyzTask', '2021-05-08 03:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4590);
+INSERT INTO `sys_quartz_log` VALUES ('0a903e06fdeaf39c81dd7e03f1128b9a', 'zkbXgyzTask', '2021-05-10 03:00:00', '0 0 11 * * ? ', 'java.lang.NoSuchMethodException: com.zero.dreamland.quartz.task.ZkbXgyzTask.delHistoryByDays(java.lang.String)\r\n	at java.lang.Class.getDeclaredMethod(Class.java:2130)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.<init>(QuartzRunnable.java:43)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:85)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\n', b'0', '小鸽驿站-历史按天删除', 'delHistoryByDays', '1', 75);
+INSERT INTO `sys_quartz_log` VALUES ('0a91cdbc052a9ad0e4a640489814fe50', 'zkbXgyzTask', '2021-05-07 07:55:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3849);
+INSERT INTO `sys_quartz_log` VALUES ('0b34e204a1d14e27f3a4f3e12bec70e6', 'zkbXgyzTask', '2021-05-10 02:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4127);
+INSERT INTO `sys_quartz_log` VALUES ('0d2288c31455f30858e73198f93ffb24', 'zkbXgyzTask', '2021-04-29 09:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4362);
+INSERT INTO `sys_quartz_log` VALUES ('0d60c4a99899ac97569aa421e295521b', 'zkbXgyzTask', '2021-05-08 06:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5307);
+INSERT INTO `sys_quartz_log` VALUES ('0e0e2dfdb0028b0685fa799213bd8a73', 'zkbXgyzTask', '2021-05-07 10:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3915);
+INSERT INTO `sys_quartz_log` VALUES ('0e1a6d520a02af2555ae6e501b9b14ad', 'zkbXgyzTask', '2021-05-08 09:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 7206);
+INSERT INTO `sys_quartz_log` VALUES ('0ee630e2c526158b5b5b5d5a32d5c1b3', 'zkbXgyzTask', '2021-05-08 01:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3942);
+INSERT INTO `sys_quartz_log` VALUES ('0f6beb84822bdbb66b36d327023a13a1', 'zkbXgyzTask', '2021-04-29 08:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4246);
+INSERT INTO `sys_quartz_log` VALUES ('105e060d9ef140418dc2a633b422aad2', 'zkbXgyzTask', '2021-04-29 09:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4280);
+INSERT INTO `sys_quartz_log` VALUES ('112affbc73dea623ae66838a98adc807', 'zkbXgyzTask', '2021-05-08 03:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4130);
+INSERT INTO `sys_quartz_log` VALUES ('114cc7f1795b82508a4fe76bf0817aeb', 'zkbXgyzTask', '2021-05-07 09:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4444);
+INSERT INTO `sys_quartz_log` VALUES ('116ba974986ea8e4c99e11bde610a6ed', 'zkbXgyzTask', '2021-05-11 09:20:06', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 12848);
+INSERT INTO `sys_quartz_log` VALUES ('11e234941300985e66e7df889948fd98', 'zkbXgyzTask', '2021-05-08 09:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3957);
+INSERT INTO `sys_quartz_log` VALUES ('12b3e18ff35fb94eff09e448f3122aad', 'zkbXgyzTask', '2021-05-08 08:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5047);
+INSERT INTO `sys_quartz_log` VALUES ('12e6783a7f0b6dcaea386e505755e9a9', 'zkbXgyzTask', '2021-05-12 02:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4858);
+INSERT INTO `sys_quartz_log` VALUES ('135694f66cb6db982c9fee84434ea913', 'zkbXgyzTask', '2021-05-08 03:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4384);
+INSERT INTO `sys_quartz_log` VALUES ('143c6f4d3e4b5ac568dda65744881ce0', 'zkbXgyzTask', '2021-05-08 06:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4627);
+INSERT INTO `sys_quartz_log` VALUES ('14490a0dff39a4bdc8e8d47e372eeca1', 'zkbXgyzTask', '2021-05-08 06:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5069);
+INSERT INTO `sys_quartz_log` VALUES ('14530b1a0fda63a4d7b8b9bfa731c951', 'zkbXgyzTask', '2021-05-08 06:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4899);
+INSERT INTO `sys_quartz_log` VALUES ('155c8e030754ad3b367dc9460bab0dea', 'zkbXgyzTask', '2021-05-10 03:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4737);
+INSERT INTO `sys_quartz_log` VALUES ('15ab6b38bca055ee10e0c94c006bc528', 'zkbXgyzTask', '2021-05-08 00:42:05', '5 * * * * ? ', 'java.util.concurrent.ExecutionException: java.lang.reflect.InvocationTargetException\r\n	at java.util.concurrent.FutureTask.report(FutureTask.java:122)\r\n	at java.util.concurrent.FutureTask.get(FutureTask.java:192)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:87)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.GeneratedMethodAccessor520.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.call(QuartzRunnable.java:55)\r\n	at java.util.concurrent.FutureTask.run(FutureTask.java:266)\r\n	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\r\n	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\r\n	at java.lang.Thread.run(Thread.java:748)\r\nCaused by: com.alibaba.fastjson.JSONException: syntax error, expect [, actual error, pos 0, fieldName null\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1165)\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1152)\r\n	at com.alibaba.fastjson.JSON.parseArray(JSON.java:593)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.getData(ZkbXgyzTask.java:94)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyz(ZkbXgyzTask.java:49)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyzAll(ZkbXgyzTask.java:84)\r\n	... 8 more\r\n', b'0', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 316);
+INSERT INTO `sys_quartz_log` VALUES ('160bab6441d468bb34812ee5dc4288c8', 'zkbXgyzTask', '2021-05-08 09:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4437);
+INSERT INTO `sys_quartz_log` VALUES ('1642f3b85072ad6e26f273cf46e9d747', 'zkbXgyzTask', '2021-05-10 02:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4382);
+INSERT INTO `sys_quartz_log` VALUES ('17613ff8025b363949bc32123863ba1d', 'zkbXgyzTask', '2021-05-10 02:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4051);
+INSERT INTO `sys_quartz_log` VALUES ('177ab1b6fe87c61cbccbe370d4d5551c', 'zkbXgyzTask', '2021-04-29 08:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3983);
+INSERT INTO `sys_quartz_log` VALUES ('177bb90230a1fd7dffd6c3b6cffca03b', 'zkbXgyzTask', '2021-05-08 08:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3982);
+INSERT INTO `sys_quartz_log` VALUES ('1786dbe882c1d22bf61f792eaf894126', 'zkbXgyzTask', '2021-05-08 02:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3818);
+INSERT INTO `sys_quartz_log` VALUES ('178cf08ec7bfadb3f88bc222349d29fc', 'zkbXgyzTask', '2021-05-08 02:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3859);
+INSERT INTO `sys_quartz_log` VALUES ('17bae4b72d8bf56fadca7bd19b93d12c', 'zkbXgyzTask', '2021-05-12 01:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3954);
+INSERT INTO `sys_quartz_log` VALUES ('18dc74a7182224ce6e64f62f61738aee', 'zkbXgyzTask', '2021-05-08 02:36:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4271);
+INSERT INTO `sys_quartz_log` VALUES ('193c5475d092dc6e46a434c1f3b48496', 'zkbXgyzTask', '2021-05-10 02:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4481);
+INSERT INTO `sys_quartz_log` VALUES ('1997bbc884116066df41758b76737849', 'zkbXgyzTask', '2021-05-07 08:57:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3678);
+INSERT INTO `sys_quartz_log` VALUES ('19d43adf3744c509d18292c7fdb6e1d6', 'zkbXgyzTask', '2021-05-08 02:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3852);
+INSERT INTO `sys_quartz_log` VALUES ('1aa84647cca4ed22c1bbbcb67e6835e9', 'zkbXgyzTask', '2021-05-08 03:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4122);
+INSERT INTO `sys_quartz_log` VALUES ('1b501eedf280321b15023b35034d0742', 'zkbXgyzTask', '2021-05-10 03:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4709);
+INSERT INTO `sys_quartz_log` VALUES ('1cad4dcd254d11d9fa51f3be4eb5c619', 'zkbXgyzTask', '2021-05-08 08:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4281);
+INSERT INTO `sys_quartz_log` VALUES ('1cbbe25aa6ced09af414d3ef2d88c96a', 'zkbXgyzTask', '2021-05-12 01:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 6117);
+INSERT INTO `sys_quartz_log` VALUES ('1d1cca3444805cf9c587262557a7dca7', 'zkbXgyzTask', '2021-05-10 02:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4371);
+INSERT INTO `sys_quartz_log` VALUES ('1d4ef3077df1a6a684c70dc638d073af', 'zkbXgyzTask', '2021-05-10 02:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4206);
+INSERT INTO `sys_quartz_log` VALUES ('1d577f082081231b9b1fe635ec50aa55', 'zkbXgyzTask', '2021-05-07 09:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3713);
+INSERT INTO `sys_quartz_log` VALUES ('1dcc9d37207125160017ce59c2347403', 'zkbXgyzTask', '2021-05-10 03:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5186);
+INSERT INTO `sys_quartz_log` VALUES ('1ef10b2890a0a884dc18ab9efc47c0a7', 'zkbXgyzTask', '2021-05-07 07:56:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4144);
+INSERT INTO `sys_quartz_log` VALUES ('1fcf9377deae860b189bd70b47f5cde9', 'zkbXgyzTask', '2021-05-07 08:32:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4052);
+INSERT INTO `sys_quartz_log` VALUES ('2127dca75c32df8e22757c2a1740536d', 'zkbXgyzTask', '2021-05-07 09:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4273);
+INSERT INTO `sys_quartz_log` VALUES ('2201cda034dac03f403595bda0fca044', 'zkbXgyzTask', '2021-05-07 09:39:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4189);
+INSERT INTO `sys_quartz_log` VALUES ('2207b8be12561489807bdc5c8d5fd869', 'zkbXgyzTask', '2021-05-08 03:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4661);
+INSERT INTO `sys_quartz_log` VALUES ('2218c45641ddd542c7550958f41feeda', 'zkbXgyzTask', '2021-05-08 05:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4587);
+INSERT INTO `sys_quartz_log` VALUES ('238879499a454e7fa9dc789625720c48', 'zkbXgyzTask', '2021-05-08 05:49:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4711);
+INSERT INTO `sys_quartz_log` VALUES ('23daa1c46e1f2315dc85c199658c4eb2', 'zkbXgyzTask', '2021-05-10 03:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4934);
+INSERT INTO `sys_quartz_log` VALUES ('2552d34654ae7aaf5ad853d677d0552f', 'zkbXgyzTask', '2021-05-08 02:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4043);
+INSERT INTO `sys_quartz_log` VALUES ('260a32bfc496cefbca946d319668d0e7', 'zkbXgyzTask', '2021-05-07 09:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4368);
+INSERT INTO `sys_quartz_log` VALUES ('26431cb81b9ce28bd894b16d9dd3bd4d', 'zkbXgyzTask', '2021-04-29 09:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4470);
+INSERT INTO `sys_quartz_log` VALUES ('275a0a0c48df08c3e71c253190e84454', 'zkbXgyzTask', '2021-05-08 02:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4090);
+INSERT INTO `sys_quartz_log` VALUES ('28131fce618fd4876a0e417ee8300f0b', 'zkbXgyzTask', '2021-05-07 07:49:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3895);
+INSERT INTO `sys_quartz_log` VALUES ('29025797b4a081e3c277d6f1463139f2', 'zkbXgyzTask', '2021-05-07 10:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4007);
+INSERT INTO `sys_quartz_log` VALUES ('297f0312fc3a54dee428d8f9f9de3afc', 'zkbXgyzTask', '2021-05-07 05:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4121);
+INSERT INTO `sys_quartz_log` VALUES ('29a04e7c04e8626838d019afda0f643a', 'zkbXgyzTask', '2021-05-10 02:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4934);
+INSERT INTO `sys_quartz_log` VALUES ('29de1d943bc246faa11a9e161cef8a3a', 'zkbXgyzTask', '2021-05-08 02:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4305);
+INSERT INTO `sys_quartz_log` VALUES ('2af06c292cab1a906280dcb00eac2cd1', 'zkbXgyzTask', '2021-05-07 09:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3546);
+INSERT INTO `sys_quartz_log` VALUES ('2af994ed66bdc7a7e37f96b7c41daf15', 'zkbXgyzTask', '2021-04-29 09:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5349);
+INSERT INTO `sys_quartz_log` VALUES ('2b4581a36df5e130a48246e4611ef3c8', 'zkbXgyzTask', '2021-05-07 07:35:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3814);
+INSERT INTO `sys_quartz_log` VALUES ('2cdab72645312293343e1a781b867dc7', 'zkbXgyzTask', '2021-05-08 06:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5420);
+INSERT INTO `sys_quartz_log` VALUES ('2d23618bd667a910c0c8c74040c298fc', 'zkbXgyzTask', '2021-05-07 09:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3934);
+INSERT INTO `sys_quartz_log` VALUES ('2d77848c14266ac37fc260aa8e550ccb', 'zkbXgyzTask', '2021-05-07 10:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3985);
+INSERT INTO `sys_quartz_log` VALUES ('2ec90b122683e946a0840ef963475d76', 'zkbXgyzTask', '2021-05-08 02:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4387);
+INSERT INTO `sys_quartz_log` VALUES ('30fbd4aaa7e02e553bae3779644422c7', 'zkbXgyzTask', '2021-05-08 02:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4007);
+INSERT INTO `sys_quartz_log` VALUES ('31af54b0a874d7f6602230b8ad9655c0', 'zkbXgyzTask', '2021-05-10 03:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4697);
+INSERT INTO `sys_quartz_log` VALUES ('32f5e3cf664b648533b10ccf71c97809', 'zkbXgyzTask', '2021-05-07 09:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3964);
+INSERT INTO `sys_quartz_log` VALUES ('333be09af09af153b4a850875fcaac40', 'zkbXgyzTask', '2021-05-07 09:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3733);
+INSERT INTO `sys_quartz_log` VALUES ('33476d025b07d86ec9462cf4596412c8', 'zkbXgyzTask', '2021-05-10 02:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4037);
+INSERT INTO `sys_quartz_log` VALUES ('338c6f3e801a92dfed30fee80cc4eba1', 'zkbXgyzTask', '2021-05-12 01:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4422);
+INSERT INTO `sys_quartz_log` VALUES ('33c217a9bce992555f1d57cf6448ada3', 'zkbXgyzTask', '2021-05-08 06:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4876);
+INSERT INTO `sys_quartz_log` VALUES ('342fe1e0f12b613e7afb1eb083ca4370', 'zkbXgyzTask', '2021-05-07 08:34:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4114);
+INSERT INTO `sys_quartz_log` VALUES ('359a01c4df19262fed27d67b19129a06', 'zkbXgyzTask', '2021-05-07 09:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3631);
+INSERT INTO `sys_quartz_log` VALUES ('359a4995440084b4d7927ff848a6dc77', 'zkbXgyzTask', '2021-04-29 09:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 8125);
+INSERT INTO `sys_quartz_log` VALUES ('393b81786b606e095441bd49bd075ac4', 'zkbXgyzTask', '2021-05-12 01:49:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4652);
+INSERT INTO `sys_quartz_log` VALUES ('3bc53afc44baf123251f89a41622becc', 'zkbXgyzTask', '2021-05-10 02:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4075);
+INSERT INTO `sys_quartz_log` VALUES ('3dca1dd857a80fcb3370aceebb86aeb2', 'zkbXgyzTask', '2021-05-08 09:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3982);
+INSERT INTO `sys_quartz_log` VALUES ('3e4e25f891a550505addf004388d286f', 'zkbXgyzTask', '2021-05-08 06:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5154);
+INSERT INTO `sys_quartz_log` VALUES ('3e7875caccc62c459f726f840a1e4e10', 'zkbXgyzTask', '2021-05-10 02:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4665);
+INSERT INTO `sys_quartz_log` VALUES ('401143d9f967b7a862587460924e2d3a', 'zkbXgyzTask', '2021-05-08 02:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4330);
+INSERT INTO `sys_quartz_log` VALUES ('408df72219450f3b23bed32ab84f689e', 'zkbXgyzTask', '2021-04-29 08:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4216);
+INSERT INTO `sys_quartz_log` VALUES ('418879a0414090d2dbf571fe8dbdf733', 'zkbXgyzTask', '2021-05-07 08:58:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3752);
+INSERT INTO `sys_quartz_log` VALUES ('425e35016063a2dedc7de089949816c5', 'zkbXgyzTask', '2021-05-08 00:40:22', '5 * * * * ? ', 'java.util.concurrent.ExecutionException: java.lang.reflect.InvocationTargetException\r\n	at java.util.concurrent.FutureTask.report(FutureTask.java:122)\r\n	at java.util.concurrent.FutureTask.get(FutureTask.java:192)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:87)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.GeneratedMethodAccessor520.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.call(QuartzRunnable.java:55)\r\n	at java.util.concurrent.FutureTask.run(FutureTask.java:266)\r\n	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\r\n	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\r\n	at java.lang.Thread.run(Thread.java:748)\r\nCaused by: cn.hutool.core.io.IORuntimeException: UnknownHostException: zuan.xiaogeyizhan.com\r\n	at cn.hutool.http.HttpRequest.send(HttpRequest.java:1095)\r\n	at cn.hutool.http.HttpRequest.execute(HttpRequest.java:939)\r\n	at cn.hutool.http.HttpRequest.execute(HttpRequest.java:910)\r\n	at cn.hutool.http.HttpUtil.get(HttpUtil.java:119)\r\n	at cn.hutool.http.HttpUtil.get(HttpUtil.java:107)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.getData(ZkbXgyzTask.java:92)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyz(ZkbXgyzTask.java:49)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyzAll(ZkbXgyzTask.java:84)\r\n	... 8 more\r\nCaused by: java.net.UnknownHostException: zuan.xiaogeyizhan.com\r\n	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:196)\r\n	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:162)\r\n	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:394)\r\n	at java.net.Socket.connect(Socket.java:606)\r\n	at java.net.Socket.connect(Socket.java:555)\r\n	at sun.net.NetworkClient.doConnect(NetworkClient.java:180)\r\n	at sun.net.www.http.HttpClient.openServer(HttpClient.java:463)\r\n	at sun.net.www.http.HttpClient.openServer(HttpClient.java:558)\r\n	at sun.net.www.http.HttpClient.<init>(HttpClient.java:242)\r\n	at sun.net.www.http.HttpClient.New(HttpClient.java:339)\r\n	at sun.net.www.http.HttpClient.New(HttpClient.java:357)\r\n	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1226)\r\n	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1162)\r\n	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1056)\r\n	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:990)\r\n	at cn.hutool.http.HttpConnection.connect(HttpConnection.java:377)\r\n	at cn.hutool.http.HttpRequest.send(HttpRequest.java:1090)\r\n	... 15 more\r\n', b'0', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 24376);
+INSERT INTO `sys_quartz_log` VALUES ('42a1556de6c56f6e971937319249e2ce', 'zkbXgyzTask', '2021-05-08 06:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4864);
+INSERT INTO `sys_quartz_log` VALUES ('42b15139abe286be06bc1101b4bfbf73', 'zkbXgyzTask', '2021-05-08 06:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4561);
+INSERT INTO `sys_quartz_log` VALUES ('42ebb5ae6aa30ebea0d0bfd219ef236f', 'zkbXgyzTask', '2021-04-29 09:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4201);
+INSERT INTO `sys_quartz_log` VALUES ('47ff2f10ebf942bc650e88bb866d633d', 'zkbXgyzTask', '2021-05-07 09:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4271);
+INSERT INTO `sys_quartz_log` VALUES ('4869f951953245f5814a6409de42c211', 'zkbXgyzTask', '2021-05-07 09:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3527);
+INSERT INTO `sys_quartz_log` VALUES ('48745ccc606aeed8f3121b5db422817a', 'zkbXgyzTask', '2021-05-07 07:51:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3779);
+INSERT INTO `sys_quartz_log` VALUES ('49ae0ab7fab93450e7b35d670e200439', 'zkbXgyzTask', '2021-05-08 03:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4256);
+INSERT INTO `sys_quartz_log` VALUES ('49dccdb264d03e53f42b78fa8580973d', 'zkbXgyzTask', '2021-05-08 09:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4125);
+INSERT INTO `sys_quartz_log` VALUES ('49f17773b3c36fc7870752ead1de79b5', 'zkbXgyzTask', '2021-05-07 09:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4213);
+INSERT INTO `sys_quartz_log` VALUES ('4a0222e9d31ffad71e2388fd9a392e70', 'zkbXgyzTask', '2021-05-08 02:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4347);
+INSERT INTO `sys_quartz_log` VALUES ('4a333b78d8b2066f29acb492fb0081c4', 'zkbXgyzTask', '2021-05-08 02:25:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4424);
+INSERT INTO `sys_quartz_log` VALUES ('4a5099d8bd13105a1833d7bd5812d500', 'zkbXgyzTask', '2021-05-08 06:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5656);
+INSERT INTO `sys_quartz_log` VALUES ('4acf75185218fa50b39fc034a691245c', 'zkbXgyzTask', '2021-05-12 01:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4807);
+INSERT INTO `sys_quartz_log` VALUES ('4afec51f78e1ec8e7021430e5660b60d', 'zkbXgyzTask', '2021-05-08 09:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4577);
+INSERT INTO `sys_quartz_log` VALUES ('4b95fdf9094a5dbbb505663865fbc0fb', 'zkbXgyzTask', '2021-05-08 06:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5287);
+INSERT INTO `sys_quartz_log` VALUES ('4c55de9c0360b0559f78fe422163c6a9', 'zkbXgyzTask', '2021-05-08 08:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3951);
+INSERT INTO `sys_quartz_log` VALUES ('4d2e1227827bc096af7d03a875c1d15b', 'zkbXgyzTask', '2021-05-08 02:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4194);
+INSERT INTO `sys_quartz_log` VALUES ('4d5922a1cd557869e8c9379ace1661d0', 'zkbXgyzTask', '2021-05-08 03:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3800);
+INSERT INTO `sys_quartz_log` VALUES ('4d895e5d2661d2ce4b7a9c74c9f17dd0', 'zkbXgyzTask', '2021-05-07 09:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4389);
+INSERT INTO `sys_quartz_log` VALUES ('4e25b64703540e243bd878ff59dc0277', 'zkbXgyzTask', '2021-05-07 09:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4381);
+INSERT INTO `sys_quartz_log` VALUES ('4e9a03893e0b959fb3a66bb1382f7b45', 'zkbXgyzTask', '2021-05-12 01:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4670);
+INSERT INTO `sys_quartz_log` VALUES ('4ee5990e2f9048cf53f841af8e75bec5', 'zkbXgyzTask', '2021-05-08 09:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4670);
+INSERT INTO `sys_quartz_log` VALUES ('4ef67f0b2e4e3b9a777ce56706e916f7', 'zkbXgyzTask', '2021-05-08 08:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4119);
+INSERT INTO `sys_quartz_log` VALUES ('501551c54f021029471a16e527613a4e', 'zkbXgyzTask', '2021-05-08 02:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4038);
+INSERT INTO `sys_quartz_log` VALUES ('50cc3ac7fc6e5f6dc9862fe732a07b6c', 'zkbXgyzTask', '2021-05-08 06:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5268);
+INSERT INTO `sys_quartz_log` VALUES ('5135c11c5b9bb125547dc2f4f826d02b', 'zkbXgyzTask', '2021-04-29 09:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4408);
+INSERT INTO `sys_quartz_log` VALUES ('5212de5e4aa1fb82abda30b3649ddc2c', 'zkbXgyzTask', '2021-05-10 02:49:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4083);
+INSERT INTO `sys_quartz_log` VALUES ('52e8dba9df1711d8a4e3bfd5e4d2a43b', 'zkbXgyzTask', '2021-04-29 08:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4638);
+INSERT INTO `sys_quartz_log` VALUES ('537cb7de6909ec70f622f88a2958a64a', 'zkbXgyzTask', '2021-05-08 02:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3960);
+INSERT INTO `sys_quartz_log` VALUES ('5440385aa996e0a6e86f89b649b467f3', 'zkbXgyzTask', '2021-05-08 09:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4346);
+INSERT INTO `sys_quartz_log` VALUES ('55d07d763bc82958f05d74362fd66fd2', 'zkbXgyzTask', '2021-05-10 03:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5728);
+INSERT INTO `sys_quartz_log` VALUES ('565caa0e93d8b7757aeaf66bb843095d', 'zkbXgyzTask', '2021-05-07 09:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3464);
+INSERT INTO `sys_quartz_log` VALUES ('56716dcfca6d8ecb94730dc831ca2272', 'zkbXgyzTask', '2021-05-08 03:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4287);
+INSERT INTO `sys_quartz_log` VALUES ('56e37ceb5daefadc4903d6ef57942e97', 'zkbXgyzTask', '2021-05-10 03:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4575);
+INSERT INTO `sys_quartz_log` VALUES ('57c9c2de3a1d6f89d50892d5f09eda8e', 'zkbXgyzTask', '2021-04-29 09:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4321);
+INSERT INTO `sys_quartz_log` VALUES ('57f67cae3b47681c7f03ddcec2ba12c5', 'zkbXgyzTask', '2021-05-08 01:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3923);
+INSERT INTO `sys_quartz_log` VALUES ('58040f50fab5fb8aa7308ae52f64196d', 'zkbXgyzTask', '2021-05-08 05:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 26641);
+INSERT INTO `sys_quartz_log` VALUES ('5885a2fb3d7493da588ef69214de674e', 'zkbXgyzTask', '2021-05-08 06:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5188);
+INSERT INTO `sys_quartz_log` VALUES ('588601f03d1e36e406fc276e12869290', 'zkbXgyzTask', '2021-05-12 01:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4353);
+INSERT INTO `sys_quartz_log` VALUES ('5932f36cf8fa1bce2bb6b58dc9b0fc2b', 'zkbXgyzTask', '2021-05-08 02:39:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4315);
+INSERT INTO `sys_quartz_log` VALUES ('5a902befbfa136ea3e884d60cf0f4b54', 'zkbXgyzTask', '2021-05-08 01:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4003);
+INSERT INTO `sys_quartz_log` VALUES ('5ada30181a0cd4f987a599a40ffc81f7', 'zkbXgyzTask', '2021-05-07 10:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4110);
+INSERT INTO `sys_quartz_log` VALUES ('5b66ca0de18a671381fe11fd9c75a010', 'zkbXgyzTask', '2021-05-07 08:52:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4027);
+INSERT INTO `sys_quartz_log` VALUES ('5b797d88f3e2c30c6365f8805090eef0', 'zkbXgyzTask', '2021-05-07 09:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3767);
+INSERT INTO `sys_quartz_log` VALUES ('5b877aeaaff4d07ca6cabcd0739aa8ea', 'zkbXgyzTask', '2021-05-08 06:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5079);
+INSERT INTO `sys_quartz_log` VALUES ('5bcbbc3499d7e3c7590d3f29099cbb42', 'zkbXgyzTask', '2021-05-08 05:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4654);
+INSERT INTO `sys_quartz_log` VALUES ('5bd8d83b97df7ded3a056a13fac8a12e', 'zkbXgyzTask', '2021-05-07 08:49:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4263);
+INSERT INTO `sys_quartz_log` VALUES ('5be41979e6b412688d6f7b24ac998f20', 'zkbXgyzTask', '2021-05-07 09:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4044);
+INSERT INTO `sys_quartz_log` VALUES ('5ce36c76678b947eed73ceaac1674980', 'zkbXgyzTask', '2021-05-08 01:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4373);
+INSERT INTO `sys_quartz_log` VALUES ('5d5bc78a22d5c399de7784ab9efec901', 'zkbXgyzTask', '2021-04-29 09:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4133);
+INSERT INTO `sys_quartz_log` VALUES ('5d9932c2aec56cc6a4886de1f13be44e', 'zkbXgyzTask', '2021-05-08 05:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 20938);
+INSERT INTO `sys_quartz_log` VALUES ('5dcc19f6d06f1a1ed027db7ea1f8db39', 'zkbXgyzTask', '2021-05-10 02:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4889);
+INSERT INTO `sys_quartz_log` VALUES ('5e717911401e898d130ee8355990101f', 'zkbXgyzTask', '2021-04-29 09:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5427);
+INSERT INTO `sys_quartz_log` VALUES ('5ef4da9d06ad7142571ddf57f73151cb', 'zkbXgyzTask', '2021-05-07 09:36:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3535);
+INSERT INTO `sys_quartz_log` VALUES ('5f32d29c182800c726f913f247bb13b2', 'zkbXgyzTask', '2021-05-12 01:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4119);
+INSERT INTO `sys_quartz_log` VALUES ('5fa5efe38918942bac6f5ed71603f877', 'zkbXgyzTask', '2021-05-08 06:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5214);
+INSERT INTO `sys_quartz_log` VALUES ('607952601ba51deffeb6859fe8816f43', 'zkbXgyzTask', '2021-05-10 02:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3720);
+INSERT INTO `sys_quartz_log` VALUES ('60eff8bf725689a3881394c65d71da1e', 'zkbXgyzTask', '2021-04-29 09:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4586);
+INSERT INTO `sys_quartz_log` VALUES ('6143e8196182eacaae109fdb7c544b08', 'zkbXgyzTask', '2021-05-08 05:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4725);
+INSERT INTO `sys_quartz_log` VALUES ('6194ee0e65eb99c309e5c40f3c9621fb', 'zkbXgyzTask', '2021-05-07 09:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4559);
+INSERT INTO `sys_quartz_log` VALUES ('62344eed7e769c60f8ae2a359873c117', 'zkbXgyzTask', '2021-05-08 09:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4153);
+INSERT INTO `sys_quartz_log` VALUES ('627f8a896f756a3c340498a973958a60', 'zkbXgyzTask', '2021-05-07 09:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4355);
+INSERT INTO `sys_quartz_log` VALUES ('62cb59c7fa4f19c245b792a366949822', 'zkbXgyzTask', '2021-05-08 02:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4407);
+INSERT INTO `sys_quartz_log` VALUES ('630b08ff5ccbf80aa280d7c7f40b5eba', 'zkbXgyzTask', '2021-05-07 09:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3953);
+INSERT INTO `sys_quartz_log` VALUES ('637f19b268c91701a229b0be24eb72b4', 'zkbXgyzTask', '2021-05-10 02:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4421);
+INSERT INTO `sys_quartz_log` VALUES ('63d76fa874bee2cbb5b315a00cab0976', 'zkbXgyzTask', '2021-04-29 08:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4171);
+INSERT INTO `sys_quartz_log` VALUES ('640a19b8ca64d06cc33a9690ce8ca488', 'zkbXgyzTask', '2021-05-07 07:52:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3892);
+INSERT INTO `sys_quartz_log` VALUES ('65e95c11a2e2a9458f8cefcce3b884a7', 'zkbXgyzTask', '2021-04-29 08:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4175);
+INSERT INTO `sys_quartz_log` VALUES ('664543993dfb4a5e604729f49e43747a', 'zkbXgyzTask', '2021-04-29 08:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4547);
+INSERT INTO `sys_quartz_log` VALUES ('6660d625a35839b2e66ed8aeb1fc4b9e', 'zkbXgyzTask', '2021-05-07 07:47:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4183);
+INSERT INTO `sys_quartz_log` VALUES ('66e17d543490e1b20fe2627a0a7613f2', 'zkbXgyzTask', '2021-05-10 02:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4395);
+INSERT INTO `sys_quartz_log` VALUES ('6727f1263c015df528e4fb18d99347c0', 'zkbXgyzTask', '2021-05-08 03:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4315);
+INSERT INTO `sys_quartz_log` VALUES ('6888c8b6a65f2108bc74e3c447eea098', 'zkbXgyzTask', '2021-05-10 02:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4268);
+INSERT INTO `sys_quartz_log` VALUES ('68faca6e20f2db2ed472506693d4230b', 'zkbXgyzTask', '2021-05-08 06:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4883);
+INSERT INTO `sys_quartz_log` VALUES ('69dc79336a6abf2a1f16a99343239bcb', 'zkbXgyzTask', '2021-05-10 02:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3862);
+INSERT INTO `sys_quartz_log` VALUES ('69fad15f58d0b4693ca9779337205887', 'zkbXgyzTask', '2021-04-29 09:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4433);
+INSERT INTO `sys_quartz_log` VALUES ('6a1582545a4cb0a2c44ce5c99210fae2', 'zkbXgyzTask', '2021-05-12 01:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4515);
+INSERT INTO `sys_quartz_log` VALUES ('6a57354d85dae870235dd9e3fa4a097c', 'zkbXgyzTask', '2021-05-07 08:53:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4264);
+INSERT INTO `sys_quartz_log` VALUES ('6a61f48e455d965a9c40d608989abd84', 'zkbXgyzTask', '2021-04-29 09:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4012);
+INSERT INTO `sys_quartz_log` VALUES ('6a9306c960d28dd1baf041ea27f3b01e', 'zkbXgyzTask', '2021-05-10 02:39:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4312);
+INSERT INTO `sys_quartz_log` VALUES ('6aaef46cc36f717032d6a2a44b24e526', 'zkbXgyzTask', '2021-05-07 09:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3836);
+INSERT INTO `sys_quartz_log` VALUES ('6bd885983c56a8bedd60e667c6f9bde5', 'zkbXgyzTask', '2021-04-29 09:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4477);
+INSERT INTO `sys_quartz_log` VALUES ('6c0c519b1d700daff4714ba87e9564e0', 'zkbXgyzTask', '2021-04-29 08:48:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4166);
+INSERT INTO `sys_quartz_log` VALUES ('6c1103212c305ac462795d14c55e5f58', 'zkbXgyzTask', '2021-05-08 03:00:00', '0 0 11 * * ? ', 'java.lang.NoSuchMethodException: com.zero.dreamland.quartz.task.ZkbXgyzTask.delHistoryByDays(java.lang.String)\r\n	at java.lang.Class.getDeclaredMethod(Class.java:2130)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.<init>(QuartzRunnable.java:43)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:85)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\n', b'0', '小鸽驿站-历史按天删除', 'delHistoryByDays', '1', 61);
+INSERT INTO `sys_quartz_log` VALUES ('6cb116fd72aa2c196b0a31519218e999', 'zkbXgyzTask', '2021-05-07 09:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3763);
+INSERT INTO `sys_quartz_log` VALUES ('6dd81594ae7250bd83daa05a9db6264e', 'zkbXgyzTask', '2021-05-08 06:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5214);
+INSERT INTO `sys_quartz_log` VALUES ('6e5ecc72de450b90000148af467dcd5e', 'zkbXgyzTask', '2021-05-07 09:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3930);
+INSERT INTO `sys_quartz_log` VALUES ('6f07a39cc7ba6d8e317a6a37c0460ef2', 'zkbXgyzTask', '2021-05-08 09:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3862);
+INSERT INTO `sys_quartz_log` VALUES ('6f2876e627278efd790e7e9bda17c13b', 'zkbXgyzTask', '2021-05-07 05:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3994);
+INSERT INTO `sys_quartz_log` VALUES ('6f2b2aa1ebafa4597ee37c13eb467e9d', 'zkbXgyzTask', '2021-04-29 08:39:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4433);
+INSERT INTO `sys_quartz_log` VALUES ('6fa0ad623fcadaa85c80e8c7ae207636', 'zkbXgyzTask', '2021-04-29 08:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4225);
+INSERT INTO `sys_quartz_log` VALUES ('6fa5c0d1740f607629d19b0a11b9ca0f', 'zkbXgyzTask', '2021-05-08 03:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4823);
+INSERT INTO `sys_quartz_log` VALUES ('6fca61f8e7aba7c6860c5fd11132756c', 'zkbXgyzTask', '2021-04-29 09:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4136);
+INSERT INTO `sys_quartz_log` VALUES ('6ff24310745aa65695dd3e2940ad6290', 'zkbXgyzTask', '2021-05-08 06:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4796);
+INSERT INTO `sys_quartz_log` VALUES ('71afdb5c6326a2067bd711953e8ea33a', 'zkbXgyzTask', '2021-04-29 08:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4083);
+INSERT INTO `sys_quartz_log` VALUES ('71d61cf151f1a5415ed908868d6da3d3', 'zkbXgyzTask', '2021-04-29 09:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4056);
+INSERT INTO `sys_quartz_log` VALUES ('72f31168978593c2250c3984bc8554ad', 'zkbXgyzTask', '2021-05-08 02:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4057);
+INSERT INTO `sys_quartz_log` VALUES ('73cfc93fd963fc66ef59e1a9ac969f02', 'zkbXgyzTask', '2021-05-08 05:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 20870);
+INSERT INTO `sys_quartz_log` VALUES ('742042fe54eadbd54b89f12395f4837c', 'zkbXgyzTask', '2021-05-07 09:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4215);
+INSERT INTO `sys_quartz_log` VALUES ('74332ce5a069da118657ca719570bf3f', 'zkbXgyzTask', '2021-05-10 03:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4118);
+INSERT INTO `sys_quartz_log` VALUES ('74b66023b8698224722184cbde464087', 'zkbXgyzTask', '2021-05-10 02:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3989);
+INSERT INTO `sys_quartz_log` VALUES ('74e15504a3881c88025aea3360dbe9e9', 'zkbXgyzTask', '2021-05-07 05:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4200);
+INSERT INTO `sys_quartz_log` VALUES ('74e726ccb56a0539f607f7eabf41d071', 'zkbXgyzTask', '2021-05-07 09:25:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3992);
+INSERT INTO `sys_quartz_log` VALUES ('7529fd8da7edb704576c8db8569dde4b', 'zkbXgyzTask', '2021-05-08 00:41:05', '5 * * * * ? ', 'java.util.concurrent.ExecutionException: java.lang.reflect.InvocationTargetException\r\n	at java.util.concurrent.FutureTask.report(FutureTask.java:122)\r\n	at java.util.concurrent.FutureTask.get(FutureTask.java:192)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:87)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.GeneratedMethodAccessor520.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.call(QuartzRunnable.java:55)\r\n	at java.util.concurrent.FutureTask.run(FutureTask.java:266)\r\n	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\r\n	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\r\n	at java.lang.Thread.run(Thread.java:748)\r\nCaused by: com.alibaba.fastjson.JSONException: syntax error, expect [, actual error, pos 0, fieldName null\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1165)\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1152)\r\n	at com.alibaba.fastjson.JSON.parseArray(JSON.java:593)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.getData(ZkbXgyzTask.java:94)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyz(ZkbXgyzTask.java:49)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyzAll(ZkbXgyzTask.java:84)\r\n	... 8 more\r\n', b'0', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 604);
+INSERT INTO `sys_quartz_log` VALUES ('753b34d95b4c8da6de9d5598979d6656', 'zkbXgyzTask', '2021-05-07 09:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4506);
+INSERT INTO `sys_quartz_log` VALUES ('756857f9946379c497df5eb7983adcd4', 'zkbXgyzTask', '2021-05-08 02:49:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4143);
+INSERT INTO `sys_quartz_log` VALUES ('75a4164f87d7a24f061a6d55058f1163', 'zkbXgyzTask', '2021-05-10 03:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4837);
+INSERT INTO `sys_quartz_log` VALUES ('763e2705500d4ab94558fd68339fe0c8', 'zkbXgyzTask', '2021-05-08 09:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4010);
+INSERT INTO `sys_quartz_log` VALUES ('7650cd614e9a35f5b0983d946765a64a', 'zkbXgyzTask', '2021-04-29 09:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4182);
+INSERT INTO `sys_quartz_log` VALUES ('767ac8a26450fb641101c56462b39ad9', 'zkbXgyzTask', '2021-05-08 09:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4298);
+INSERT INTO `sys_quartz_log` VALUES ('77000f7df78d11e5da933b9098476323', 'zkbXgyzTask', '2021-05-08 09:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4536);
+INSERT INTO `sys_quartz_log` VALUES ('773a2dcae81109d02bc429d5d9da7291', 'zkbXgyzTask', '2021-05-08 02:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4203);
+INSERT INTO `sys_quartz_log` VALUES ('77a325a84353592045602438532d2e41', 'zkbXgyzTask', '2021-05-07 09:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3669);
+INSERT INTO `sys_quartz_log` VALUES ('77e17de18a7b8e7369d78e21ddb8f394', 'zkbXgyzTask', '2021-05-07 08:33:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3838);
+INSERT INTO `sys_quartz_log` VALUES ('781d9c1976718fd3f71c731fddef8230', 'zkbXgyzTask', '2021-05-10 03:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5035);
+INSERT INTO `sys_quartz_log` VALUES ('78b2550041a051aab2df0438d8838129', 'zkbXgyzTask', '2021-05-07 07:46:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3974);
+INSERT INTO `sys_quartz_log` VALUES ('7904e419b305c9123572dc69431ba19c', 'zkbXgyzTask', '2021-05-08 02:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4086);
+INSERT INTO `sys_quartz_log` VALUES ('7a3baef71eca89a40f5661c33e115991', 'zkbXgyzTask', '2021-05-08 06:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4716);
+INSERT INTO `sys_quartz_log` VALUES ('7a872a4e93cdcf30f018cad9f944511d', 'zkbXgyzTask', '2021-05-10 03:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5629);
+INSERT INTO `sys_quartz_log` VALUES ('7af90522f10c1589c6d6154841a1f9a6', 'zkbXgyzTask', '2021-04-29 09:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5318);
+INSERT INTO `sys_quartz_log` VALUES ('7b19914c59a0d0ac1f2d381947f7a6a1', 'zkbXgyzTask', '2021-04-29 08:32:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4555);
+INSERT INTO `sys_quartz_log` VALUES ('7d5f805bffcd024f9b111c77db329f69', 'zkbXgyzTask', '2021-05-08 09:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4756);
+INSERT INTO `sys_quartz_log` VALUES ('7d78fba0bccf70ff9d43deec48f476bb', 'zkbXgyzTask', '2021-05-08 09:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 12540);
+INSERT INTO `sys_quartz_log` VALUES ('7d978aa3fa7dc7774da5935b5a640768', 'zkbXgyzTask', '2021-05-08 02:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4130);
+INSERT INTO `sys_quartz_log` VALUES ('7e846a1123de948ea97cd0d5b696c2ce', 'zkbXgyzTask', '2021-05-08 08:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4316);
+INSERT INTO `sys_quartz_log` VALUES ('803dbc48b8b8abc9a4e824ad2d734948', 'zkbXgyzTask', '2021-05-08 05:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4489);
+INSERT INTO `sys_quartz_log` VALUES ('80532ef89a553ff348df2b37cac0719f', 'zkbXgyzTask', '2021-04-29 08:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4554);
+INSERT INTO `sys_quartz_log` VALUES ('80a927c6328ce2cf4c95a4ee158964ed', 'zkbXgyzTask', '2021-05-10 03:20:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4534);
+INSERT INTO `sys_quartz_log` VALUES ('80c73c9da19b1a7967ae023fba4bf2e2', 'zkbXgyzTask', '2021-05-08 05:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4591);
+INSERT INTO `sys_quartz_log` VALUES ('8158db7d25a8c7dbf3f40e6cb4452713', 'zkbXgyzTask', '2021-05-08 02:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4445);
+INSERT INTO `sys_quartz_log` VALUES ('819b8d7041fc75fba45d4f5c83e2ce55', 'zkbXgyzTask', '2021-05-10 02:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3818);
+INSERT INTO `sys_quartz_log` VALUES ('81ae03c5e3717dd498b9f393a5454cdc', 'zkbXgyzTask', '2021-05-07 07:30:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4236);
+INSERT INTO `sys_quartz_log` VALUES ('81bbffa49073a906db2b6bf28f5e4163', 'zkbXgyzTask', '2021-05-10 03:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4531);
+INSERT INTO `sys_quartz_log` VALUES ('82ae948703d07112e01a29ab2eafd02b', 'zkbXgyzTask', '2021-05-10 02:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3763);
+INSERT INTO `sys_quartz_log` VALUES ('82c00df9d9ebb202aaffe5afe1bdd632', 'zkbXgyzTask', '2021-05-08 05:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 18266);
+INSERT INTO `sys_quartz_log` VALUES ('82db8a99cee7c80ef3435f8969a3fc98', 'zkbXgyzTask', '2021-05-10 03:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4483);
+INSERT INTO `sys_quartz_log` VALUES ('830a9ca811c04957c2324836183fa3be', 'zkbXgyzTask', '2021-05-08 06:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4995);
+INSERT INTO `sys_quartz_log` VALUES ('83542211f0838aa653663376dca450a0', 'zkbXgyzTask', '2021-05-12 01:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4549);
+INSERT INTO `sys_quartz_log` VALUES ('8422a6a2cf20d1d0c44fb62f72c7207a', 'zkbXgyzTask', '2021-05-08 03:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4456);
+INSERT INTO `sys_quartz_log` VALUES ('845943328b78681bc1c019f76579b6a7', 'zkbXgyzTask', '2021-05-08 03:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3897);
+INSERT INTO `sys_quartz_log` VALUES ('8497d17ff6b2d17c1b0bcd9ba0940418', 'zkbXgyzTask', '2021-05-08 02:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3785);
+INSERT INTO `sys_quartz_log` VALUES ('857ef9008281eb50765e0b4e2f8a8cf1', 'zkbXgyzTask', '2021-05-08 05:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 24850);
+INSERT INTO `sys_quartz_log` VALUES ('85c9fee045a87e83b6d93549dc042f79', 'zkbXgyzTask', '2021-05-08 06:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5080);
+INSERT INTO `sys_quartz_log` VALUES ('85ebeb59922a39cef2ef153439243ee9', 'zkbXgyzTask', '2021-05-08 06:47:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4993);
+INSERT INTO `sys_quartz_log` VALUES ('862acd47c7e84756ff2395d4f181e8b2', 'zkbXgyzTask', '2021-05-08 06:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5243);
+INSERT INTO `sys_quartz_log` VALUES ('869e4a5edd29c8678b28dd18648acd25', 'zkbXgyzTask', '2021-05-07 05:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4144);
+INSERT INTO `sys_quartz_log` VALUES ('86c457c579591497b402b3fb147783df', 'zkbXgyzTask', '2021-05-08 01:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4534);
+INSERT INTO `sys_quartz_log` VALUES ('870ccac479e799f58800d780e89f07b4', 'zkbXgyzTask', '2021-05-08 06:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5012);
+INSERT INTO `sys_quartz_log` VALUES ('871f701a6ced8adc9996506813e0a20c', 'zkbXgyzTask', '2021-05-10 03:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4414);
+INSERT INTO `sys_quartz_log` VALUES ('8730d34183bedf48d271e05099c53c72', 'zkbXgyzTask', '2021-05-08 06:38:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4919);
+INSERT INTO `sys_quartz_log` VALUES ('879dfd368af4d843f5c7c163f9ffa1d4', 'zkbXgyzTask', '2021-05-08 02:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4177);
+INSERT INTO `sys_quartz_log` VALUES ('88193eaa4dd5018b8d6e927d5fc7f750', 'zkbXgyzTask', '2021-05-07 09:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4148);
+INSERT INTO `sys_quartz_log` VALUES ('8865e2a1a577698a2eb0b26beccf4536', 'zkbXgyzTask', '2021-05-08 02:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4028);
+INSERT INTO `sys_quartz_log` VALUES ('88dcb47bea54cd2fc7ad52d56db1c665', 'zkbXgyzTask', '2021-05-08 01:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3992);
+INSERT INTO `sys_quartz_log` VALUES ('8973f5f38414259b4a7fcf381c510e0b', 'zkbXgyzTask', '2021-05-08 05:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4618);
+INSERT INTO `sys_quartz_log` VALUES ('89999dac02646a8d40be7e20f9b5ce19', 'zkbXgyzTask', '2021-04-29 09:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4473);
+INSERT INTO `sys_quartz_log` VALUES ('89c0ce1e1c8344c2b4387ffd034f315d', 'zkbXgyzTask', '2021-05-08 02:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4198);
+INSERT INTO `sys_quartz_log` VALUES ('89c301846bfe678a5f9041eb742546ec', 'zkbXgyzTask', '2021-05-07 09:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4238);
+INSERT INTO `sys_quartz_log` VALUES ('89cf0a3b61cad6de2fbb9f080cfcef8a', 'zkbXgyzTask', '2021-05-12 01:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4204);
+INSERT INTO `sys_quartz_log` VALUES ('89f7325f3c51be831020460ebcad9f82', 'zkbXgyzTask', '2021-05-10 02:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4234);
+INSERT INTO `sys_quartz_log` VALUES ('8ac638735d847a8a413f320859e9283c', 'zkbXgyzTask', '2021-05-08 02:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4327);
+INSERT INTO `sys_quartz_log` VALUES ('8b595cdd28cd293e70e1fb04d0b57997', 'zkbXgyzTask', '2021-05-07 07:57:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4125);
+INSERT INTO `sys_quartz_log` VALUES ('8ce615e6b88aec76fca2c744e4e0cba9', 'zkbXgyzTask', '2021-05-08 02:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3890);
+INSERT INTO `sys_quartz_log` VALUES ('8d18aa53306359e4eef434893069a28d', 'zkbXgyzTask', '2021-05-08 09:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4005);
+INSERT INTO `sys_quartz_log` VALUES ('8d46f5811110ac8219ec0e495a3a8077', 'zkbXgyzTask', '2021-05-08 05:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4570);
+INSERT INTO `sys_quartz_log` VALUES ('8d54a3c3376b5a6e93fe8429190edff9', 'zkbXgyzTask', '2021-05-07 08:55:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3670);
+INSERT INTO `sys_quartz_log` VALUES ('8da90e5389f39a94d9365f1f74eb69f5', 'zkbXgyzTask', '2021-05-08 08:38:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4628);
+INSERT INTO `sys_quartz_log` VALUES ('8e133240d8a5a1b3690e9bbfe443dced', 'zkbXgyzTask', '2021-05-08 01:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3779);
+INSERT INTO `sys_quartz_log` VALUES ('8fb0e326153109162a29aecbaea113b6', 'zkbXgyzTask', '2021-05-07 09:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3420);
+INSERT INTO `sys_quartz_log` VALUES ('9062791b05d399a4afd73638fa6c5203', 'zkbXgyzTask', '2021-05-08 08:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3795);
+INSERT INTO `sys_quartz_log` VALUES ('93718a84ab938a2504151b8d780b9879', 'zkbXgyzTask', '2021-05-07 09:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4154);
+INSERT INTO `sys_quartz_log` VALUES ('93c95270132ba92dbad0b6fe949be8c9', 'zkbXgyzTask', '2021-05-07 05:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4069);
+INSERT INTO `sys_quartz_log` VALUES ('93ec9564c09621836ce193d96f421dca', 'zkbXgyzTask', '2021-05-08 06:08:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5042);
+INSERT INTO `sys_quartz_log` VALUES ('945b8e5a7ce8bfff656d3aabef9ea20a', 'zkbXgyzTask', '2021-05-08 06:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5121);
+INSERT INTO `sys_quartz_log` VALUES ('949af5918586f0ba0ba982bb2c690d1e', 'zkbXgyzTask', '2021-05-07 09:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3673);
+INSERT INTO `sys_quartz_log` VALUES ('94afcfba210de1b7d6abb9c8af9584bc', 'zkbXgyzTask', '2021-05-07 07:53:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3611);
+INSERT INTO `sys_quartz_log` VALUES ('94d08fb06f7787afd886f321811b8760', 'zkbXgyzTask', '2021-05-07 08:56:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3672);
+INSERT INTO `sys_quartz_log` VALUES ('950f7dd5aa2d68ee567b6396851a121b', 'zkbXgyzTask', '2021-05-07 08:50:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4252);
+INSERT INTO `sys_quartz_log` VALUES ('95bb2151c278d59345f0e17fb2733d36', 'zkbXgyzTask', '2021-05-08 05:26:21', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 19251);
+INSERT INTO `sys_quartz_log` VALUES ('9632b72d83ea0d7af8c5567c1d62f56f', 'zkbXgyzTask', '2021-05-10 03:09:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5116);
+INSERT INTO `sys_quartz_log` VALUES ('9635dd6734ac3dc571669bc41daaade2', 'zkbXgyzTask', '2021-04-29 09:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4603);
+INSERT INTO `sys_quartz_log` VALUES ('9705ec4d503838034248f7611d59732a', 'zkbXgyzTask', '2021-04-29 08:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4196);
+INSERT INTO `sys_quartz_log` VALUES ('983f6f6fc0d6b6265082f051d456eaf2', 'zkbXgyzTask', '2021-05-07 07:48:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3724);
+INSERT INTO `sys_quartz_log` VALUES ('9868fab669bb117e40c654fe803542f6', 'zkbXgyzTask', '2021-05-07 07:29:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4541);
+INSERT INTO `sys_quartz_log` VALUES ('98693474c5db7dc687c5c1d7cc419fe2', 'zkbXgyzTask', '2021-05-10 02:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4433);
+INSERT INTO `sys_quartz_log` VALUES ('995f2f439f3fe80c3e1810b37edbfed3', 'zkbXgyzTask', '2021-05-08 02:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3771);
+INSERT INTO `sys_quartz_log` VALUES ('9bfb7d495472133fc9f389275771625a', 'zkbXgyzTask', '2021-05-07 09:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3857);
+INSERT INTO `sys_quartz_log` VALUES ('9c87aeb944a5785eda08844ade7f6322', 'zkbXgyzTask', '2021-05-08 02:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4067);
+INSERT INTO `sys_quartz_log` VALUES ('9d06e42ab9b450327962f9c4352c29fd', 'zkbXgyzTask', '2021-05-07 09:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3865);
+INSERT INTO `sys_quartz_log` VALUES ('9d0ba918921090d82d586a14b3564687', 'zkbXgyzTask', '2021-04-29 09:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4153);
+INSERT INTO `sys_quartz_log` VALUES ('9de7270eadb13866e4f68ae1073be284', 'zkbXgyzTask', '2021-05-08 02:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4037);
+INSERT INTO `sys_quartz_log` VALUES ('9e6d22742a7e7bb41f1230d3c858504b', 'zkbXgyzTask', '2021-05-07 09:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3964);
+INSERT INTO `sys_quartz_log` VALUES ('9f097040770f0649fa6bfb86583c4b34', 'zkbXgyzTask', '2021-04-29 08:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4042);
+INSERT INTO `sys_quartz_log` VALUES ('a05e4463113d75855ce8a769d334e7f7', 'zkbXgyzTask', '2021-05-07 09:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3456);
+INSERT INTO `sys_quartz_log` VALUES ('a13d9189be71eed1a4c076bef50c2244', 'zkbXgyzTask', '2021-04-29 09:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4252);
+INSERT INTO `sys_quartz_log` VALUES ('a1627f49c838cb863bac1bec91244fa5', 'zkbXgyzTask', '2021-04-29 08:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4124);
+INSERT INTO `sys_quartz_log` VALUES ('a2164aa1fca4677ee3ac4d7c691ea5b7', 'zkbXgyzTask', '2021-05-08 03:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4029);
+INSERT INTO `sys_quartz_log` VALUES ('a33d83bd4e5766eb396097c8f03748f2', 'zkbXgyzTask', '2021-04-29 08:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4149);
+INSERT INTO `sys_quartz_log` VALUES ('a3560a4177baee89f5606ea039082713', 'zkbXgyzTask', '2021-04-29 08:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4354);
+INSERT INTO `sys_quartz_log` VALUES ('a5be311410d1aa5351f1e42322e2aca2', 'zkbXgyzTask', '2021-05-07 09:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3875);
+INSERT INTO `sys_quartz_log` VALUES ('a5c43db673e39de4eeefdfed30519996', 'zkbXgyzTask', '2021-05-08 09:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4290);
+INSERT INTO `sys_quartz_log` VALUES ('a5c8e414c909a0694051c9be93b6c8f1', 'zkbXgyzTask', '2021-05-10 03:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4761);
+INSERT INTO `sys_quartz_log` VALUES ('a5eb92ca4a64a4ce6a53bec81fb18abe', 'zkbXgyzTask', '2021-05-08 09:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4400);
+INSERT INTO `sys_quartz_log` VALUES ('a635a63a965650f10f50e6f54914df60', 'zkbXgyzTask', '2021-05-08 06:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5177);
+INSERT INTO `sys_quartz_log` VALUES ('a7368637c20a8da3e0789e98d3311c66', 'zkbXgyzTask', '2021-04-29 08:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4029);
+INSERT INTO `sys_quartz_log` VALUES ('a75e7a4487601292748ec15b6e0119e4', 'zkbXgyzTask', '2021-05-08 06:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5431);
+INSERT INTO `sys_quartz_log` VALUES ('a7932b66fa30e6e44239ef2b1f421db3', 'zkbXgyzTask', '2021-05-12 02:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4945);
+INSERT INTO `sys_quartz_log` VALUES ('a79ce8320afc1ad213c82e7e86df8825', 'zkbXgyzTask', '2021-05-08 06:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 6317);
+INSERT INTO `sys_quartz_log` VALUES ('a820f7350c428d30d63793920011f2c1', 'zkbXgyzTask', '2021-04-29 08:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4350);
+INSERT INTO `sys_quartz_log` VALUES ('a844543b00bc8d8af01b15d488ed2c42', 'zkbXgyzTask', '2021-05-07 07:34:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3813);
+INSERT INTO `sys_quartz_log` VALUES ('a8a978fefad2bf98a8d612792d0fde66', 'zkbXgyzTask', '2021-05-07 09:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4200);
+INSERT INTO `sys_quartz_log` VALUES ('a8f593b2e36c7bc49cb93ae18371590d', 'zkbXgyzTask', '2021-05-07 05:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4389);
+INSERT INTO `sys_quartz_log` VALUES ('a8f8da81142444806d2f8f3f48895ab9', 'zkbXgyzTask', '2021-05-08 02:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3906);
+INSERT INTO `sys_quartz_log` VALUES ('a95382beb19b99750eea059fa56db15d', 'zkbXgyzTask', '2021-05-08 08:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 7491);
+INSERT INTO `sys_quartz_log` VALUES ('a978a8527012d9dccb3b0c70a504e59e', 'zkbXgyzTask', '2021-05-08 08:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4123);
+INSERT INTO `sys_quartz_log` VALUES ('a9930e037d15ff07f2bd8ec06f3961dc', 'zkbXgyzTask', '2021-05-08 05:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4673);
+INSERT INTO `sys_quartz_log` VALUES ('a9e1186d73f830afb4e28cafefd52a00', 'zkbXgyzTask', '2021-05-08 08:39:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3988);
+INSERT INTO `sys_quartz_log` VALUES ('a9e70473d2fb9b28f0e00c7f222c61ca', 'zkbXgyzTask', '2021-05-07 07:45:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4177);
+INSERT INTO `sys_quartz_log` VALUES ('ab1fc48469ad4281c4aec57999ad5487', 'zkbXgyzTask', '2021-04-29 08:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4532);
+INSERT INTO `sys_quartz_log` VALUES ('abd00fad202199c13e5301369c4c1f19', 'zkbXgyzTask', '2021-05-07 09:17:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3598);
+INSERT INTO `sys_quartz_log` VALUES ('ad0964bda73c04cafcb541062721d8b6', 'zkbXgyzTask', '2021-04-29 08:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4232);
+INSERT INTO `sys_quartz_log` VALUES ('ada81a05d57ad7ab2494d34314be8d75', 'zkbXgyzTask', '2021-05-08 03:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4014);
+INSERT INTO `sys_quartz_log` VALUES ('ae587052566b74f0c0e0f535330777cb', 'zkbXgyzTask', '2021-05-08 02:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4422);
+INSERT INTO `sys_quartz_log` VALUES ('af74c7fdb74d4bbca0af410b6a8ba0e2', 'zkbXgyzTask', '2021-05-08 02:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3911);
+INSERT INTO `sys_quartz_log` VALUES ('b01983d3d86d5e6b793ad454dce2604e', 'zkbXgyzTask', '2021-05-12 02:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4312);
+INSERT INTO `sys_quartz_log` VALUES ('b03ac753a1fb37de65542497ff7f7431', 'zkbXgyzTask', '2021-05-07 09:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4635);
+INSERT INTO `sys_quartz_log` VALUES ('b080bbe292d3f4a28163d3be57c23689', 'zkbXgyzTask', '2021-05-08 02:32:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4528);
+INSERT INTO `sys_quartz_log` VALUES ('b0d77558e589205647dac4c1282fd6e7', 'zkbXgyzTask', '2021-04-29 09:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4715);
+INSERT INTO `sys_quartz_log` VALUES ('b1a3604459a09461269b9a100bbf7308', 'zkbXgyzTask', '2021-05-08 02:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4272);
+INSERT INTO `sys_quartz_log` VALUES ('b20047e2abb8ca460ded71da2e28927c', 'zkbXgyzTask', '2021-05-07 09:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4497);
+INSERT INTO `sys_quartz_log` VALUES ('b20b8041b1e4db575d88ae28ad48d437', 'zkbXgyzTask', '2021-05-08 05:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4547);
+INSERT INTO `sys_quartz_log` VALUES ('b2876a5e760df29db8de545fbb562e5c', 'zkbXgyzTask', '2021-05-08 09:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3988);
+INSERT INTO `sys_quartz_log` VALUES ('b2e94bcd134fdcf89e01b0f0755febdc', 'zkbXgyzTask', '2021-05-08 03:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4325);
+INSERT INTO `sys_quartz_log` VALUES ('b3b0c78b21d7a6c30dae306db755b911', 'zkbXgyzTask', '2021-05-08 06:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4839);
+INSERT INTO `sys_quartz_log` VALUES ('b523040ae2ae3e49fc9ee633039213dd', 'zkbXgyzTask', '2021-05-07 09:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4317);
+INSERT INTO `sys_quartz_log` VALUES ('b5975c2277629ff2753843d54b83082e', 'zkbXgyzTask', '2021-04-29 08:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4252);
+INSERT INTO `sys_quartz_log` VALUES ('b5f1a9dc439acd96117a563436598d54', 'zkbXgyzTask', '2021-05-08 02:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4078);
+INSERT INTO `sys_quartz_log` VALUES ('b62d7c59fe4c5ebacca75d86e48d0d51', 'zkbXgyzTask', '2021-05-08 03:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3470);
+INSERT INTO `sys_quartz_log` VALUES ('b73e4b900f5e263671ab463443971f6f', 'zkbXgyzTask', '2021-05-08 02:01:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4267);
+INSERT INTO `sys_quartz_log` VALUES ('b747e5fa4f7e5d7c2bceb4db2d929855', 'zkbXgyzTask', '2021-05-08 08:36:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4019);
+INSERT INTO `sys_quartz_log` VALUES ('b768f1bc020e0670b03f569f36e62b0b', 'zkbXgyzTask', '2021-05-10 02:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3836);
+INSERT INTO `sys_quartz_log` VALUES ('b7f07355bc54f2b8dbc42147f5cf45af', 'zkbXgyzTask', '2021-05-08 05:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4409);
+INSERT INTO `sys_quartz_log` VALUES ('b892b3a498dfc9be56807ad9f3bc3e9b', 'zkbXgyzTask', '2021-05-08 02:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5079);
+INSERT INTO `sys_quartz_log` VALUES ('b97450750d8291f4f0f7d82517a192fe', 'zkbXgyzTask', '2021-05-08 02:34:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4112);
+INSERT INTO `sys_quartz_log` VALUES ('ba11968be16df06db70621e405440a90', 'zkbXgyzTask', '2021-05-08 02:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3786);
+INSERT INTO `sys_quartz_log` VALUES ('bad451f92f6691e444eef7dd3fca91d6', 'zkbXgyzTask', '2021-05-10 03:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4485);
+INSERT INTO `sys_quartz_log` VALUES ('bccf1dbde1fca504cb17744ef3c82297', 'zkbXgyzTask', '2021-05-07 09:32:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4231);
+INSERT INTO `sys_quartz_log` VALUES ('bd7bdea1554d12e717b0c709fe758da8', 'zkbXgyzTask', '2021-05-07 09:28:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4515);
+INSERT INTO `sys_quartz_log` VALUES ('bdf675a135e7a865fb1174ee4bf1c1d9', 'zkbXgyzTask', '2021-05-12 01:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4451);
+INSERT INTO `sys_quartz_log` VALUES ('be499213bf468635319e9564e3d0d11a', 'zkbXgyzTask', '2021-05-08 06:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5208);
+INSERT INTO `sys_quartz_log` VALUES ('be9431f283a1695074b2cd9c71a4132b', 'zkbXgyzTask', '2021-04-29 08:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4086);
+INSERT INTO `sys_quartz_log` VALUES ('bf02009e0cce0dcf30905820ad9d2ccc', 'zkbXgyzTask', '2021-05-08 01:53:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4273);
+INSERT INTO `sys_quartz_log` VALUES ('bf704e956de363f1bbf45285f6913fe8', 'zkbXgyzTask', '2021-05-08 02:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3940);
+INSERT INTO `sys_quartz_log` VALUES ('bfbdc8b44e95e6457038ba0feae82600', 'zkbXgyzTask', '2021-05-07 10:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3982);
+INSERT INTO `sys_quartz_log` VALUES ('c0bd3baee265f97c98fc8c338bc902b3', 'zkbXgyzTask', '2021-05-07 07:50:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3804);
+INSERT INTO `sys_quartz_log` VALUES ('c1d9719ea1466a1f297e21ce16281f2c', 'zkbXgyzTask', '2021-05-08 06:43:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4663);
+INSERT INTO `sys_quartz_log` VALUES ('c270e84a2a84432a3511ab3c21066336', 'zkbXgyzTask', '2021-05-10 02:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4436);
+INSERT INTO `sys_quartz_log` VALUES ('c28ec06072f868f1e0ff157b2d1cdad0', 'zkbXgyzTask', '2021-04-29 08:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4253);
+INSERT INTO `sys_quartz_log` VALUES ('c2bc77112297a75c017143a34d946277', 'zkbXgyzTask', '2021-04-29 09:25:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4441);
+INSERT INTO `sys_quartz_log` VALUES ('c33d553f19a8e5d26584005f84bce9b6', 'zkbXgyzTask', '2021-05-08 02:50:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4124);
+INSERT INTO `sys_quartz_log` VALUES ('c38f8cce948bf9f721fb4487f523e427', 'zkbXgyzTask', '2021-05-08 03:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3930);
+INSERT INTO `sys_quartz_log` VALUES ('c473cdeca04c0ff533bab99d89c068eb', 'zkbXgyzTask', '2021-05-10 03:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4683);
+INSERT INTO `sys_quartz_log` VALUES ('c5255b0dd5b4908b6305579f6bef3361', 'zkbXgyzTask', '2021-04-29 08:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4604);
+INSERT INTO `sys_quartz_log` VALUES ('c549c6c29bcd1a39406279d239c54bf5', 'zkbXgyzTask', '2021-05-08 03:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4368);
+INSERT INTO `sys_quartz_log` VALUES ('c5cd294be2fbb4507776d9ae73275e5c', 'zkbXgyzTask', '2021-05-08 08:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4029);
+INSERT INTO `sys_quartz_log` VALUES ('c6a607bca5e55f3b41782ee276e4b616', 'zkbXgyzTask', '2021-05-07 08:35:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4232);
+INSERT INTO `sys_quartz_log` VALUES ('c6c7b6d263d87bef3405a305390da4a1', 'zkbXgyzTask', '2021-05-10 02:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4049);
+INSERT INTO `sys_quartz_log` VALUES ('c70ca74edf8124c4037b912fcaab1447', 'zkbXgyzTask', '2021-05-08 08:37:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4194);
+INSERT INTO `sys_quartz_log` VALUES ('c8436869cecfc44006b2d6a23f983484', 'zkbXgyzTask', '2021-05-08 05:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 21910);
+INSERT INTO `sys_quartz_log` VALUES ('c92b40604a0d0bad0ad78726965bbc12', 'zkbXgyzTask', '2021-05-07 09:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3638);
+INSERT INTO `sys_quartz_log` VALUES ('c939ff5924898b79945e84d46ba04211', 'zkbXgyzTask', '2021-05-08 03:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4463);
+INSERT INTO `sys_quartz_log` VALUES ('c9eb33b78769454f724fdc7442631aa6', 'zkbXgyzTask', '2021-05-08 02:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4266);
+INSERT INTO `sys_quartz_log` VALUES ('ca7ff9b16f37fae497a6e57a2d0f62c4', 'zkbXgyzTask', '2021-05-08 09:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4122);
+INSERT INTO `sys_quartz_log` VALUES ('cabb575651f1cbbf9ee424db48faa284', 'zkbXgyzTask', '2021-05-08 02:38:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4257);
+INSERT INTO `sys_quartz_log` VALUES ('cafee81f858d8d89de828ba384bc0acc', 'zkbXgyzTask', '2021-05-08 08:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4048);
+INSERT INTO `sys_quartz_log` VALUES ('cd403d2564ae8d48dfb77e34867b85e9', 'zkbXgyzTask', '2021-05-08 03:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3908);
+INSERT INTO `sys_quartz_log` VALUES ('cde079b3290474778338b19a4d3d7896', 'zkbXgyzTask', '2021-05-08 06:23:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5060);
+INSERT INTO `sys_quartz_log` VALUES ('ce1a02c7740a7fa4d60715780476706b', 'zkbXgyzTask', '2021-05-08 01:57:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3993);
+INSERT INTO `sys_quartz_log` VALUES ('ce220517457db091dddfe4c7ecc53ab5', 'zkbXgyzTask', '2021-05-07 07:25:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4005);
+INSERT INTO `sys_quartz_log` VALUES ('ce9224bedfa0d6d8998e03a482e050bb', 'zkbXgyzTask', '2021-05-08 00:43:05', '5 * * * * ? ', 'java.util.concurrent.ExecutionException: java.lang.reflect.InvocationTargetException\r\n	at java.util.concurrent.FutureTask.report(FutureTask.java:122)\r\n	at java.util.concurrent.FutureTask.get(FutureTask.java:192)\r\n	at com.zero.dreamland.quartz.utils.ExecutionJob.executeInternal(ExecutionJob.java:87)\r\n	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.GeneratedMethodAccessor520.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.zero.dreamland.quartz.utils.QuartzRunnable.call(QuartzRunnable.java:55)\r\n	at java.util.concurrent.FutureTask.run(FutureTask.java:266)\r\n	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\r\n	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\r\n	at java.lang.Thread.run(Thread.java:748)\r\nCaused by: com.alibaba.fastjson.JSONException: syntax error, expect [, actual error, pos 0, fieldName null\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1165)\r\n	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1152)\r\n	at com.alibaba.fastjson.JSON.parseArray(JSON.java:593)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.getData(ZkbXgyzTask.java:94)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyz(ZkbXgyzTask.java:49)\r\n	at com.zero.dreamland.quartz.task.ZkbXgyzTask.CrawlerXgyzAll(ZkbXgyzTask.java:84)\r\n	... 8 more\r\n', b'0', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 244);
+INSERT INTO `sys_quartz_log` VALUES ('cf88a42a85597f117ea243b3b3cc5ed9', 'zkbXgyzTask', '2021-05-08 02:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4098);
+INSERT INTO `sys_quartz_log` VALUES ('d05958658ef8ae906cf96d3207e99745', 'zkbXgyzTask', '2021-04-29 08:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4596);
+INSERT INTO `sys_quartz_log` VALUES ('d19db44c34f78e31272b912ade252d77', 'zkbXgyzTask', '2021-05-10 02:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4719);
+INSERT INTO `sys_quartz_log` VALUES ('d1a0d55ce8b8d3574c6573d3eb01124e', 'zkbXgyzTask', '2021-05-08 02:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4892);
+INSERT INTO `sys_quartz_log` VALUES ('d1e39aa5764f51ae3096b7b20911f06a', 'zkbXgyzTask', '2021-05-07 09:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3437);
+INSERT INTO `sys_quartz_log` VALUES ('d1e6c84fc54f484026f9e25e7d96603a', 'zkbXgyzTask', '2021-04-29 08:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4008);
+INSERT INTO `sys_quartz_log` VALUES ('d245bfafa80632562a2af863dec79440', 'zkbXgyzTask', '2021-05-07 08:51:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4175);
+INSERT INTO `sys_quartz_log` VALUES ('d31f90b1bd70dc19868f4be636721304', 'zkbXgyzTask', '2021-05-08 02:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4107);
+INSERT INTO `sys_quartz_log` VALUES ('d6e9972939d5b47bcf2ab68f77707116', 'zkbXgyzTask', '2021-05-08 03:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4162);
+INSERT INTO `sys_quartz_log` VALUES ('d7a5eed9955d5e499371029c8749780a', 'zkbXgyzTask', '2021-05-10 03:15:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4221);
+INSERT INTO `sys_quartz_log` VALUES ('d7ba93e671777dee6512bbd40897b9de', 'zkbXgyzTask', '2021-04-29 09:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4193);
+INSERT INTO `sys_quartz_log` VALUES ('d8083aae51926f5a8eacc049da3b8b4a', 'zkbXgyzTask', '2021-05-08 02:16:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3846);
+INSERT INTO `sys_quartz_log` VALUES ('d9c723e0e52c3601de8ced3594f1633c', 'zkbXgyzTask', '2021-05-08 02:03:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3968);
+INSERT INTO `sys_quartz_log` VALUES ('da3fb3ab9b8cc55c2a80f56b9580eb7c', 'zkbXgyzTask', '2021-05-08 05:32:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 22613);
+INSERT INTO `sys_quartz_log` VALUES ('dac4aae982aede64d4a1065e80e8d3e9', 'zkbXgyzTask', '2021-04-29 09:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4063);
+INSERT INTO `sys_quartz_log` VALUES ('dad525ccb121d08cc32db4c7908fe570', 'zkbXgyzTask', '2021-05-08 06:30:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5131);
+INSERT INTO `sys_quartz_log` VALUES ('dadf181cae078e4cb4386a48f9374c56', 'zkbXgyzTask', '2021-05-07 08:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3545);
+INSERT INTO `sys_quartz_log` VALUES ('dc521cdba33beb569855519f1bb6e65b', 'zkbXgyzTask', '2021-05-07 06:35:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5503);
+INSERT INTO `sys_quartz_log` VALUES ('dc553082177fcbd5b42f138410b5fc35', 'zkbXgyzTask', '2021-05-08 08:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3972);
+INSERT INTO `sys_quartz_log` VALUES ('dcf9f8b80920b3d24c33a0076cfff663', 'zkbXgyzTask', '2021-05-10 02:38:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4802);
+INSERT INTO `sys_quartz_log` VALUES ('debc80f5a58fa8b35bb76e5664b5d86d', 'zkbXgyzTask', '2021-04-29 08:38:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4322);
+INSERT INTO `sys_quartz_log` VALUES ('ded3a63e80c4430fe93b6fa6fad2a263', 'zkbXgyzTask', '2021-05-08 06:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4588);
+INSERT INTO `sys_quartz_log` VALUES ('def9e71f86b2744c7cb45c11f41839b3', 'zkbXgyzTask', '2021-05-10 03:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4325);
+INSERT INTO `sys_quartz_log` VALUES ('e0a8a5d25a289c9d45bbff88dd60d2a9', 'zkbXgyzTask', '2021-05-08 03:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4188);
+INSERT INTO `sys_quartz_log` VALUES ('e0b62382a080fcfc292e375ae96d9ec7', 'zkbXgyzTask', '2021-05-08 09:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4278);
+INSERT INTO `sys_quartz_log` VALUES ('e119911d2aaaf406a304a6ee6c5b7353', 'zkbXgyzTask', '2021-05-07 09:22:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3499);
+INSERT INTO `sys_quartz_log` VALUES ('e1d24802e0b71abcf27719f3edd5f4fd', 'zkbXgyzTask', '2021-04-29 08:25:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4220);
+INSERT INTO `sys_quartz_log` VALUES ('e2512d90b37fa382159e488f373046ac', 'zkbXgyzTask', '2021-05-07 09:10:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3882);
+INSERT INTO `sys_quartz_log` VALUES ('e256688246b4b0b780f4089b8db3dd69', 'zkbXgyzTask', '2021-05-08 08:54:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4252);
+INSERT INTO `sys_quartz_log` VALUES ('e36725cd97c48691d0a4650881d7ca99', 'zkbXgyzTask', '2021-05-10 02:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4097);
+INSERT INTO `sys_quartz_log` VALUES ('e38555f0ac7dca2a17b17d46702e92ea', 'zkbXgyzTask', '2021-04-29 09:07:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4000);
+INSERT INTO `sys_quartz_log` VALUES ('e4c481227ca69c2f60da4ea3830c98e3', 'zkbXgyzTask', '2021-05-08 08:41:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4226);
+INSERT INTO `sys_quartz_log` VALUES ('e51e3008029d0da35381872d94bc5a07', 'zkbXgyzTask', '2021-05-08 06:11:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5210);
+INSERT INTO `sys_quartz_log` VALUES ('e5aa5f50e05c2c61a84dae9330bf021e', 'zkbXgyzTask', '2021-04-29 08:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4383);
+INSERT INTO `sys_quartz_log` VALUES ('e623cce2b0d1efb132b4e82cdbc79037', 'zkbXgyzTask', '2021-05-08 06:46:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5151);
+INSERT INTO `sys_quartz_log` VALUES ('e62f0a8dcdc86e6e6ccad63506391653', 'zkbXgyzTask', '2021-05-08 03:12:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4043);
+INSERT INTO `sys_quartz_log` VALUES ('e677c945457cc696307b825453d198ee', 'zkbXgyzTask', '2021-05-08 09:18:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4131);
+INSERT INTO `sys_quartz_log` VALUES ('e6ddd3de3a4f81838db7d5590f49a645', 'zkbXgyzTask', '2021-05-07 09:27:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4117);
+INSERT INTO `sys_quartz_log` VALUES ('e777a4804aca3980fde07aad2abc12e8', 'zkbXgyzTask', '2021-05-08 06:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4972);
+INSERT INTO `sys_quartz_log` VALUES ('e77b4df6a243550256c415c827e963f5', 'zkbXgyzTask', '2021-04-29 08:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4245);
+INSERT INTO `sys_quartz_log` VALUES ('e7f257b59093df4b32efe1891a1ceba3', 'zkbXgyzTask', '2021-05-07 09:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4022);
+INSERT INTO `sys_quartz_log` VALUES ('e955d5b84588a4b9fdf773457ac62894', 'zkbXgyzTask', '2021-05-07 09:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3993);
+INSERT INTO `sys_quartz_log` VALUES ('e97641b8668ed339a881da483b015186', 'zkbXgyzTask', '2021-04-29 09:21:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3998);
+INSERT INTO `sys_quartz_log` VALUES ('eb0584670e536b96d3f884898634615f', 'zkbXgyzTask', '2021-05-07 07:33:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4122);
+INSERT INTO `sys_quartz_log` VALUES ('ec16038ac8c7fb47e2dde866bb519695', 'zkbXgyzTask', '2021-04-29 09:31:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4443);
+INSERT INTO `sys_quartz_log` VALUES ('ec497926b58b213461ce4199082dd5ff', 'zkbXgyzTask', '2021-05-10 02:32:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4203);
+INSERT INTO `sys_quartz_log` VALUES ('ecd31b5a75e07edba67ca11a613ace54', 'zkbXgyzTask', '2021-05-12 02:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4339);
+INSERT INTO `sys_quartz_log` VALUES ('ed1982e89a0cfeeea3721591aacfd4e2', 'zkbXgyzTask', '2021-04-29 08:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4430);
+INSERT INTO `sys_quartz_log` VALUES ('eed4f1f723c4a9cdae5d97ba9ee8e3d6', 'zkbXgyzTask', '2021-05-08 02:58:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4159);
+INSERT INTO `sys_quartz_log` VALUES ('ef250341baa970a10d27d06887534ccd', 'zkbXgyzTask', '2021-05-07 07:44:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4284);
+INSERT INTO `sys_quartz_log` VALUES ('ef64660f20ff85ce35098cfcc820c660', 'zkbXgyzTask', '2021-05-08 02:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4299);
+INSERT INTO `sys_quartz_log` VALUES ('f03981e9e9985f615f2105d0f4c7b666', 'zkbXgyzTask', '2021-05-08 06:45:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4895);
+INSERT INTO `sys_quartz_log` VALUES ('f0d37e6e7ee8ca24d35870908e50f7af', 'zkbXgyzTask', '2021-04-29 09:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4669);
+INSERT INTO `sys_quartz_log` VALUES ('f29d95024182ca458db3431c4dd3e100', 'zkbXgyzTask', '2021-04-29 08:49:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4106);
+INSERT INTO `sys_quartz_log` VALUES ('f3bd092e82beb72e4113079c4a980303', 'zkbXgyzTask', '2021-05-08 02:52:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4386);
+INSERT INTO `sys_quartz_log` VALUES ('f40460be6e93d0dc1842ae3133b1e88f', 'zkbXgyzTask', '2021-04-29 09:05:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4115);
+INSERT INTO `sys_quartz_log` VALUES ('f4da4dbe0fa7d4cd9c8b618ebf6a23fd', 'zkbXgyzTask', '2021-04-29 08:36:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4277);
+INSERT INTO `sys_quartz_log` VALUES ('f6b12de5d6c73d86ea32d2eda613746b', 'zkbXgyzTask', '2021-05-08 06:26:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5251);
+INSERT INTO `sys_quartz_log` VALUES ('f6b4f3c9fceeaae4634d8be6c8ac4d67', 'zkbXgyzTask', '2021-05-08 08:51:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4690);
+INSERT INTO `sys_quartz_log` VALUES ('f79b95e4ab356f03167a6fd63ca2df02', 'zkbXgyzTask', '2021-04-29 08:56:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3795);
+INSERT INTO `sys_quartz_log` VALUES ('f7ef5e41316d4151a02ba654f120f33d', 'zkbXgyzTask', '2021-05-07 09:19:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3688);
+INSERT INTO `sys_quartz_log` VALUES ('f80365f0016806cec44d765c859dd06f', 'zkbXgyzTask', '2021-05-07 09:59:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4049);
+INSERT INTO `sys_quartz_log` VALUES ('f859831f4c85b36bbee906a0b14100f8', 'zkbXgyzTask', '2021-05-10 03:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4421);
+INSERT INTO `sys_quartz_log` VALUES ('f8693e34e7028a83d4c376c77ea7a1e5', 'zkbXgyzTask', '2021-05-08 05:44:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4637);
+INSERT INTO `sys_quartz_log` VALUES ('f89c9089588d03314e19ccc90a2312b3', 'zkbXgyzTask', '2021-05-08 06:24:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4961);
+INSERT INTO `sys_quartz_log` VALUES ('f8b365adff659a098c7721b370572bf9', 'zkbXgyzTask', '2021-05-08 09:13:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4268);
+INSERT INTO `sys_quartz_log` VALUES ('f8b4a304f0b999cd852e150f12a27ac7', 'zkbXgyzTask', '2021-05-10 02:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4119);
+INSERT INTO `sys_quartz_log` VALUES ('f95b98d1ebb87544ab66c2d9363c8820', 'zkbXgyzTask', '2021-05-07 08:54:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3815);
+INSERT INTO `sys_quartz_log` VALUES ('f9c722e0c79be5f854bc975fd216232b', 'zkbXgyzTask', '2021-05-07 10:02:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4330);
+INSERT INTO `sys_quartz_log` VALUES ('f9c9394f66e6c99e12190bc1f75832dc', 'zkbXgyzTask', '2021-05-08 02:40:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4246);
+INSERT INTO `sys_quartz_log` VALUES ('fa3d5a5051567ed5a3a49a649ca2415b', 'zkbXgyzTask', '2021-05-08 01:55:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3968);
+INSERT INTO `sys_quartz_log` VALUES ('fbaf9bb9031d778c314cbb8ed49aa73c', 'zkbXgyzTask', '2021-05-08 09:00:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4403);
+INSERT INTO `sys_quartz_log` VALUES ('fbe102694f26aaf223539aaa60dc8483', 'zkbXgyzTask', '2021-05-08 06:06:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 5104);
+INSERT INTO `sys_quartz_log` VALUES ('fd593760923db9dbf88a2a0c138f83e3', 'zkbXgyzTask', '2021-05-12 02:04:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4021);
+INSERT INTO `sys_quartz_log` VALUES ('fd8f7b6bcdbda559192d693b5acd87c9', 'zkbXgyzTask', '2021-05-10 02:29:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4158);
+INSERT INTO `sys_quartz_log` VALUES ('fd9dc4712747344180982fd60dfb3b12', 'zkbXgyzTask', '2021-04-29 09:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3980);
+INSERT INTO `sys_quartz_log` VALUES ('fdf8b629eb47b75a510d8fb0e9922afb', 'zkbXgyzTask', '2021-05-08 03:14:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4077);
+INSERT INTO `sys_quartz_log` VALUES ('fe3faa69fbd997cfd8a1478a7c706969', 'zkbXgyzTask', '2021-05-07 08:31:05', '5 * * * * ? ', NULL, NULL, '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 4167);
+INSERT INTO `sys_quartz_log` VALUES ('fea30d389a82ef2d525b492c3631631b', 'zkbXgyzTask', '2021-05-07 09:42:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 3959);
+INSERT INTO `sys_quartz_log` VALUES ('ff489cde4665b6bef355879bcd7cf2e8', 'zkbXgyzTask', '2021-05-08 05:33:05', '5 * * * * ? ', NULL, b'1', '小鸽驿站数据抓取', 'CrawlerXgyzAll', '', 23489);
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `role_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色编码',
+  `role_name` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `level` int NULL DEFAULT 3 COMMENT '角色级别',
+  `role_sort` int NULL DEFAULT 0 COMMENT '排序',
+  `data_scope` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据权限',
+  `role_is_default` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否系统默认 0 非默认 1默认',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0正常 1删除 2停用）',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `role_name`(`role_name`) USING BTREE,
+  UNIQUE INDEX `role_type`(`role_type`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES ('60dae2dadb123e5b18dd798c7490d888', 'TOURIST', '游客', 4, 10, '自定义', '0', '未获得系统权限的人员', '0', '无名之辈', '2019-09-09 20:37:21', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('635127e54a2c4dca87777fa0c488c3f3', 'ADMIN', '超级管理员', 1, 0, '全部', '0', '具有最高权限', '0', '1', '2018-07-19 14:28:32', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('697fc287c47e7a9075daa89d0fbb3222', NULL, 'PH1P研发组', 5, 0, '本级', '0', '随便啦爱爱爱', '1', '无名之辈', '2020-06-22 13:31:01', '无名之辈', '2020-06-23 02:31:32');
+INSERT INTO `sys_role` VALUES ('70207334852248a2bd04b06687a0e782', 'TESTER', '测试人员', 3, 1, '本级', '0', '具有最高权限', '0', '1', '2018-07-19 14:28:32', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('83c583445cfb3fe53ed0b648a051f9fe', NULL, '测试权限', 4, 0, '本级', '0', '阿斯达斯', '0', '无名之辈', '2020-07-06 04:03:23', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('dfbc75e9bf07f708b3529ff33a691fa9', 'OPERATORS', '运营人员', 2, 3, '本级', '0', '甲方拥有最高权限的角色', '1', '无名之辈', '2019-09-08 20:48:28', '无名之辈', '2019-09-09 03:54:33');
+
+-- ----------------------------
+-- Table structure for sys_roles_depts
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_roles_depts`;
+CREATE TABLE `sys_roles_depts`  (
+  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `dept_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  PRIMARY KEY (`role_id`, `dept_id`, `id`) USING BTREE,
+  INDEX `FK7qg6itn5ajdoa9h9o78v9ksur`(`dept_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色部门关联' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_roles_depts
+-- ----------------------------
+INSERT INTO `sys_roles_depts` VALUES ('635127e54a2c4dca87777fa0c488c3f3', '2', '');
+
+-- ----------------------------
+-- Table structure for sys_roles_menus
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_roles_menus`;
+CREATE TABLE `sys_roles_menus`  (
+  `menu_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单ID',
+  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色ID',
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  PRIMARY KEY (`menu_id`, `role_id`, `id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_roles_menus
+-- ----------------------------
+INSERT INTO `sys_roles_menus` VALUES ('1', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('1', '83c583445cfb3fe53ed0b648a051f9fe', '60db0e24d5bc998a5316229c50986f66');
+INSERT INTO `sys_roles_menus` VALUES ('10', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('102', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('103', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('104', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('105', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('106', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('107', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('108', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('109', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('11', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('110', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('111', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('112', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('113', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('114', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('116', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('14', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('15', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('16', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('18', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('19', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('2', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('2', '83c583445cfb3fe53ed0b648a051f9fe', 'fd0b7375fc762d9d8cd01f604a3644ac');
+INSERT INTO `sys_roles_menus` VALUES ('21', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('22', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('23', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('24', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('27', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('28', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('3', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('30', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('32', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('33', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('34', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('35', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('36', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('37', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('38', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('39', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('41', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('44', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('45', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('46', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('48', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('49', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('5', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('50', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('51fee3d7251c9f7daee780360daaafab', '60dae2dadb123e5b18dd798c7490d888', '');
+INSERT INTO `sys_roles_menus` VALUES ('51fee3d7251c9f7daee780360daaafab', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('52', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('53', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('54', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('56', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('57', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('58', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('6', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('60', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('61', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('62', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('64', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('65', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('66', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('6f37e548aa17dcdb6acc8632d7e8fd36', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('6f37e548aa17dcdb6acc8632d7e8fd36', '697fc287c47e7a9075daa89d0fbb3222', '');
+INSERT INTO `sys_roles_menus` VALUES ('7', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('70', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('71', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('73', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('74', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('75', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('77', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('78', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('79', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('80', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('82', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('83', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('9', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('90', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('92', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('92d2a68b7b96fd78bda75066e73000fd', '60dae2dadb123e5b18dd798c7490d888', '');
+INSERT INTO `sys_roles_menus` VALUES ('92d2a68b7b96fd78bda75066e73000fd', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('93', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('94', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('97', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('98', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_roles_menus` VALUES ('d4b84dc1906a6ba660956a6a8e1be76b', '60dae2dadb123e5b18dd798c7490d888', '');
+INSERT INTO `sys_roles_menus` VALUES ('d4b84dc1906a6ba660956a6a8e1be76b', '635127e54a2c4dca87777fa0c488c3f3', '');
+
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账户',
+  `user_password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `user_enable_password` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码明文',
+  `nick_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '联系电话',
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `face_img` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '人脸照片',
+  `avatar_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像地址',
+  `avatar_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像真实路径',
+  `gender` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
+  `organization_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组织ID',
+  `dept_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门ID',
+  `position_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '岗位ID',
+  `employee_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工号',
+  `last_login_date` datetime NULL DEFAULT NULL COMMENT '最后访问时间',
+  `pwd_reset_time` datetime NULL DEFAULT NULL COMMENT '修改密码的时间',
+  `is_admin` bit(1) NULL DEFAULT b'0' COMMENT '是否为admin账号',
+  `enabled` bigint NOT NULL COMMENT '状态：1启用、0禁用',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_date` datetime NOT NULL COMMENT '插入时间',
+  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '插入者',
+  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `user_name`(`user_name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES ('a8aca4f0d0ca4fdd875d7f34f3634e57', 'wzx', '$2a$10$HMFDmQnbMSGfouf3kjMJNOicOD9I7L3cLBWrLUDkCkqSpADIgZos6', '123', '无名之辈', '2147483647', NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, NULL, '2019-04-26 13:52:32', NULL, b'1', 1, 0, '2019-07-18 17:12:03', '', NULL, NULL);
+INSERT INTO `sys_user` VALUES ('c051c316714e00f781fc897533071bce', '阿斯达', '$2a$10$IfIK4VfQ4Zj3lSGa3jourOp6PqIZUxsoMuEsKNJfDiNGS/.ZhcFRC', NULL, '年底', '15621009921', '443082604@qq.com', NULL, NULL, NULL, '男', NULL, '4ef571a7dc4efd18ebfacabb7cb232cc', NULL, NULL, NULL, NULL, b'0', 1, 0, '2020-07-06 07:07:40', '无名之辈', '无名之辈', NULL);
+INSERT INTO `sys_user` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', 'ggg', '123', '123', '无名之辈', '15621009921', '960074810@qq.com', NULL, NULL, NULL, '男', NULL, '2', NULL, NULL, '2019-04-25 11:52:32', NULL, b'0', 1, 0, '2019-07-17 15:12:03', '', '无名之辈', '2020-07-02 02:11:21');
+
+-- ----------------------------
+-- Table structure for sys_users_jobs
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_users_jobs`;
+CREATE TABLE `sys_users_jobs`  (
+  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
+  `job_id` varbinary(32) NOT NULL COMMENT '岗位ID',
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  PRIMARY KEY (`user_id`, `job_id`, `id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_users_jobs
+-- ----------------------------
+INSERT INTO `sys_users_jobs` VALUES ('0587c557e3e0806621f1b9e218d5cda3', 0x3130, '48bc82ca67be84efdbd5a918d182801e');
+INSERT INTO `sys_users_jobs` VALUES ('0587c557e3e0806621f1b9e218d5cda3', 0x3131, '91bb5f867d93819c03b2217b7fa8e21c');
+INSERT INTO `sys_users_jobs` VALUES ('0fd10297fd38b1f170a50e5708caa248', 0x3131, '590bacae19215560f6c1fa2c659e206b');
+INSERT INTO `sys_users_jobs` VALUES ('1', 0x3132, '');
+INSERT INTO `sys_users_jobs` VALUES ('2', 0x3132, '');
+INSERT INTO `sys_users_jobs` VALUES ('4d785a3facd77809bb5c0e737ecd9bc4', 0x3132, '3ded3d6e248659895e82a4dc46908d79');
+INSERT INTO `sys_users_jobs` VALUES ('6a3114c367b902ccc2fe25915e2e4947', 0x38, '0b950768b631ec53899a60584a5988c9');
+INSERT INTO `sys_users_jobs` VALUES ('a8aca4f0d0ca4fdd875d7f34f3634e57', 0x3131, '');
+INSERT INTO `sys_users_jobs` VALUES ('c051c316714e00f781fc897533071bce', 0x3131, '9f347ea27064e549cfd6b555e968cd96');
+INSERT INTO `sys_users_jobs` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', 0x3131, '3d89ec8226754b197f9e1f546d890978');
+INSERT INTO `sys_users_jobs` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', 0x3132, 'b3f2a246b88229310b7badda4f68612b');
+
+-- ----------------------------
+-- Table structure for sys_users_roles
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_users_roles`;
+CREATE TABLE `sys_users_roles`  (
+  `user_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
+  `role_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色ID',
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  PRIMARY KEY (`user_id`, `role_id`, `id`) USING BTREE,
+  INDEX `FKq4eq273l04bpu4efj0jd0jb98`(`role_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关联' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_users_roles
+-- ----------------------------
+INSERT INTO `sys_users_roles` VALUES ('2', '2', '');
+INSERT INTO `sys_users_roles` VALUES ('0fd10297fd38b1f170a50e5708caa248', '60dae2dadb123e5b18dd798c7490d888', '05edfcbd0c8aad7b67361e4596446048');
+INSERT INTO `sys_users_roles` VALUES ('c051c316714e00f781fc897533071bce', '60dae2dadb123e5b18dd798c7490d888', '75d1393b71ed701f099aab3d0fb4a636');
+INSERT INTO `sys_users_roles` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', '60dae2dadb123e5b18dd798c7490d888', 'f5178571cb697aa0f1b174b6830f1637');
+INSERT INTO `sys_users_roles` VALUES ('0587c557e3e0806621f1b9e218d5cda3', '635127e54a2c4dca87777fa0c488c3f3', 'e502844ccffc4c4b241905d3efab34fa');
+INSERT INTO `sys_users_roles` VALUES ('a8aca4f0d0ca4fdd875d7f34f3634e57', '635127e54a2c4dca87777fa0c488c3f3', '');
+INSERT INTO `sys_users_roles` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', '635127e54a2c4dca87777fa0c488c3f3', '4b45de017fff790d7df796fe87135cc4');
+INSERT INTO `sys_users_roles` VALUES ('0587c557e3e0806621f1b9e218d5cda3', '70207334852248a2bd04b06687a0e782', '71f0af94ab25f9e186a5977bad90d2ad');
+INSERT INTO `sys_users_roles` VALUES ('dddca4f0d0ca4fdd875d7f34f3634e52', '70207334852248a2bd04b06687a0e782', '3e248f430dd7f8481fc9130ae12d0f1d');
+INSERT INTO `sys_users_roles` VALUES ('6a3114c367b902ccc2fe25915e2e4947', '83c583445cfb3fe53ed0b648a051f9fe', '656273249d267ce94fde3f8ad68a9211');
+
+-- ----------------------------
+-- Table structure for tool_email_config
+-- ----------------------------
+DROP TABLE IF EXISTS `tool_email_config`;
+CREATE TABLE `tool_email_config`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
+  `config_id` bigint NOT NULL COMMENT 'ID',
+  `from_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收件人',
+  `host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮件服务器SMTP地址',
+  `pass` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
+  `port` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '端口',
+  `user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发件者用户名',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`config_id`, `id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '邮箱配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tool_email_config
+-- ----------------------------
+INSERT INTO `tool_email_config` VALUES ('asdasas12312312', 1, 'jbinfoecard@163.com', 'smtp.163.com', '2EC6D000F14C7E76BF9FF102897E0B52', '465', '王先生', 0, NULL, '无名之辈', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for zkb_article
+-- ----------------------------
+DROP TABLE IF EXISTS `zkb_article`;
+CREATE TABLE `zkb_article`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `del_flag` int NOT NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_date` datetime NOT NULL COMMENT '插入时间',
+  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '插入者',
+  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `tid` bigint NULL DEFAULT NULL COMMENT '文章ID',
+  `readperm` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `author` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `authorid` int NULL DEFAULT NULL,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `dateline` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `lastpost` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `lastposter` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `views` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `replies` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `digest` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `attachment` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `dbdateline` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `dblastpost` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `details` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '赚客吧-文章' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of zkb_article
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for zkb_xgyz
+-- ----------------------------
+DROP TABLE IF EXISTS `zkb_xgyz`;
+CREATE TABLE `zkb_xgyz`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `relTime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '发帖时间',
+  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
+  `mainText` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '正文',
+  `href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '链接',
+  `author` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '作者',
+  `imgList` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '图片列表（逗号分隔）',
+  `replyNum` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '回复数',
+  `readNum` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '阅读数',
+  `siteId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '站点ID',
+  `del_flag` int NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '插入时间',
+  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '插入者',
+  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `keyWord` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '关键字',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '赚客吧-小鸽驿站' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of zkb_xgyz
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for zkb_xgyz_log
+-- ----------------------------
+DROP TABLE IF EXISTS `zkb_xgyz_log`;
+CREATE TABLE `zkb_xgyz_log`  (
+  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
+  `siteId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '站点ID',
+  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
+  `mainText` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '正文',
+  `href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '链接',
+  `author` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '作者',
+  `imgList` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '图片列表（逗号分隔）',
+  `relTime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '发帖时间',
+  `replyNum` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '回复数',
+  `readNum` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '阅读数',
+  `del_flag` int NULL DEFAULT 0 COMMENT '状态标志：0正常 1禁用 2删除',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '插入时间',
+  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '插入者',
+  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `keyWord` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '关键字',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '赚客吧-小鸽驿站' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of zkb_xgyz_log
+-- ----------------------------
+
+-- ----------------------------
+-- Triggers structure for table zkb_xgyz
+-- ----------------------------
+DROP TRIGGER IF EXISTS `xgyz_trigger`;
+delimiter ;;
+CREATE TRIGGER `xgyz_trigger` AFTER INSERT ON `zkb_xgyz` FOR EACH ROW BEGIN
+		INSERT INTO zkb_xgyz_log ( id, siteId, label, mainText, href, author, imgList,relTime,replyNum,readNum,del_flag,create_date,create_by,update_by,update_date )
+	VALUES
+		(
+				new.id, 
+	new.siteId, 
+	new.label, 
+	new.mainText, 
+	new.href, 
+	new.author, 
+	new.imgList, 
+	new.relTime, 
+	new.replyNum, 
+	new.readNum, 
+	new.del_flag, 
+	new.create_date, 
+	new.create_by, 
+	new.update_by, 
+	new.update_date
+		);
+	
+END
+;;
+delimiter ;
+
+SET FOREIGN_KEY_CHECKS = 1;

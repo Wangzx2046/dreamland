@@ -1,9 +1,10 @@
 package com.zero.generator.domain;
 
-import javax.validation.constraints.NotBlank;
 import com.zero.common.core.domain.BaseEntity;
 import com.zero.common.utils.StringUtils;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -33,6 +34,9 @@ public class GenTableColumn extends BaseEntity
     /** 列描述 */
     private String columnComment;
 
+    /** 列c长度 */
+    private String columnLength;
+
     /** 列类型 */
     private String columnType;
 
@@ -45,6 +49,9 @@ public class GenTableColumn extends BaseEntity
 
     /** 是否主键（1是） */
     private String isPk;
+
+    /** 是否校驗（1是） */
+    private String isValid;
 
     /** 是否自增（1是） */
     private String isIncrement;
@@ -189,6 +196,26 @@ public class GenTableColumn extends BaseEntity
     public boolean isIncrement(String isIncrement)
     {
         return isIncrement != null && StringUtils.equals("1", isIncrement);
+    }
+
+    public void setIsValid(String isValid)
+    {
+        this.isValid = isValid;
+    }
+
+    public String getIsValid()
+    {
+        return isValid;
+    }
+
+    public boolean IsValid()
+    {
+        return IsValid(this.isValid);
+    }
+
+    public boolean IsValid(String isValid)
+    {
+        return isValid != null && StringUtils.equals("1", isValid);
     }
 
     public void setIsRequired(String isRequired)

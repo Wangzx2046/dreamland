@@ -1,19 +1,24 @@
 package com.zero.generator.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.zero.common.constant.Constants;
+import com.zero.common.constant.GenConstants;
+import com.zero.common.core.text.CharsetKit;
+import com.zero.common.core.text.Convert;
+import com.zero.common.exception.BusinessException;
+import com.zero.common.utils.StringUtils;
+import com.zero.generator.domain.GenTable;
+import com.zero.generator.domain.GenTableColumn;
 import com.zero.generator.domain.GenTemplate;
+import com.zero.generator.mapper.GenTableColumnMapper;
+import com.zero.generator.mapper.GenTableMapper;
 import com.zero.generator.mapper.GenTemplateMapper;
+import com.zero.generator.service.IGenTableService;
+import com.zero.generator.util.GenUtils;
+import com.zero.generator.util.VelocityInitializer;
+import com.zero.generator.util.VelocityUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -24,22 +29,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.zero.common.constant.Constants;
-import com.zero.common.constant.GenConstants;
-import com.zero.common.core.text.CharsetKit;
-import com.zero.common.core.text.Convert;
-import com.zero.common.exception.BusinessException;
-import com.zero.common.utils.StringUtils;
-import com.zero.generator.domain.GenTable;
-import com.zero.generator.domain.GenTableColumn;
-import com.zero.generator.mapper.GenTableColumnMapper;
-import com.zero.generator.mapper.GenTableMapper;
-import com.zero.generator.service.IGenTableService;
-import com.zero.generator.util.GenUtils;
-import com.zero.generator.util.VelocityInitializer;
-import com.zero.generator.util.VelocityUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 业务 服务层实现
@@ -358,7 +358,12 @@ public class GenTableServiceImpl implements IGenTableService {
         VelocityContext context = VelocityUtils.prepareContext(table);
 
         // 获取模板列表
-        List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
+       // List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
+        GenTemplate genTemplate = new GenTemplate();
+        genTemplate.setTemplateGroup(table.getTemplates());
+        List<GenTemplate> templatesList = genTemplateMapper.selectGenTemplateList(genTemplate);
+        List<String> templates = templatesList.stream().map(GenTemplate::getPath).collect(Collectors.toList());
+
         for (String template : templates) {
             // 渲染模板
             StringWriter sw = new StringWriter();

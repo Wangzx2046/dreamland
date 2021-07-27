@@ -6,7 +6,7 @@ spring:
       strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
       datasource:
         master:
-          url: jdbc:mysql://localhost:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+          url: jdbc:mysql://localhost:3306/dreamland_gen?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
           username: root
           password: 123123
           driverClassName: com.mysql.cj.jdbc.Driver
@@ -19,7 +19,7 @@ spring:
           url: jdbc:mysql://127.0.0.1:3306/dreamland?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&&serverTimezone=GMT
           username: root
           password: 123123
-          driver-class-name: com.mysql.jdbc.Driver
+          driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 4
       maximum-pool-size: 16

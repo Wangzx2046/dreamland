@@ -1,10 +1,5 @@
 package com.zero.generator.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson.JSONObject;
 import com.zero.common.constant.GenConstants;
 import com.zero.common.utils.DateUtils;
@@ -12,6 +7,11 @@ import com.zero.common.utils.StringUtils;
 import com.zero.generator.config.GenConfig;
 import com.zero.generator.domain.GenTable;
 import com.zero.generator.domain.GenTableColumn;
+import org.apache.velocity.VelocityContext;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class VelocityUtils {
     /**
@@ -123,24 +123,24 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        templates.add("vm/ry/java/domain.java.vm");
-        templates.add("vm/ry/java/mapper.java.vm");
-        templates.add("vm/ry/java/service.java.vm");
-        templates.add("vm/ry/java/serviceImpl.java.vm");
-        templates.add("vm/ry/java/controller.java.vm");
-        templates.add("vm/ry/xml/mapper.xml.vm");
+        templates.add("vm/ruoyi/java/domain.java.vm");
+        templates.add("vm/ruoyi/java/mapper.java.vm");
+        templates.add("vm/ruoyi/java/service.java.vm");
+        templates.add("vm/ruoyi/java/serviceImpl.java.vm");
+        templates.add("vm/ruoyi/java/controller.java.vm");
+        templates.add("vm/ruoyi/xml/mapper.xml.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory)) {
-            templates.add("vm/ry/html/list.html.vm");
+            templates.add("vm/ruoyi/html/list.html.vm");
         } else if (GenConstants.TPL_TREE.equals(tplCategory)) {
-            templates.add("vm/ry/html/tree.html.vm");
-            templates.add("vm/ry/html/list-tree.html.vm");
+            templates.add("vm/ruoyi/html/tree.html.vm");
+            templates.add("vm/ruoyi/html/list-tree.html.vm");
         } else if (GenConstants.TPL_SUB.equals(tplCategory)) {
-            templates.add("vm/ry/html/list.html.vm");
-            templates.add("vm/ry/java/sub-domain.java.vm");
+            templates.add("vm/ruoyi/html/list.html.vm");
+            templates.add("vm/ruoyi/java/sub-domain.java.vm");
         }
-        templates.add("vm/ry/html/add.html.vm");
-        templates.add("vm/ry/html/edit.html.vm");
-        templates.add("vm/ry/sql/sql.vm");
+        templates.add("vm/ruoyi/html/add.html.vm");
+        templates.add("vm/ruoyi/html/edit.html.vm");
+        templates.add("vm/ruoyi/sql/sql.vm");
         return templates;
     }
 

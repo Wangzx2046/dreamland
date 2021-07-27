@@ -1,14 +1,14 @@
 package com.zero.generator.domain;
 
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
-import lombok.Data;
-import org.apache.commons.lang3.ArrayUtils;
 import com.zero.common.constant.GenConstants;
 import com.zero.common.core.domain.BaseEntity;
 import com.zero.common.utils.StringUtils;
+import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 业务表 gen_table
@@ -30,7 +30,7 @@ public class GenTable extends BaseEntity
     private String templates;
 
     /** 是否开启swagger */
-    private String isSwagger;
+    private String swaggerFlag;
 
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
@@ -118,6 +118,10 @@ public class GenTable extends BaseEntity
         this.columns = columns;
     }
 
+    public boolean isSwagger()
+    {
+        return "1".equals(this.swaggerFlag);
+    }
 
     public boolean isSub()
     {
