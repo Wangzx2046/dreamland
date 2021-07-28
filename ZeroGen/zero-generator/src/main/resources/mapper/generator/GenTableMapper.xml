@@ -36,6 +36,8 @@
         <result property="tableId" column="table_id"/>
         <result property="columnName" column="column_name"/>
         <result property="columnComment" column="column_comment"/>
+        <result property="columnLength" column="column_length"/>
+
         <result property="columnType" column="column_type"/>
         <result property="javaType" column="java_type"/>
         <result property="javaField" column="java_field"/>
@@ -155,6 +157,7 @@
                c.column_id,
                c.column_name,
                c.column_comment,
+               c.column_length,
                c.column_type,
                c.java_type,
                c.java_field,
@@ -199,6 +202,7 @@
                c.column_id,
                c.column_name,
                c.column_comment,
+               c.column_length,
                c.column_type,
                c.java_type,
                c.java_field,
@@ -241,6 +245,7 @@
                c.column_id,
                c.column_name,
                c.column_comment,
+               c.column_length,
                c.column_type,
                c.java_type,
                c.java_field,
