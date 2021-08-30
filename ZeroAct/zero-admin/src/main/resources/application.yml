@@ -1,0 +1,150 @@
+# 项目相关配置
+zero:
+  # 名称
+  name: Zero
+  # 版本
+  version: 3.6.0
+  # 版权年份
+  copyrightYear: 2021
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例（ Windows配置D:/zero/uploadPath，Linux配置 /home/zero/uploadPath）
+  profile: D:/zero/uploadPath
+  # 获取ip地址开关
+  addressEnabled: false
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: math
+
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 9080
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+
+# 日志配置
+logging:
+  level:
+    com.zero: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles: 
+    active: druid
+  # 文件上传
+  servlet:
+     multipart:
+       # 单个文件大小
+       max-file-size:  10MB
+       # 设置总上传的文件大小
+       max-request-size:  20MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  # redis 配置
+  redis:
+    # 地址
+    host: 10.206.97.13
+    # 端口，默认为6379
+    port: 6381
+    # 数据库索引
+    database: 16
+    # 密码
+    password: Z-7h-LVmU^En7].y
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+
+# token配置
+token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyz
+    # 令牌有效期（默认30分钟）
+    expireTime: 30
+  
+# MyBatisPlus配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.zero.**.domain  # 注意：对应实体类的路径
+  configLocation: classpath:mybatis/mybatis-config.xml # 加载全局的配置文件
+configuration:
+  # 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载。
+  lazy-loading-enabled: false
+  # 使全局的映射器启用或禁用缓存
+  cache-enabled: true
+  # 当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。
+  aggressive-lazy-loading: false
+  # 是否允许单条sql 返回多个数据集  (取决于驱动的兼容性) default:true
+  multiple-result-sets-enabled: true
+  # 是否可以使用列的别名 (取决于驱动的兼容性) default:true
+  use-column-label: true
+  # 允许JDBC 生成主键。需要驱动器支持。如果设为了true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。  default:false
+  use-generated-keys: false
+  # 指定 MyBatis 如何自动映射 数据基表的列 NONE：不隐射　PARTIAL:部分  FULL:全部
+  auto-mapping-behavior: partial
+  # 这是默认的执行类型  （SIMPLE: 简单； REUSE: 执行器可能重复使用prepared statements语句；BATCH: 执行器可以重复执行语句和批量更新）
+  default-executor-type: simple
+  # 使用驼峰命名法转换字段。
+  map-underscore-to-camel-case: true
+  # 设置本地缓存范围 session:就会有数据的共享  statement:语句范围 (这样就不会有数据的共享 ) defalut:session
+  local-cache-scope: statement
+  # 设置但JDBC类型为空时,某些驱动程序 要指定值,default:OTHER，插入空值时不需要指定类型
+  jdbc-type-for-null: 'null'
+  global-config:
+    db-config:
+      #逻辑删除字段设置
+      logic-delete-field: del_flag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #主键策略：自增型
+      id-type: auto
+    banner: false
+
+
+# PageHelper分页插件
+pagehelper: 
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql 
+
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+
+# 防止XSS攻击
+xss: 
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
