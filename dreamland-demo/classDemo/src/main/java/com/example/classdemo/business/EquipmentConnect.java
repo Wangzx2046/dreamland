@@ -48,10 +48,10 @@ public class EquipmentConnect {
         ja.add(jb);
 
 
-        accessDevices(RandomUtil.randomInt(250,270), "深圳市有方科技股份有限公司" , "共享雨伞" , "GXYS" , "MQTT" , "其他" , "低端" ,
+        accessDevices(RandomUtil.randomInt(390,400), "深圳市有方科技股份有限公司" , "共享雨伞" , "GXYS" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
 
-        accessDevices(RandomUtil.randomInt(245,260), "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "其他" , "低端" ,
+        accessDevices(RandomUtil.randomInt(360,380), "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
     }
 
@@ -70,7 +70,7 @@ public class EquipmentConnect {
         JSONArray deviceArr = new JSONArray();
         JSONArray deviceDataArr = new JSONArray();
         for (int i = 0; i < num; i++) {
-            String deviceCode = "YOUFANGKEJI" + RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(6);
+            String deviceCode = "YOUFANGKEJI" + RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(7);
             deviceArr.add(makeDevice(deviceCode, productName + deviceCode, province, city, worth));
             ja.forEach(x -> {
                 JSONObject jbx = JSONObject.parseObject(x.toString());

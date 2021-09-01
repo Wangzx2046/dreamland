@@ -59,7 +59,12 @@ public class GenConstants {
     /**
      * 数据库时间类型
      */
-    public static final String[] COLUMNTYPE_TIME = {"datetime" , "time" , "date" , "timestamp"};
+    public static final String[] COLUMNTYPE_TIME = {"datetime" , "time"  , "timestamp"};
+
+    /**
+     * 数据库日期类型
+     */
+    public static final String[] COLUMNTYPE_DATE = {"date" };
 
     /**
      * 数据库数字类型
@@ -119,6 +124,11 @@ public class GenConstants {
 
     /**
      * 日期控件
+     */
+    public static final String HTML_DATE = "date";
+
+    /**
+     * 时间控件
      */
     public static final String HTML_DATETIME = "datetime";
 

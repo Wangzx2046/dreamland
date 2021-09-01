@@ -10,29 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="活动开始时间" prop="actStartTime">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.actStartTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择活动开始时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="活动结束时间" prop="actEndTime">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.actEndTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择活动结束时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="提醒时间" prop="remindTime">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.remindTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择提醒时间">
-        </el-date-picker>
+      <el-form-item label="活动频率" prop="actFrequency">
+        <el-select v-model="queryParams.actFrequency" placeholder="请选择活动频率" clearable size="small">
+          <el-option
+            v-for="dict in actFrequencyOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="周期内可参与次数：0代表不限次数" prop="cycleTimes">
         <el-input
@@ -121,22 +107,18 @@
       <el-table-column label="活动名称" align="center" prop="actName" />
       <el-table-column label="活动简介" align="center" prop="actIntroduction" />
       <el-table-column label="活动频率" align="center" prop="actFrequency" :formatter="actFrequencyFormat" />
-      <el-table-column label="活动开始时间" align="center" prop="actStartTime" width="220">
+      <el-table-column label="活动开始时间" align="center" prop="actStartTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.actStartTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="活动结束时间" align="center" prop="actEndTime" width="220">
+      <el-table-column label="活动结束时间" align="center" prop="actEndTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.actEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="提醒时间" align="center" prop="remindTime" width="220">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.remindTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="周期内可参与次数：0代表不限次数" align="center" prop="cycleTimes" />
+      <el-table-column label="提醒时间" align="center" prop="remindTime" />
       <el-table-column label="活动链接" align="center" prop="actLink" />
       <el-table-column label="活动渠道" align="center" prop="actChannel" :formatter="actChannelFormat" />
       <el-table-column label="备注" align="center" prop="remark" />
@@ -199,10 +181,10 @@
             <el-form-item label="活动结束时间：">{{form.actEndTime }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="提醒时间：">{{form.remindTime }}</el-form-item>
+            <el-form-item label="周期内可参与次数：0代表不限次数：">{{form.cycleTimes }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="周期内可参与次数：0代表不限次数：">{{form.cycleTimes }}</el-form-item>
+            <el-form-item label="提醒时间：">{{form.remindTime }}</el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="活动链接：">{{form.actLink }}</el-form-item>
@@ -239,50 +221,49 @@
 
 
     <!-- 添加或修改活动信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="活动名称" prop="actName">
           <el-input v-model="form.actName" placeholder="请输入活动名称" />
         </el-form-item>
-        <el-form-item label="活动简介">
-          <editor v-model="form.actIntroduction" :min-height="192"/>
+        <el-form-item label="活动简介" prop="actIntroduction">
+          <el-input v-model="form.actIntroduction" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="活动频率">
-          <el-checkbox-group v-model="form.actFrequency">
-            <el-checkbox
+          <el-radio-group v-model="form.actFrequency">
+            <el-radio
               v-for="dict in actFrequencyOptions"
               :key="dict.dictValue"
-              :label="dict.dictValue">
-              {{dict.dictLabel}}
-            </el-checkbox>
-          </el-checkbox-group>
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="活动开始时间" prop="actStartTime">
           <el-date-picker clearable size="small"
                           v-model="form.actStartTime"
-                          type="datetime"
-                          value-format="yyyy-MM-dd hh:mm:ss"
+                          type="date"
+                          value-format="yyyy-MM-dd"
                           placeholder="选择活动开始时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="活动结束时间" prop="actEndTime">
           <el-date-picker clearable size="small"
                           v-model="form.actEndTime"
-                          type="datetime"
-                          value-format="yyyy-MM-dd hh:mm:ss"
+                          type="date"
+                          value-format="yyyy-MM-dd"
                           placeholder="选择活动结束时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="提醒时间" prop="remindTime">
-          <el-date-picker clearable size="small"
-                          v-model="form.remindTime"
-                          type="datetime"
-                          value-format="yyyy-MM-dd hh:mm:ss"
-                          placeholder="选择提醒时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="周期内可参与次数：0代表不限次数" prop="cycleTimes">
           <el-input v-model="form.cycleTimes" placeholder="请输入周期内可参与次数：0代表不限次数" />
+        </el-form-item>
+        <el-form-item label="提醒时间" prop="remindTime">
+          <el-time-picker clearable size="small"
+                          v-model="form.remindTime"
+                          type="time"
+                          value-format="hh:mm:ss"
+                          placeholder="选择提醒时间">
+          </el-time-picker>
         </el-form-item>
         <el-form-item label="活动链接" prop="actLink">
           <el-input v-model="form.actLink" placeholder="请输入活动链接" />
@@ -329,12 +310,10 @@
 
 <script>
 import { listInfo, getInfo, delInfo, addInfo, updateInfo, exportInfo } from "@/api/act/info";
-import Editor from '@/components/Editor';
 
 export default {
   name: "Info",
   components: {
-    Editor,
   },
   data() {
     return {
@@ -372,8 +351,8 @@ export default {
         actFrequency: null,
         actStartTime: null,
         actEndTime: null,
-        remindTime: null,
         cycleTimes: null,
+        remindTime: null,
         actLink: null,
         actChannel: null,
       },
@@ -396,11 +375,11 @@ export default {
         actEndTime: [
           { required: true, message: "活动结束时间不能为空", trigger: "blur" }
         ],
-        remindTime: [
-          { required: true, message: "提醒时间不能为空", trigger: "blur" }
-        ],
         cycleTimes: [
           { required: true, message: "周期内可参与次数：0代表不限次数不能为空", trigger: "blur" }
+        ],
+        remindTime: [
+          { required: true, message: "提醒时间不能为空", trigger: "blur" }
         ],
         actChannel: [
           { required: true, message: "活动渠道不能为空", trigger: "change" }
@@ -430,7 +409,7 @@ export default {
     },
     // 活动频率字典翻译
     actFrequencyFormat(row, column) {
-      return this.selectDictLabels(this.actFrequencyOptions, row.actFrequency);
+      return this.selectDictLabel(this.actFrequencyOptions, row.actFrequency);
     },
     // 活动渠道字典翻译
     actChannelFormat(row, column) {
@@ -447,11 +426,11 @@ export default {
         actId: null,
         actName: null,
         actIntroduction: null,
-        actFrequency: [],
+        actFrequency: "0",
         actStartTime: null,
         actEndTime: null,
-        remindTime: null,
         cycleTimes: null,
+        remindTime: null,
         actLink: null,
         actChannel: null,
         delFlag: null,
@@ -496,7 +475,6 @@ export default {
       const actId = row.actId || this.ids
       getInfo(actId).then(response => {
         this.form = response.data;
-        this.form.actFrequency = this.form.actFrequency.split(",");
         this.open = true;
         this.title = "修改活动信息";
       });
@@ -505,7 +483,6 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.actFrequency = this.form.actFrequency.join(",");
           if (this.form.actId != null) {
             updateInfo(this.form).then(response => {
               this.msgSuccess("修改成功");

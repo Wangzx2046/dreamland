@@ -30,15 +30,15 @@
         </dependency>
 
         <!-- 通用工具-->
-        <dependency>
-            <groupId>com.zero</groupId>
-            <artifactId>zero-common</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.zero</groupId>
             <artifactId>zero-system</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.zero</groupId>
+            <artifactId>zero-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

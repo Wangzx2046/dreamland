@@ -63,6 +63,9 @@ private static final long serialVersionUID = 1L;
 #elseif($column.javaType == 'LocalDateTime')
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+#elseif($column.javaType == 'LocalTime')
+    @JsonFormat(pattern = "HH:mm:ss")
+    @Excel(name = "${comment}", width = 30, dateFormat = "HH:mm:ss")
 #else
     @Excel(name = "${comment}")
 #end
