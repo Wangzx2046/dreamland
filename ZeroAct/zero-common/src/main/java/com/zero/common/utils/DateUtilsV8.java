@@ -327,43 +327,38 @@ public class DateUtilsV8 {
     /**
      * Description: 根据枚举和开始结束时间，返回对应的周期性日期列表
      *
-     * @param dayOfWeek 周期类型类型：ActFrequencyType
+     * @param frequency 周期类型类型：ActFrequencyType
      * @param begin     开始时间
      * @param end       结束时间
      * @return
      * @author wangzhengxiang
      * @date 2019年1月3日 下午2:59:12
      */
-    public static List<LocalDate> getFrequencyDateList(int dayOfWeek, LocalDate begin, LocalDate end) {
-        List<LocalDate> dateList = new ArrayList<LocalDate>();
-        if (0 == dayOfWeek) {
-            dateList.addAll(getDaysList(begin, end));
-        } else {
-            dateList.addAll(getDaysList(dayOfWeek, begin, end));
-        }
-        return dateList;
-    }
-
-    public static List<LocalDate> getFirstDateList(int type, LocalDate begin, LocalDate end) {
+    public static List<LocalDate> getFrequencyDateList(int frequency, LocalDate begin, LocalDate end) {
         List<LocalDate> dateList = new ArrayList<LocalDate>();
         LocalDate startDate = begin;
-        if (9 == type) {
+        if (9 == frequency) {
             while (!end.plusMonths(1).with(TemporalAdjusters.firstDayOfMonth()).equals(startDate)) {
                 dateList.add(startDate);
                 startDate = startDate.plusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
             }
-        } else if (10 == type) {
+        } else if (10 == frequency) {
             while (!LocalDate.of(startDate.getYear(), startDate.plusMonths(3).getMonth().firstMonthOfQuarter(), 1).equals(startDate)) {
                 dateList.add(startDate);
                 startDate = LocalDate.of(startDate.getYear(), startDate.plusMonths(3).getMonth().firstMonthOfQuarter(), 1);
             }
-        } else if (11 == type) {
+        } else if (11 == frequency) {
             while (!end.plusYears(1).with(TemporalAdjusters.firstDayOfYear()).equals(startDate.with(TemporalAdjusters.firstDayOfMonth()))) {
                 dateList.add(startDate);
                 startDate = startDate.plusYears(1).with(TemporalAdjusters.firstDayOfYear());
             }
+        } else if (0 == frequency) {
+            dateList.addAll(getDaysList(begin, end));
+        } else if (8 == frequency) {
+            dateList.add(startDate);
+            dateList.addAll(getDaysList(DayOfWeek.MONDAY.getValue(), begin, end));
         } else {
-            dateList.addAll(getDaysList(type, begin, end));
+            dateList.addAll(getDaysList(frequency, begin, end));
         }
         return dateList;
     }

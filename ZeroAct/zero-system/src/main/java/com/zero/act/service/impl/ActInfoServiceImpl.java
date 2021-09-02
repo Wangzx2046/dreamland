@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -43,90 +42,41 @@ public class ActInfoServiceImpl extends ServiceImpl<ActInfoMapper, ActInfo> impl
 
         List<ActRemind> arList = new ArrayList<>();
         for (Long userid : userIds) {
-            //获取活动需要签到的日期
-            if (ActFrequencyType.WEEKLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
-                //按周，值获取每周一，结束日期直接+6
-                List<LocalDate> times = DateUtilsV8.getFrequencyDateList(DayOfWeek.MONDAY.getValue(), actInfo.getActStartTime(), actInfo.getActEndTime());
-                times.stream().sorted().forEach(x -> {
-                    for (int i = 1; i < actInfo.getCycleTimes() + 1; i++) {
-                        ActRemind actRemind = new ActRemind();
-                        actRemind.setActId(actInfo.getActId());
-                        actRemind.setActName(actInfo.getActName() + "第" + i + "次打卡");
-                        actRemind.setActLink(actInfo.getActLink());
-                        actRemind.setRemindStartTime(x.atTime(0, 0, 0));
-                        actRemind.setRemindEndTime(x.plusDays(6).atTime(23, 59, 59));
-                        actRemind.setActTime(actInfo.getRemindTime());
-                        actRemind.setUserId(userid);
-                        arList.add(actRemind);
-                    }
-                });
-
-            } else if (ActFrequencyType.MONTHLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
-                //按周，值获取每月1号，结束日期直接+6
-                List<LocalDate> times = DateUtilsV8.getFirstDateList(actInfo.getActFrequency(), actInfo.getActStartTime(), actInfo.getActEndTime());
-                times.stream().sorted().forEach(x -> {
-                    for (int i = 1; i < actInfo.getCycleTimes() + 1; i++) {
-                        ActRemind actRemind = new ActRemind();
-                        actRemind.setActId(actInfo.getActId());
-                        actRemind.setActName(actInfo.getActName() + "第" + i + "次打卡");
-                        actRemind.setActLink(actInfo.getActLink());
-                        actRemind.setRemindStartTime(x.atTime(0, 0, 0));
-                        actRemind.setRemindEndTime(x.with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59));
-                        actRemind.setActTime(actInfo.getRemindTime());
-                        actRemind.setUserId(userid);
-                        arList.add(actRemind);
-                    }
-                });
-
-            } else if (ActFrequencyType.QUARTERLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
-                //按周，值获取每月季度号，
-                List<LocalDate> times = DateUtilsV8.getFirstDateList(actInfo.getActFrequency(), actInfo.getActStartTime(), actInfo.getActEndTime());
-                times.stream().sorted().forEach(x -> {
-                    for (int i = 1; i < actInfo.getCycleTimes() + 1; i++) {
-                        ActRemind actRemind = new ActRemind();
-                        actRemind.setActId(actInfo.getActId());
-                        actRemind.setActName(actInfo.getActName() + "第" + i + "次打卡");
-                        actRemind.setActLink(actInfo.getActLink());
-                        actRemind.setRemindStartTime(x.atTime(0, 0, 0));
-                        actRemind.setRemindEndTime(x.plusMonths(2).with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59));
-                        actRemind.setActTime(actInfo.getRemindTime());
-                        actRemind.setUserId(userid);
-                        arList.add(actRemind);
-                    }
-                });
-
-            } else if (ActFrequencyType.EVERY_YEAR.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
-                //按周，值获取每月年，
-                List<LocalDate> times = DateUtilsV8.getFirstDateList(actInfo.getActFrequency(), actInfo.getActStartTime(), actInfo.getActEndTime());
-                times.stream().sorted().forEach(x -> {
-                    for (int i = 1; i < actInfo.getCycleTimes() + 1; i++) {
-                        ActRemind actRemind = new ActRemind();
-                        actRemind.setActId(actInfo.getActId());
-                        actRemind.setActName(actInfo.getActName() + "第" + i + "次打卡");
-                        actRemind.setActLink(actInfo.getActLink());
-                        actRemind.setRemindStartTime(x.atTime(0, 0, 0));
-                        actRemind.setRemindEndTime(x.with(TemporalAdjusters.lastDayOfYear()).atTime(23, 59, 59));
-                        actRemind.setActTime(actInfo.getRemindTime());
-                        actRemind.setUserId(userid);
-                        arList.add(actRemind);
-                    }
-                });
-            } else {
-                List<LocalDate> times = DateUtilsV8.getFrequencyDateList(actInfo.getActFrequency(), actInfo.getActStartTime(), actInfo.getActEndTime());
-                times.stream().sorted().forEach(x -> {
+            List<LocalDate> times = DateUtilsV8.getFrequencyDateList(actInfo.getActFrequency(), actInfo.getActStartTime(), actInfo.getActEndTime());
+            times.stream().sorted().forEach(x -> {
+                for (int i = 1; i < actInfo.getCycleTimes() + 1; i++) {
                     ActRemind actRemind = new ActRemind();
-                    actRemind.setActId(actInfo.getActId());
-                    actRemind.setActName(actInfo.getActName());
-                    actRemind.setActLink(actInfo.getActLink());
-                    actRemind.setRemindStartTime(x.atTime(0, 0, 0));
-                    actRemind.setRemindEndTime(x.atTime(23, 59, 59));
                     actRemind.setActTime(actInfo.getRemindTime());
                     actRemind.setUserId(userid);
+                    actRemind.setActId(actInfo.getActId());
+                    actRemind.setActName(actInfo.getActName() + "第" + i + "次打卡");
+                    actRemind.setActLink(actInfo.getActLink());
+                    actRemind.setRemindStartTime(x.atTime(0, 0, 0));
+                    if (ActFrequencyType.WEEKLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
+                        //每周
+                        actRemind.setRemindEndTime(x.plusDays(6).atTime(23, 59, 59));
+                    } else if (ActFrequencyType.MONTHLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
+                        //每月
+                        actRemind.setRemindEndTime(x.with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59));
+                    } else if (ActFrequencyType.QUARTERLY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
+                        //每季度
+                        actRemind.setRemindEndTime(x.plusMonths(2).with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59));
+                    } else if (ActFrequencyType.EVERY_YEAR.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
+                        //每年
+                        actRemind.setRemindEndTime(x.with(TemporalAdjusters.lastDayOfYear()).atTime(23, 59, 59));
+                    } else if (ActFrequencyType.EVERY_DAY.getCode().equals(String.valueOf(actInfo.getActFrequency()))) {
+                        //每天
+                        actRemind.setRemindEndTime(x.atTime(23, 59, 59));
+                    } else {
+                        //每周几
+                        actRemind.setRemindEndTime(x.plusDays(6).atTime(23, 59, 59));
+                    }
                     arList.add(actRemind);
-                });
-            }
-        }
+                }
+            });
 
+        }
         return actRemindService.saveBatch(arList);
+
     }
 }

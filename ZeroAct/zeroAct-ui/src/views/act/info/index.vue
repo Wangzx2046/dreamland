@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="活动频率" prop="actFrequency">
+<!--      <el-form-item label="活动频率" prop="actFrequency">
         <el-select v-model="queryParams.actFrequency" placeholder="请选择活动频率" clearable size="small">
           <el-option
             v-for="dict in actFrequencyOptions"
@@ -37,7 +37,7 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="活动渠道" prop="actChannel">
         <el-select v-model="queryParams.actChannel" placeholder="请选择活动渠道" clearable size="small">
           <el-option
@@ -103,24 +103,28 @@
 
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="活动ID" align="center" prop="actId" />
+<!--      <el-table-column label="活动ID" align="center" prop="actId" />-->
+      <el-table-column label="活动渠道" align="center" prop="actChannel" :formatter="actChannelFormat" />
       <el-table-column label="活动名称" align="center" prop="actName" />
-      <el-table-column label="活动简介" align="center" prop="actIntroduction" />
-      <el-table-column label="活动频率" align="center" prop="actFrequency" :formatter="actFrequencyFormat" />
-      <el-table-column label="活动开始时间" align="center" prop="actStartTime" width="180">
+
+      <el-table-column label="活动周期" align="center" prop="actStartTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.actStartTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="活动结束时间" align="center" prop="actEndTime" width="180">
-        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.actStartTime, '{y}-{m}-{d}') }}</span>-
           <span>{{ parseTime(scope.row.actEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="周期内可参与次数：0代表不限次数" align="center" prop="cycleTimes" />
-      <el-table-column label="提醒时间" align="center" prop="remindTime" />
+      <el-table-column label="开始时间" align="center" prop="remindTime" />
+      <el-table-column label="活动频率" align="center" prop="actFrequency" :formatter="actFrequencyFormat" />
+
+<!--      <el-table-column label="活动结束时间" align="center" prop="actEndTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.actEndTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>-->
+      <el-table-column label="活动次数" align="center" prop="cycleTimes" />
+      <el-table-column label="活动简介" align="center" prop="actIntroduction" show-tooltip-when-overflow />
+
       <el-table-column label="活动链接" align="center" prop="actLink" />
-      <el-table-column label="活动渠道" align="center" prop="actChannel" :formatter="actChannelFormat" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -163,50 +167,25 @@
       <el-form ref="form" :model="form" label-width="100px" size="mini">
         <el-row>
           <el-col :span="24">
-            <el-form-item label="活动ID：">{{form.actId }}</el-form-item>
+            <el-form-item label="活动名称：">【{{form.actChannel }}】{{form.actName }}</el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="活动名称：">{{form.actName }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="活动简介：">{{form.actIntroduction }}</el-form-item>
-          </el-col>
+
           <el-col :span="24">
             <el-form-item label="活动频率：">{{form.actFrequency }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="活动开始时间：">{{form.actStartTime }}</el-form-item>
+            <el-form-item label="活动周期：">{{form.actStartTime }} - {{form.actEndTime }}  {{form.remindTime }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="活动结束时间：">{{form.actEndTime }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="周期内可参与次数：0代表不限次数：">{{form.cycleTimes }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="提醒时间：">{{form.remindTime }}</el-form-item>
+            <el-form-item label="参与次数：">{{form.cycleTimes }}</el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="活动链接：">{{form.actLink }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="活动渠道：">{{form.actChannel }}</el-form-item>
+            <v-html>{{form.actIntroduction }}</v-html>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="删除标志（0代表存在 2代表删除）：">{{form.delFlag }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="创建者：">{{form.createBy }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="创建时间：">{{form.createTime }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="更新者：">{{form.updateBy }}</el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="更新时间：">{{form.updateTime }}</el-form-item>
-          </el-col>
+
           <el-col :span="24">
             <el-form-item label="备注：">{{form.remark }}</el-form-item>
           </el-col>
@@ -223,6 +202,16 @@
     <!-- 添加或修改活动信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form-item label="活动渠道" prop="actChannel">
+          <el-select v-model="form.actChannel" placeholder="请选择活动渠道">
+            <el-option
+              v-for="dict in actChannelOptions"
+              :key="dict.dictValue"
+              :label="dict.dictLabel"
+              :value="dict.dictValue"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="活动名称" prop="actName">
           <el-input v-model="form.actName" placeholder="请输入活动名称" />
         </el-form-item>
@@ -238,23 +227,29 @@
             >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="活动开始时间" prop="actStartTime">
+        <el-form-item label="活动周期" prop="actStartTime">
           <el-date-picker clearable size="small"
                           v-model="form.actStartTime"
                           type="date"
                           value-format="yyyy-MM-dd"
                           placeholder="选择活动开始时间">
           </el-date-picker>
-        </el-form-item>
-        <el-form-item label="活动结束时间" prop="actEndTime">
-          <el-date-picker clearable size="small"
+          - <el-date-picker clearable size="small"
                           v-model="form.actEndTime"
                           type="date"
                           value-format="yyyy-MM-dd"
                           placeholder="选择活动结束时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="周期内可参与次数：0代表不限次数" prop="cycleTimes">
+<!--        <el-form-item label="活动结束时间" prop="actEndTime">
+          <el-date-picker clearable size="small"
+                          v-model="form.actEndTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择活动结束时间">
+          </el-date-picker>
+        </el-form-item>-->
+        <el-form-item label="参与次数" prop="cycleTimes">
           <el-input v-model="form.cycleTimes" placeholder="请输入周期内可参与次数：0代表不限次数" />
         </el-form-item>
         <el-form-item label="提醒时间" prop="remindTime">
@@ -268,19 +263,7 @@
         <el-form-item label="活动链接" prop="actLink">
           <el-input v-model="form.actLink" placeholder="请输入活动链接" />
         </el-form-item>
-        <el-form-item label="活动渠道" prop="actChannel">
-          <el-select v-model="form.actChannel" placeholder="请选择活动渠道">
-            <el-option
-              v-for="dict in actChannelOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
-        </el-form-item>
+
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
