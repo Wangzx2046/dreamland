@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zero</groupId>
-    <artifactId>zero</artifactId>
+    <artifactId>zeroGen</artifactId>
     <version>4.6.2</version>
 
-    <name>zero</name>
+    <name>zeroGen</name>
     <url>http://www.zero.vip</url>
     <description>ZG管理系统</description>
 
@@ -216,28 +216,28 @@
             <!-- 代码生成-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-generator</artifactId>
+                <artifactId>zeroGen-generator</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-framework</artifactId>
+                <artifactId>zeroGen-framework</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 系统模块-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-system</artifactId>
+                <artifactId>zeroGen-system</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 通用工具-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-common</artifactId>
+                <artifactId>zeroGen-common</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
@@ -245,12 +245,12 @@
     </dependencyManagement>
 
     <modules>
-        <module>zero-admin</module>
-        <module>zero-framework</module>
-        <module>zero-system</module>
-        <!-- <module>zero-quartz</module>-->
-        <module>zero-generator</module>
-        <module>zero-common</module>
+        <module>zeroGen-admin</module>
+        <module>zeroGen-framework</module>
+        <module>zeroGen-system</module>
+        <!-- <module>zeroGen-quartz</module>-->
+        <module>zeroGen-generator</module>
+        <module>zeroGen-common</module>
     </modules>
     <packaging>pom</packaging>
 

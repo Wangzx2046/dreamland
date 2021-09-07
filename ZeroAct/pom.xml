@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	
     <groupId>com.zero</groupId>
-    <artifactId>zero</artifactId>
+    <artifactId>zeroAct</artifactId>
     <version>3.6.0</version>
 
-    <name>zero</name>
+    <name>zeroAct</name>
     <url>http://www.zero.vip</url>
     <description>Zero管理系统</description>
     
@@ -108,6 +108,8 @@
                 </exclusions>
             </dependency>
 
+
+
             <!-- io常用工具类 -->
             <dependency>
                 <groupId>commons-io</groupId>
@@ -173,35 +175,35 @@
             <!-- 定时任务-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-quartz</artifactId>
+                <artifactId>zeroAct-quartz</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 代码生成-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-generator</artifactId>
+                <artifactId>zeroAct-generator</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-framework</artifactId>
+                <artifactId>zeroAct-framework</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 系统模块-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-system</artifactId>
+                <artifactId>zeroAct-system</artifactId>
                 <version>${zero.version}</version>
             </dependency>
 
             <!-- 通用工具-->
             <dependency>
                 <groupId>com.zero</groupId>
-                <artifactId>zero-common</artifactId>
+                <artifactId>zeroAct-common</artifactId>
                 <version>${zero.version}</version>
             </dependency>
             <dependency>
@@ -213,12 +215,12 @@
     </dependencyManagement>
 
     <modules>
-        <module>zero-admin</module>
-        <module>zero-framework</module>
-        <module>zero-system</module>
-        <module>zero-quartz</module>
-        <module>zero-generator</module>
-        <module>zero-common</module>
+        <module>zeroAct-admin</module>
+        <module>zeroAct-framework</module>
+        <module>zeroAct-system</module>
+        <module>zeroAct-quartz</module>
+        <module>zeroAct-generator</module>
+        <module>zeroAct-common</module>
     </modules>
     <packaging>pom</packaging>
 
