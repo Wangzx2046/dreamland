@@ -8,6 +8,7 @@ import com.zero.common.utils.SecurityUtils;
 import com.zero.framework.web.service.SysLoginService;
 import com.zero.framework.web.service.SysPermissionService;
 import com.zero.system.service.ISysMenuService;
+import com.zero.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,9 @@ public class MobileLoginController {
     private SysLoginService loginService;
 
     @Autowired
+    private ISysUserService sysUserService;
+
+    @Autowired
     private ISysMenuService menuService;
 
     @Autowired
@@ -36,13 +40,13 @@ public class MobileLoginController {
      * @return 结果
      */
     @PostMapping("/mlogin")
-    public Result mlogin(@RequestBody LoginBody loginBody) {
+    public Result<JSONObject> mlogin(@RequestBody LoginBody loginBody) {
         Result<JSONObject> result = new Result<JSONObject>();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
 
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        SysUser user =sysUserService.selectUserByUserName(loginBody.getUsername()) ;
 
         JSONObject obj = new JSONObject();
 
