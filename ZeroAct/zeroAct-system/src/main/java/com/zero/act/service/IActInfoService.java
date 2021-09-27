@@ -1,9 +1,7 @@
 package com.zero.act.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.zero.act.domain.ActInfo;
-import org.apache.poi.ss.formula.functions.T;
 
 /**
  * 活动信息Service接口
