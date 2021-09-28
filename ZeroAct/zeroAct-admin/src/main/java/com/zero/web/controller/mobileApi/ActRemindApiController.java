@@ -1,4 +1,4 @@
-package com.zero.web.controller.act;
+package com.zero.web.controller.mobileApi;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zero.act.domain.ActRemind;
@@ -8,6 +8,7 @@ import com.zero.common.core.controller.BaseController;
 import com.zero.common.core.domain.AjaxResult;
 import com.zero.common.core.page.TableDataInfo;
 import com.zero.common.enums.BusinessType;
+import com.zero.common.enums.RoleType;
 import com.zero.common.utils.poi.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,51 +28,35 @@ import java.util.List;
  * @date 2021-08-27
  */
 @RestController
-@RequestMapping("/act/remind")
-public class ActRemindController extends BaseController {
+@RequestMapping("/api/act/remind")
+public class ActRemindApiController extends BaseController {
     @Autowired
     private IActRemindService actRemindService;
 
     /**
      * 查询活动打卡记录列表
      */
-    @PreAuthorize("@ss.hasPermi('act:remind:list')")
+    @PreAuthorize("@ss.hasRole('common')")
     @GetMapping("/list")
     public TableDataInfo list(ActRemind actRemind) {
+
         startPage();
-        List<ActRemind> list = actRemindService.list(new QueryWrapper<>(actRemind).orderByDesc("create_time"));
+        List<ActRemind> list = actRemindService.listByUserId(getUserId());
         return getDataTable(list);
     }
 
-
     /**
-     * 导入活动打卡记录列表
+     * 查询活动打卡记录列表
      */
-    @PreAuthorize("@ss.hasPermi('act:remind:upload')")
-    @Log(title = "活动打卡记录", businessType = BusinessType.IMPORT)
-    @PostMapping("/upload")
-    public AjaxResult importData(@RequestParam MultipartFile file, @RequestParam boolean updateSupport) throws Exception {
-        ExcelUtil<ActRemind> util = new ExcelUtil<ActRemind>(ActRemind.class);
-        List<ActRemind> list = util.importExcel(file.getInputStream());
-
-        //todo批量插入逻辑
-        actRemindService.saveBatch(list);
+    @PreAuthorize("@ss.hasRole('common')")
+    @GetMapping("/sign/{id}")
+    public AjaxResult sign(@PathParam("id") long id) {
 
 
-        return AjaxResult.success("导入成功");
+        actRemindService.sign(getUserId(), id);
+        return AjaxResult.success();
     }
 
-    /**
-     * 导出活动打卡记录列表
-     */
-    @PreAuthorize("@ss.hasPermi('act:remind:export')")
-    @Log(title = "活动打卡记录", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, ActRemind actRemind) throws IOException {
-        List<ActRemind> list = actRemindService.list(new QueryWrapper<>(actRemind).orderByDesc("create_time"));
-        ExcelUtil<ActRemind> util = new ExcelUtil<ActRemind>(ActRemind.class);
-        util.exportExcel(response, list, "活动打卡记录数据");
-    }
 
     /**
      * 获取活动打卡记录详细信息

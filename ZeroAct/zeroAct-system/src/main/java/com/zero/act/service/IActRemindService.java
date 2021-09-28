@@ -1,6 +1,7 @@
 package com.zero.act.service;
 
 import java.util.List;
+
 import com.zero.act.domain.ActRemind;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IActRemindService extends IService<ActRemind>{
 
+    List<ActRemind> listByUserId(Long userId);
+
+    int sign(Long userId, long recordId);
 }
