@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IActRemindService extends IService<ActRemind>{
 
-    List<ActRemind> listByUserId(Long userId);
+    List<ActRemind> listByUserId(Long userId,String signFlag);
 
     int sign(Long userId, long recordId);
 }

@@ -5,6 +5,7 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -17,7 +18,7 @@ public class EquipmentConnect {
     //public static final String ACCESSDEVICES_URL = "http://edge.cosmoplat.com:30152/company/device/access";//test
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
         JSONArray ja = new JSONArray();
@@ -51,6 +52,7 @@ public class EquipmentConnect {
         accessDevices(RandomUtil.randomInt(250,260), "深圳市有方科技股份有限公司" , "共享雨伞" , "GXYS" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
 
+        Thread.currentThread().sleep(10000);
         accessDevices(RandomUtil.randomInt(260,270), "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
     }
@@ -70,7 +72,7 @@ public class EquipmentConnect {
         JSONArray deviceArr = new JSONArray();
         JSONArray deviceDataArr = new JSONArray();
         for (int i = 0; i < num; i++) {
-            String deviceCode = "YOUFANGKEJI" + RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(7);
+            String deviceCode = "YOUFANGKEJI" + LocalDate.now().toString().substring(2)+ RandomUtil.randomStringUpper(4) + RandomUtil.randomNumbers(7);
             deviceArr.add(makeDevice(deviceCode, productName + deviceCode, province, city, worth));
             ja.forEach(x -> {
                 JSONObject jbx = JSONObject.parseObject(x.toString());

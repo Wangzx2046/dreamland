@@ -41,7 +41,7 @@ public class ActRemindApiController extends BaseController {
     public TableDataInfo list(ActRemind actRemind) {
 
         startPage();
-        List<ActRemind> list = actRemindService.listByUserId(getUserId());
+        List<ActRemind> list = actRemindService.listByUserId(getUserId(),actRemind.getSignFlag());
         return getDataTable(list);
     }
 
@@ -49,8 +49,8 @@ public class ActRemindApiController extends BaseController {
      * 查询活动打卡记录列表
      */
     @PreAuthorize("@ss.hasRole('common')")
-    @GetMapping("/sign/{id}")
-    public AjaxResult sign(@PathParam("id") long id) {
+    @PutMapping("/sign/{id}")
+    public AjaxResult sign(@PathVariable("id") long id) {
 
 
         actRemindService.sign(getUserId(), id);
