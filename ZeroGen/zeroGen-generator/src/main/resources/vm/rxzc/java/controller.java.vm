@@ -1,0 +1,101 @@
+package ${packageName}.controller;
+
+
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.util.Arrays;
+import java.util.List;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.constraints.NotBlank;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.ruixing.common.base.BaseController;
+import com.ruixing.common.Constants;
+import com.ruixing.common.aop.auth.PreAuthorize;
+import com.ruixing.common.base.PageResponse;
+import com.ruixing.common.base.Response;
+import com.ruixing.common.annotation.Log;
+import com.ruixing.common.aop.auth.PreAuthorize;
+import com.ruixing.common.enums.BusinessType;
+#if($table.crud || $table.sub)
+#elseif($table.tree)
+#end
+
+/**
+ * ${functionName}Controller
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Api(tags = "${functionName}")
+@RestController
+@RequestMapping("/${moduleName}/${businessName}")
+public class ${ClassName}Controller extends BaseController{
+    @Autowired
+    private I${ClassName}Service ${className}Service;
+
+    @ApiOperation(value = "${functionName}查询列表", notes = "列表查看${functionName}的记录")
+    @PreAuthorize(hasPermi = "${permissionPrefix}:list")
+    @GetMapping("/list")
+#if($table.crud || $table.sub)
+    public PageResponse list(${ClassName} ${className}){
+        startPage();
+        List<${ClassName}> list = ${className}Service.list(new QueryWrapper<>(${className}).orderByDesc("create_time"));
+        return getDataTable(list);
+    }
+#elseif($table.tree)
+    public Response<List<${ClassName}>> list(${ClassName} ${className}){
+        List<${ClassName}> list = ${className}Service.list(new QueryWrapper<>(${className}));
+        return Response.success(list);
+    }
+#end
+
+    #*   @ApiOperation(value = "${functionName}导出列表", notes = "导出${functionName}的记录")
+       @PreAuthorize(hasPermi = "${permissionPrefix}:export")
+      // @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
+       @PostMapping("/export")
+       public void export(HttpServletResponse response, ${ClassName} ${className}) throws IOException
+       {
+           List<${ClassName}> list = ${className}Service.list(new QueryWrapper<>(${className}));
+           ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
+           util.exportExcel(response, list, "${functionName}数据");
+       }*#
+
+    @ApiOperation(value = "${functionName}详细信息", notes = "查看${functionName}的详细信息")
+    @PreAuthorize(hasPermi = "${permissionPrefix}:query")
+    @GetMapping(value = "/{id}")
+    public Response<${ClassName}>  getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} id){
+        return Response.success(${className}Service.getById(id));
+    }
+
+    @ApiOperation(value = "${functionName}-新增", notes = "新增${functionName}")
+    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
+    @PostMapping
+    public Response<Void> add(@RequestBody ${ClassName} ${className}){
+       ${className}Service.save(${className});
+        return Response.success();
+    }
+
+    @ApiOperation(value = "${functionName}-修改", notes = "修改${functionName}")
+    @PreAuthorize(hasPermi = "${permissionPrefix}:edit")
+    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public Response<Void>  edit(@RequestBody ${ClassName} ${className}){
+      ${className}Service.updateById(${className});
+        return Response.success();
+    }
+
+    @ApiOperation(value = "${functionName}-删除", notes = "删除${functionName}")
+    @PreAuthorize(hasPermi = "${permissionPrefix}:remove")
+    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
+	@DeleteMapping("/{ids}")
+    public Response<Void>  remove(@PathVariable String[] ids){
+         ${className}Service.removeByIds(Arrays.asList(ids));
+        return Response.success();
+    }
+}
