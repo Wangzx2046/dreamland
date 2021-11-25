@@ -81,6 +81,33 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <logger name="com.zero" level="DEBUG" />
     <!-- Spring framework logger -->
     <logger name="org.springframework" level="INFO" additivity="true"></logger>
+    <!-- 这些日志不要打印debug，不然数量太多 -->
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.spring" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="io.grpc.netty" level="OFF"/>
+    <logger name="org.eclipse.jetty" level="WARN"/>
+    <logger name="jndi" level="WARN"/>
+    <logger name="redis.clients" level="WARN"/>
+    <logger name="application" level="WARN"/>
+    <logger name="springfox.documentation" level="WARN"/>
+    <logger name="com.netflix" level="WARN"/>
+    <logger name="org.reflections" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="io.grpc.internal.ClientCallImpl" level="OFF"/>
+    <logger name="org.springframework.amqp.rabbit" level="ERROR"/>
+    <logger name="com.baomidou.dynamic.datasource.DynamicRoutingDataSource" level="WARN"/>
+    <logger name="com.zaxxer.hikari.pool.HikariPool" level="WARN"/>
+    <logger name="org.quartz.core.QuartzSchedulerThread" level="INFO"/>
+    <logger name="io.lettuce.core.protocol.RedisStateMachine" level="INFO"/>
+    <logger name="io.lettuce.core.RedisChannelHandler" level="INFO"/>
+    <logger name="io.lettuce.core.protocol.CommandHandler" level="INFO"/>
+    <logger name="io.lettuce.core.protocol.CommandEncoder" level="INFO"/>
+    <logger name="io.lettuce.core.protocol.DefaultEndpoint" level="INFO"/>
+    <logger name="io.lettuce.core.protocol.ConnectionWatchdog" level="INFO"/>
+    <logger name="io.lettuce.core.RedisClient" level="INFO"/>
+    <logger name="org.mybatis.spring.mapper.ClassPathMapperScanner" level="INFO"/>
+    <logger name="com.baomidou.mybatisplus.core.MybatisConfiguration" level="INFO"/>
 
 
 
