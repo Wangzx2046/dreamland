@@ -1,6 +1,5 @@
 package com.example.classdemo.rca;
 
-import com.boot.lea.mybot.dto.RspDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
