@@ -1,23 +1,20 @@
 package com.zero.generator.controller;
 
-import java.util.List;
+import com.zero.common.annotation.Log;
+import com.zero.common.core.controller.BaseController;
+import com.zero.common.core.domain.AjaxResult;
+import com.zero.common.core.page.TableDataInfo;
+import com.zero.common.enums.BusinessType;
+import com.zero.common.utils.poi.ExcelUtil;
+import com.zero.generator.domain.GenDatasourceConf;
+import com.zero.generator.service.IGenDatasourceConfService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.zero.common.annotation.Log;
-import com.zero.common.enums.BusinessType;
-import com.zero.generator.domain.GenDatasourceConf;
-import com.zero.generator.service.IGenDatasourceConfService;
-import com.zero.common.core.controller.BaseController;
-import com.zero.common.core.domain.AjaxResult;
-import com.zero.common.utils.poi.ExcelUtil;
-import com.zero.common.core.page.TableDataInfo;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 数据源Controller
@@ -94,8 +91,7 @@ public class GenDatasourceConfController extends BaseController
     @Log(title = "数据源", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(GenDatasourceConf genDatasourceConf)
-    {
+    public AjaxResult addSave(GenDatasourceConf genDatasourceConf) throws Exception {
         return toAjax(genDatasourceConfService.insertGenDatasourceConf(genDatasourceConf));
     }
 
@@ -117,8 +113,7 @@ public class GenDatasourceConfController extends BaseController
     @Log(title = "数据源", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(GenDatasourceConf genDatasourceConf)
-    {
+    public AjaxResult editSave(GenDatasourceConf genDatasourceConf) throws Exception {
         return toAjax(genDatasourceConfService.updateGenDatasourceConf(genDatasourceConf));
     }
 

@@ -1,7 +1,8 @@
 package com.zero.generator.service;
 
-import java.util.List;
 import com.zero.generator.domain.GenDatasourceConf;
+
+import java.util.List;
 
 /**
  * 数据源Service接口
@@ -33,7 +34,7 @@ public interface IGenDatasourceConfService
      * @param genDatasourceConf 数据源
      * @return 结果
      */
-    public int insertGenDatasourceConf(GenDatasourceConf genDatasourceConf);
+    public int insertGenDatasourceConf(GenDatasourceConf genDatasourceConf) throws Exception;
 
     /**
      * 修改数据源
@@ -41,7 +42,7 @@ public interface IGenDatasourceConfService
      * @param genDatasourceConf 数据源
      * @return 结果
      */
-    public int updateGenDatasourceConf(GenDatasourceConf genDatasourceConf);
+    public int updateGenDatasourceConf(GenDatasourceConf genDatasourceConf) throws Exception;
 
     /**
      * 批量删除数据源

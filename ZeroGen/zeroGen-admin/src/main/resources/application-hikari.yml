@@ -16,10 +16,10 @@ spring:
           password: 123123
           driverClassName: com.mysql.cj.jdbc.Driver
         slave_1:
-          url: jdbc:mysql://127.0.0.1:3306/dreamland?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&&serverTimezone=GMT
-          username: root
+          url: jdbc:mysql://47.105.130.1:3306/dreamland_act?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=true&&serverTimezone=GMT
+          username: wzx
           password: 123123
-          driver-class-name: com.mysql.cj.jdbc.Driver
+          driverClassName: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 4
       maximum-pool-size: 16

@@ -1,14 +1,15 @@
 package com.zero.generator.service.impl;
 
-import java.util.List;
-
+import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.zero.common.core.text.Convert;
+import com.zero.generator.domain.GenDatasourceConf;
+import com.zero.generator.mapper.GenDatasourceConfMapper;
+import com.zero.generator.service.IGenDatasourceConfService;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.zero.generator.mapper.GenDatasourceConfMapper;
-import com.zero.generator.domain.GenDatasourceConf;
-import com.zero.generator.service.IGenDatasourceConfService;
-import com.zero.common.core.text.Convert;
+
+import java.util.List;
 
 /**
  * 数据源Service业务层处理
@@ -24,6 +25,9 @@ public class GenDatasourceConfServiceImpl implements IGenDatasourceConfService {
 
     @Autowired
     private StringEncryptor stringEncryptor;
+
+    @Autowired
+    private DynamicRoutingDataSource dynamicRoutingDataSource;
 
     /**
      * 查询数据源
@@ -54,11 +58,13 @@ public class GenDatasourceConfServiceImpl implements IGenDatasourceConfService {
      * @return 结果
      */
     @Override
-    public int insertGenDatasourceConf(GenDatasourceConf genDatasourceConf) {
+    public int insertGenDatasourceConf(GenDatasourceConf genDatasourceConf) throws Exception {
 
         genDatasourceConf.setPassword(stringEncryptor.encrypt(genDatasourceConf.getPassword()));
         System.out.println(stringEncryptor.decrypt(genDatasourceConf.getPassword()));
-        return genDatasourceConfMapper.insertGenDatasourceConf(genDatasourceConf);
+        genDatasourceConfMapper.insertGenDatasourceConf(genDatasourceConf);
+        dynamicRoutingDataSource.afterPropertiesSet();
+        return 1;
     }
 
     /**
@@ -68,10 +74,14 @@ public class GenDatasourceConfServiceImpl implements IGenDatasourceConfService {
      * @return 结果
      */
     @Override
-    public int updateGenDatasourceConf(GenDatasourceConf genDatasourceConf) {
+    public int updateGenDatasourceConf(GenDatasourceConf genDatasourceConf) throws Exception {
         genDatasourceConf.setPassword(stringEncryptor.encrypt(genDatasourceConf.getPassword()));
         System.out.println(stringEncryptor.decrypt(genDatasourceConf.getPassword()));
-        return genDatasourceConfMapper.updateGenDatasourceConf(genDatasourceConf);
+
+        genDatasourceConfMapper.updateGenDatasourceConf(genDatasourceConf);
+        dynamicRoutingDataSource.afterPropertiesSet();
+        return 1;
+
     }
 
     /**
