@@ -1,0 +1,64 @@
+package ${packageName}.entity;
+
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+
+
+
+/**
+ * 文件名：${ClassName}.java
+ * 版权： Copyright by COSMOPlat
+ * 描述： ${functionName} 实体类
+ * 修改人： ${author}
+ * 修改时间：${datetime}
+ * 跟踪单号：
+ * 修改单号：
+ * 修改内容：
+ */
+@Data
+@TableName("${tableName}")
+@ApiModel(value="${ClassName}对象", description="${functionName}")
+public class ${ClassName} implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField))
+    /** $column.columnComment */
+
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#if($parentheseIndex != -1)
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+#elseif($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd")
+#else
+    @Excel(name = "${comment}")
+#end
+#end
+    @ApiModelProperty(value = "${comment}")
+    @TableField("${column.columnName}")
+    private $column.javaType $column.javaField;
+
+#end
+#end
+
+
+
+
+}
