@@ -68,7 +68,7 @@ public class GetPhoto implements PageProcessor {
                 String suffix = pageURL.substring(pageURL.length() - 4);
 
                 // 将图片的地址、名字、保存路径传入文件工具类进行下载
-                DownloadImage.downLoadFromUrl(pageURL, name + suffix, "D:\\data/file/");
+                DownloadImage.downLoadFromUrl(pageURL, name + suffix, "C:\\Users\\admin\\Pictures\\Saved Pictures/");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
