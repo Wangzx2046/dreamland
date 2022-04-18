@@ -41,15 +41,16 @@ $.sentNum = 0;
 $.cookiesArr = []
 $.innerKeyWords =
     [
-        "小靓美", "赠品", "MLB", "饲料", "手机电池", "样品", "面膜", "染发", "挂件", "戒烟", "宠物", "儿童", "特权金", "脚气", "跳蛋",
+        "小靓美", "赠品", "MLB", "饲料", "手机电池", "样品", "面膜", "染发", "挂件", "戒烟", "宠物",   "脚气", "跳蛋",
         "卷尺", "种子", "档案袋", "癣", "老太太", "妇女", "孕妇", "卫生条", "培训", "狐臭", "少女内衣", "胸罩", "洋娃娃", "男孩玩具",
-        "女孩玩具", "女性内衣", "女性内裤", "女内裤", "女内衣", "女孩", "鱼饵", "钓鱼", "童装", "吊带", "黑丝", "钢圈", "幼儿", "娃娃",
-        "网课", "网校", "电商", "网络课程", "手机壳", "手机膜", "钢化膜", "水凝膜", "车载充电器", "女纯棉", "三角裤", "纸尿裤", "英语",
+        "女孩玩具", "女性内衣", "女性内裤", "女内裤", "女内衣", "女孩", "鱼饵", "钓鱼", "吊带", "黑丝", "钢圈",  "娃娃",
+        "网课", "网校", "电商", "网络课程", "手机壳", "手机膜", "钢化膜", "水凝膜", "车载充电器", "女纯棉", "三角裤",  "英语",
         "俄语", "四级", "六级", "在线网络", "阴道炎", "宫颈", "糜烂", "打底裤", "狗", "和田", "课程", "礼物", "文玩", "检查", "电子烟",
         "体验装", "体验课", "试用装", "猫粮", "猫零食", "礼品", "玉石", "雨衣", "疤痕", "痘印", "美瞳", "帐号", "足贴", "膏药", "新视界",
-        "非卖品", "微信", "睫毛", "蟑螂", "老鼠夹", "精品课", "VIP陪练", "单片装", "订金", "定金", "热敷贴", "湿疣", "一拖三", "手镯",
+        "非卖品", "微信", "睫毛", "蟑螂", "老鼠夹", "精品课", "VIP陪练", "单片装", "订金", "定金", "特权金","热敷贴", "湿疣", "一拖三", "手镯",
         "看房", "购房", "痔疮", "商学院", "鹦鹉", "发蜡", "百安居", "猫砂", "试用", "假阳具", "震动棒", "延时喷", "延迟喷", "假发",
         "激活码", "电话卡"
+        // "幼儿","儿童","纸尿裤","童装"
     ]
 //下面很重要，遇到问题请把下面注释看一遍再来问
 let args_xh = {
@@ -71,7 +72,7 @@ let args_xh = {
      * 例如设置 JD_TRY_PRICE 为 30，假如现在正在遍历tab1，那tab1就会被遍历到30页，到31页就会跳到tab2，或下一个预设的tab页继续遍历到30页
      * 默认为20
      */
-    totalPages: process.env.JD_TRY_TOTALPAGES * 1 || 30,
+    totalPages: process.env.JD_TRY_TOTALPAGES * 1 || 50,
     /*
      * 由于每个账号每次获取的试用产品都不一样，所以为了保证每个账号都能试用到不同的商品，之前的脚本都不支持采用统一试用组的
      * 以下环境变量是用于指定是否采用统一试用组的
@@ -127,13 +128,13 @@ let args_xh = {
      * 过滤大于设定值的已申请人数，例如下面设置的1000，A商品已经有1001人申请了，则A商品不会进行申请，会被跳过
      * 可设置环境变量：JD_TRY_APPLYNUMFILTER
      * */
-    applyNumFilter: process.env.JD_TRY_APPLYNUMFILTER * 1 || 100000,
+    applyNumFilter: process.env.JD_TRY_APPLYNUMFILTER * 1 || 200000,
     /*
      * 商品试用之间和获取商品之间的间隔, 单位：毫秒(1秒=1000毫秒)
      * 可设置环境变量：JD_TRY_APPLYINTERVAL
      * 默认为3000，也就是3秒
      * */
-    applyInterval: process.env.JD_TRY_APPLYINTERVAL * 1 || 5000,
+    applyInterval: process.env.JD_TRY_APPLYINTERVAL * 1 || 10000,
     /*
      * 商品数组的最大长度，通俗来说就是即将申请的商品队列长度
      * 例如设置为20，当第一次获取后获得12件，过滤后剩下5件，将会进行第二次获取，过滤后加上第一次剩余件数
@@ -251,7 +252,7 @@ let args_xh = {
                         }
                         await try_apply(trialActivityTitleList[i], trialActivityIdList[i])
                         //console.log(`间隔等待中，请等待 ${args_xh.applyInterval} ms\n`)
-                        const waitTime = generateRandomInteger(5000, 20000);
+                        const waitTime = generateRandomInteger(5000, 30000);
                         console.log(`随机等待${waitTime}ms后继续`);
                         await $.wait(waitTime);
                     }
@@ -436,7 +437,7 @@ function try_feedsList(tabId, page) {
                                 }
                             }
                             if (item.skuTitle && $.isPush) {
-                                args_xh.printLog ? console.log(`检测 tabId:${args_xh.tabId[$.nowTabIdIndex]} 的 第 ${page}/${args_xh.totalPages} 页 第 ${$.nowItem++ + 1} 个商品\n${item.skuTitle}`) : ''
+                                args_xh.printLog ? console.log(`检测 tabId:${args_xh.tabId[$.nowTabIdIndex]} 的 第 ${page}/${args_xh.totalPages} 页 第 ${$.nowItem++ + 1} 个商品\n${item.trialActivityId} ${item.skuTitle}`) : ''
                                 if (args_xh.whiteList) {
                                     if (args_xh.whiteListKeywords.some(fileter_word => item.skuTitle.includes(fileter_word))) {
                                         args_xh.printLog ? console.log(`商品白名单通过，将加入试用组，trialActivityId为${item.trialActivityId}\n`) : ''
@@ -462,6 +463,7 @@ function try_feedsList(tabId, page) {
                                     } else {
                                         args_xh.printLog ? console.log(`商品通过，将加入试用组，trialActivityId为${item.trialActivityId}\n`) : ''
                                         trialActivityIdList.push(item.trialActivityId)
+                                        trialActivityIdSet.add(item.trialActivityId)
                                         trialActivityTitleList.push(item.skuTitle)
                                     }
                                 }
@@ -506,7 +508,8 @@ function try_apply(title, activityId) {
                 if (err) {
                     if (JSON.stringify(err) === `\"Response code 403 (Forbidden)\"`) {
                         $.isForbidden = true
-                        console.log('账号被京东服务器风控，不再请求该帐号')
+
+                        console.log('账号被京东服务器风控'+err)
                     } else {
                         console.log(JSON.stringify(err))
                         console.log(`${$.name} API请求失败，请检查网路重试`)
@@ -708,6 +711,20 @@ const generateRandomInteger = (min, max = 0) => {
     var Rand = Math.random();
     return min + Math.round(Rand * Range);
 };
+
+//参数n为休眠时间，单位为毫秒:
+function sleep(n) {
+    var start = new Date().getTime();
+    //  console.log('休眠前：' + start);
+    while (true) {
+        if (new Date().getTime() - start > n) {
+            break;
+        }
+    }
+    // console.log('休眠后：' + new Date().getTime());
+}
+
+
 
 function Env(name, opts) {
     class Http {
