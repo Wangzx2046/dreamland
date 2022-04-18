@@ -27,7 +27,8 @@ server:
     max-threads: 800
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
- 
+  undertow:
+    max-parameters: 2000
 # 日志配置
 logging:
   level:
@@ -143,3 +144,4 @@ xss:
 swagger:
   # 是否开启swagger
   enabled: true
+
