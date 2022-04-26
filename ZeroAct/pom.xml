@@ -34,6 +34,7 @@
         <velocity.version>1.7</velocity.version>
         <jwt.version>0.9.1</jwt.version>
         <lombok.version>1.18.20</lombok.version>
+        <hutool.version>5.8.0.M3</hutool.version>
     </properties>
 	
     <!-- 依赖声明 -->
@@ -210,6 +211,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -252,7 +252,7 @@ let args_xh = {
                         }
                         await try_apply(trialActivityTitleList[i], trialActivityIdList[i])
                         //console.log(`间隔等待中，请等待 ${args_xh.applyInterval} ms\n`)
-                        const waitTime = generateRandomInteger(5000, 30000);
+                        const waitTime = generateRandomInteger(10000, 30000);
                         console.log(`随机等待${waitTime}ms后继续`);
                         await $.wait(waitTime);
                     }
@@ -413,11 +413,11 @@ function try_feedsList(tabId, page) {
                                 break
                             }
                             if (item.applyState === 1) {
-                                args_xh.printLog ? console.log(`商品已申请试用：${item.skuTitle}\n`) : ''
+                                //   args_xh.printLog ? console.log(`商品已申请试用：${item.skuTitle}\n`) : ''
                                 continue
                             }
                             if (item.applyState !== null) {
-                                args_xh.printLog ? console.log(`商品状态异常，未找到skuTitle\n`) : ''
+                                //   args_xh.printLog ? console.log(`商品状态异常，未找到skuTitle\n`) : ''
                                 continue
                             }
                             if (args_xh.passZhongCao) {
@@ -425,11 +425,11 @@ function try_feedsList(tabId, page) {
                                 if (item.tagList.length !== 0) {
                                     for (let itemTag of item.tagList) {
                                         if (itemTag.tagType === 3) {
-                                            args_xh.printLog ? console.log('商品被过滤，该商品是种草官专属') : ''
+                                            //    args_xh.printLog ? console.log('商品被过滤，该商品是种草官专属') : ''
                                             $.isPush = false;
                                             break;
                                         } else if (itemTag.tagType === 5) {
-                                            args_xh.printLog ? console.log('商品被跳过，该商品是付费试用！') : ''
+                                            //    args_xh.printLog ? console.log('商品被跳过，该商品是付费试用！') : ''
                                             $.isPush = false;
                                             break;
                                         }
