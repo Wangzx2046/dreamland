@@ -1,28 +1,40 @@
 package com.zero.utils;
 
 import cn.hutool.core.lang.Console;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.dfa.WordTree;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zero.jdTry.domain.JdGoods;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
+import org.springframework.util.StopWatch;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class JdTryUtil {
     private static final String URL = "https://api.m.jd.com/client.action";
     private static final String ORIGIN = "https://prodev.m.jd.com";
     private static final String HOST = "api.m.jd.com";
     //每个Tab页要便遍历的申请页数
-    private static final int JD_TRY_TOTALPAGES = 50;
+    private static final int JD_TRY_TOTALPAGES = 2;
     //获取试用商品请求发送间隔
     private static final int REQUEST_INTERVAL = 3;
+    //申请试用商品请求发送间隔
+    private static final int REQUEST_APPLY = 5;
     //是否过滤已申请
     private static final boolean FILTER_APPLIED = true;
     //是否过滤种草官
@@ -49,14 +61,18 @@ public class JdTryUtil {
             // "幼儿","儿童","纸尿裤","童装"
     };
 
+    private static int allpuNum = 0;
+
     /**
      * 申请试用
+     *
+     * @return
      */
-    public static void tryApply() throws JSONException {
+    public static boolean tryApply(String cookie, JdGoods goods) throws JSONException, InterruptedException {
         //1.获取试用商品列表
         //链式构建请求
         JSONObject jb = new JSONObject();
-        jb.put("activityId", 2062052);
+        jb.put("activityId", goods.getTrialActivityId());
         jb.put("previewTime", "");
 
         Map<String, Object> paramMap = new HashMap<>();
@@ -64,8 +80,6 @@ public class JdTryUtil {
         paramMap.put("functionId", "try_apply");
         paramMap.put("body", jb.toString());
 
-
-        String cookie = "pt_key=AAJiXQftADA-rsHbQ7wnTwGkLBYYaXtcDarxLdg4Spb_TKd65PaAtYp1V_0O-rUjNuSS0HydrSc; pt_pin=1095113-35467648;";
         String result2 = HttpRequest.post(URL)
                 .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":1649917022756,\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
@@ -80,22 +94,56 @@ public class JdTryUtil {
                 .timeout(20000)//超时，毫秒;
                 .execute().body();
         Console.log(result2);
+        int sleepTimes = REQUEST_APPLY + RandomUtil.randomInt(0, 55);
+        if ("Error request, response status: 403".equals(result2)) {
+            TimeUnit.SECONDS.sleep(120);
+            log.error("【异常】 403错误，休眠120秒后重新申请" + " " + goods.getSkuTitle());
+            return true;
+        } else {
+            log.info("【申请商品】" + "休眠" + sleepTimes + "秒，价值" + goods.getJdPrice() + " " + goods.getSkuTitle());
+            JSONObject data = JSONObject.parseObject(result2);
+            if (data.getBoolean("success") && data.getString("code").equals("1")) {  // 申请成功
+                log.info("【申请提交成功】 " + goods.getSkuTitle());
+                allpuNum += 1;
+            } else if (data.getString("code").equals("-106")) {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 未在申请时间内！
+            } else if (data.getString("code").equals("-110")) {
+                log.info("【申请提交失败】 " + goods.getApplyState() + " " + goods.getSkuTitle() + " \n" + data.getString("message")); // 您的申请已成功提交，请勿重复申请…
+            } else if (data.getString("code").equals("-110")) {
+                log.info("【申请提交失败】 " + goods.toString() + "\n" + data.getString("message")); // 您的申请已成功提交，请勿重复申请…
+            } else if (data.getString("code").equals("-120")) {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 您还不是会员，本品只限会员申请试用，请注册会员后申请！
+            } else if (data.getString("code").equals("-167")) {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));// 抱歉，此试用需为种草官才能申请。查看下方详情了解更多。
+            } else if (data.getString("code").equals("-131")) {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));  // 申请次数上限。
+                allpuNum = 300;
+            } else if (data.getString("code").equals("-113")) {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 操作不要太快哦！
+            } else {
+                log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));
+            }
+            TimeUnit.SECONDS.sleep(sleepTimes);
+            return false;
+        }
+
 
     }
 
-    public static List<JdGoods> getAllGoodsList() throws JSONException, InterruptedException {
-        List<JdGoods> list = new ArrayList<>();
+    public static Set<JdGoods> getAllGoodsList(String cookie) throws JSONException, InterruptedException {
+        Set<JdGoods> list = new HashSet<>();
         for (int j = 0; j < JD_TRY_TOTALPAGES; j++) {
             for (int i = 0; i < JD_TRY_TABID.length; i++) {
-                list.addAll(getGoodsList(JD_TRY_TABID[i], j));
+                log.info("=================开始获取第" + JD_TRY_TABID[i] + "TAB,第" + j + "页=======================");
+                list.addAll(getGoodsList(JD_TRY_TABID[i], j, cookie));
+                log.info("=================结束获取第" + JD_TRY_TABID[i] + "TAB,第" + j + "页，共计得到" + list.size() + "条有效商品=======================");
                 TimeUnit.SECONDS.sleep(REQUEST_INTERVAL);
             }
         }
-
         return list;
     }
 
-    public static List<JdGoods> getGoodsList(int tabId, int page) throws JSONException {
+    public static List<JdGoods> getGoodsList(int tabId, int page, String cookie) {
         List<JdGoods> list = new ArrayList<>();
         //1.获取试用商品列表
         //链式构建请求{"tabId":"3","page":1,"version":2,"source":"default","client":"app","previewTime":""}
@@ -113,7 +161,6 @@ public class JdTryUtil {
         paramMap.put("body", jb.toString());
 
 
-        String cookie = "pt_key=AAJiXQftADA-rsHbQ7wnTwGkLBYYaXtcDarxLdg4Spb_TKd65PaAtYp1V_0O-rUjNuSS0HydrSc; pt_pin=1095113-35467648;";
         String result2 = HttpRequest.post(URL)
                 .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":1649917022756,\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
@@ -136,45 +183,74 @@ public class JdTryUtil {
                 list.add(goods);
             }
         }
-
-        Console.log(result2);
         return list;
 
     }
 
     public static boolean validGoods(JdGoods goods) {
         boolean flag = true;
+        WordTree tree = new WordTree();
+        tree.addWords(INNER_KEYS);
 
-        if (FILTER_APPLIED && goods.getActivityStatus().equals(1)) {//已申请过滤
+        if (FILTER_APPLIED && (ObjectUtil.isNotNull(goods.getApplyState())
+                && (goods.getApplyState().equals(1)))) {//已申请过滤
             flag = false;
+            log.info("【商品过滤】已申请：" + goods.getActivityStatus() + " " + goods.getTrialActivityId() + " " + goods.getSkuTitle());
         } else if (goods.getTagList().size() > 0) {
             int tagType = goods.getTagList().get(0).getTagType();
             if (FILTER_PLANTING_OFFICER && tagType == 3) {//种草官过滤
                 flag = false;
+                log.info("【商品过滤】种草官过滤：" + goods.getSkuTitle());
             } else if (FILTER_PAY && tagType == 5) {//付费过滤
                 flag = false;
+                log.info("【商品过滤】付费过滤：" + goods.getSkuTitle());
             }
-        } else if (JD_PRICE_MIN.compareTo(new BigDecimal(goods.getJdPrice())) >= 0) {//最低价过滤
+        } else if (JD_PRICE_MIN.compareTo(goods.getJdPrice()) >= 0) {//最低价过滤
             flag = false;
+            log.info("【商品过滤】最低价过滤：" + goods.getJdPrice() + "元  " + goods.getSkuTitle());
         } else if (SUPPLY_NUM_MAX < goods.getSupplyNum()) {
             flag = false;
-        } else if (keyWordsFilter(goods.getSkuTitle())) {
+        } else if (keyWordsFilter(goods.getSkuTitle(), tree)) {
             flag = false;
         }
 
         return flag;
     }
 
-    private static boolean keyWordsFilter(String skuTitle) {
-
+    private static boolean keyWordsFilter(String skuTitle, WordTree tree) {
+        List<String> matchAll = tree.matchAll(skuTitle, -1, false, false);
+        if (matchAll.size() > 0) {
+            log.info("【商品过滤】关键词过滤：" + matchAll.toString() + "  " + skuTitle);
+            return true;
+        }
         return false;
     }
 
 
     public static void main(String[] args) throws JSONException, InterruptedException {
-
-
-        getAllGoodsList();
-        //   tryApply();
+        StopWatch sw = new StopWatch();
+        sw.start();
+        String cookie = "pt_key=AAJiXQftADA-rsHbQ7wnTwGkLBYYaXtcDarxLdg4Spb_TKd65PaAtYp1V_0O-rUjNuSS0HydrSc; pt_pin=1095113-35467648;";
+        Set<JdGoods> list = getAllGoodsList(cookie);
+        list.stream().sorted(Comparator.comparing(JdGoods::getJdPrice).reversed())
+                .forEach(x -> {
+                    if (allpuNum >= 300) {
+                        log.info("申请数目已经达到300");
+                        return;
+                    }
+                    try {
+                        do {
+                        } while (tryApply(cookie, x));
+                    } catch (JSONException e) {
+                        log.warn(e.getMessage());
+                    } catch (InterruptedException e) {
+                        log.warn(e.getMessage());
+                    }
+                });
+        log.info("本次执行结束");
+        log.info("本次申请商品：" + list.size());
+        log.info("本次提交商品：" + allpuNum);
+        sw.stop();
+        log.info("任务執行结束 {}，耗時：{}分钟", LocalDateTime.now(), sw.getTotalTimeSeconds()/60);
     }
 }

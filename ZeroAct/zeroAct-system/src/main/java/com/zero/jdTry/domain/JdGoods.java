@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -105,7 +106,7 @@ public class JdGoods extends BaseEntity {
     @Excel(name = "原价")
     @ApiModelProperty(value = "原价")
     @TableField("jdPrice")
-    private String jdPrice;
+    private BigDecimal jdPrice;
 
     /** 标签 */
 
@@ -140,7 +141,7 @@ public class JdGoods extends BaseEntity {
     @Excel(name = "")
     @ApiModelProperty(value = "")
     @TableField("applyState")
-    private String applyState;
+    private Integer applyState;
 
     /**  */
 
@@ -161,7 +162,7 @@ public class JdGoods extends BaseEntity {
     @Excel(name = "")
     @ApiModelProperty(value = "")
     @TableField("activityStatus")
-    private Long activityStatus;
+    private Integer activityStatus;
 
     /**  */
 
