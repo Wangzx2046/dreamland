@@ -9,6 +9,7 @@ import cn.hutool.http.HttpRequest;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zero.jdTry.domain.JdGoods;
+import com.zero.jdTry.service.IJdGoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.util.StopWatch;
@@ -26,11 +27,17 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class JdTryUtil {
+    private static IJdGoodsService goodsService = null;
+
+    public JdTryUtil(IJdGoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
+
     private static final String URL = "https://api.m.jd.com/client.action";
     private static final String ORIGIN = "https://prodev.m.jd.com";
     private static final String HOST = "api.m.jd.com";
     //每个Tab页要便遍历的申请页数
-    private static final int JD_TRY_TOTALPAGES = 2;
+    private static final int JD_TRY_TOTALPAGES = 50;
     //获取试用商品请求发送间隔
     private static final int REQUEST_INTERVAL = 3;
     //申请试用商品请求发送间隔
@@ -62,6 +69,7 @@ public class JdTryUtil {
     };
 
     private static int allpuNum = 0;
+
 
     /**
      * 申请试用
@@ -103,8 +111,8 @@ public class JdTryUtil {
             log.info("【申请商品】" + "休眠" + sleepTimes + "秒，价值" + goods.getJdPrice() + " " + goods.getSkuTitle());
             JSONObject data = JSONObject.parseObject(result2);
             if (data.getBoolean("success") && data.getString("code").equals("1")) {  // 申请成功
-                log.info("【申请提交成功】 " + goods.getSkuTitle());
                 allpuNum += 1;
+                log.info("【申请提交成功】 第" + allpuNum + "个" + goods.getSkuTitle());
             } else if (data.getString("code").equals("-106")) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 未在申请时间内！
             } else if (data.getString("code").equals("-110")) {
@@ -232,6 +240,7 @@ public class JdTryUtil {
         sw.start();
         String cookie = "pt_key=AAJiXQftADA-rsHbQ7wnTwGkLBYYaXtcDarxLdg4Spb_TKd65PaAtYp1V_0O-rUjNuSS0HydrSc; pt_pin=1095113-35467648;";
         Set<JdGoods> list = getAllGoodsList(cookie);
+        goodsService.saveBatch(list);
         list.stream().sorted(Comparator.comparing(JdGoods::getJdPrice).reversed())
                 .forEach(x -> {
                     if (allpuNum >= 300) {
@@ -251,6 +260,6 @@ public class JdTryUtil {
         log.info("本次申请商品：" + list.size());
         log.info("本次提交商品：" + allpuNum);
         sw.stop();
-        log.info("任务執行结束 {}，耗時：{}分钟", LocalDateTime.now(), sw.getTotalTimeSeconds()/60);
+        log.info("任务執行结束 {}，耗時：{}分钟", LocalDateTime.now(), sw.getTotalTimeSeconds() / 60);
     }
 }
