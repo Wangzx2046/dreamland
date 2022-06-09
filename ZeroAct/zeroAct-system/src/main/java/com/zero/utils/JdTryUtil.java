@@ -187,7 +187,7 @@ public class JdTryUtil {
         JSONArray feedList = data.getJSONArray("feedList");
         for (int i = 0; i < feedList.size(); i++) {
             JdGoods goods = feedList.getJSONObject(i).toJavaObject(JdGoods.class);
-            if (validGoods(goods)) {
+            if (ObjectUtil.isNotNull(goods) && validGoods(goods)) {
                 list.add(goods);
             }
         }
@@ -200,7 +200,10 @@ public class JdTryUtil {
         WordTree tree = new WordTree();
         tree.addWords(INNER_KEYS);
 
-        if (FILTER_APPLIED && (ObjectUtil.isNotNull(goods.getApplyState())
+        if (ObjectUtil.isNull(goods.getSkuTitle())) {
+            flag = false;
+            log.info("【商品过滤】无效商品：信息获取失败");
+        } else if (FILTER_APPLIED && (ObjectUtil.isNotNull(goods.getApplyState())
                 && (goods.getApplyState().equals(1)))) {//已申请过滤
             flag = false;
             log.info("【商品过滤】已申请：" + goods.getActivityStatus() + " " + goods.getTrialActivityId() + " " + goods.getSkuTitle());
@@ -238,7 +241,7 @@ public class JdTryUtil {
     public static void main(String[] args) throws JSONException, InterruptedException {
         StopWatch sw = new StopWatch();
         sw.start();
-        String cookie = "pt_key=AAJiXQftADA-rsHbQ7wnTwGkLBYYaXtcDarxLdg4Spb_TKd65PaAtYp1V_0O-rUjNuSS0HydrSc; pt_pin=1095113-35467648;";
+        String cookie = "pt_key=AAJiitlYADB2Hfeiq2BRpPVkph2OSW_bPFBX0JStVe09lqWsH1erO6x8193lB2jDQg2sIYjbLvM; pt_pin=as15621009921;";
         Set<JdGoods> list = getAllGoodsList(cookie);
         goodsService.saveBatch(list);
         list.stream().sorted(Comparator.comparing(JdGoods::getJdPrice).reversed())
