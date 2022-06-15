@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.springframework.util.StopWatch;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,7 +38,7 @@ public class JdTryUtil {
     private static final String ORIGIN = "https://prodev.m.jd.com";
     private static final String HOST = "api.m.jd.com";
     //每个Tab页要便遍历的申请页数
-    private static final int JD_TRY_TOTALPAGES = 50;
+    private static final int JD_TRY_TOTALPAGES = 30;
     //获取试用商品请求发送间隔
     private static final int REQUEST_INTERVAL = 3;
     //申请试用商品请求发送间隔
@@ -53,7 +54,9 @@ public class JdTryUtil {
     //提供的最大份数
     private static final int SUPPLY_NUM_MAX = 20;
     //获取试用商品类型
-    private static final int[] JD_TRY_TABID = {104, 3, 4, 5, 9, 10, 15, 12, 6, 7, 8, 13, 14, 11, 16};
+    private static final int[] JD_TRY_TABID = {212,104, 3, 4, 5, 9, 10, 15, 12, 6, 7, 8, 13, 14, 11, 16};
+   // private static final int[] JD_TRY_TABID = {212,208,209,210,211,202,203,201,204,205,207};
+
     //过滤的关键词
     private static final String[] INNER_KEYS = {
             "小靓美", "赠品", "MLB", "饲料", "手机电池", "样品", "面膜", "染发", "挂件", "戒烟", "宠物", "脚气", "跳蛋",
@@ -89,7 +92,8 @@ public class JdTryUtil {
         paramMap.put("body", jb.toString());
 
         String result2 = HttpRequest.post(URL)
-                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":1649917022756,\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
+                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
+                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
                 .header(Header.HOST, HOST)
                 .header(Header.CONNECTION, "keep-alive")
@@ -104,8 +108,8 @@ public class JdTryUtil {
         Console.log(result2);
         int sleepTimes = REQUEST_APPLY + RandomUtil.randomInt(0, 55);
         if ("Error request, response status: 403".equals(result2)) {
-            TimeUnit.SECONDS.sleep(120);
             log.error("【异常】 403错误，休眠120秒后重新申请" + " " + goods.getSkuTitle());
+            TimeUnit.SECONDS.sleep(120);
             return true;
         } else {
             log.info("【申请商品】" + "休眠" + sleepTimes + "秒，价值" + goods.getJdPrice() + " " + goods.getSkuTitle());
@@ -147,11 +151,12 @@ public class JdTryUtil {
                 log.info("=================结束获取第" + JD_TRY_TABID[i] + "TAB,第" + j + "页，共计得到" + list.size() + "条有效商品=======================");
                 TimeUnit.SECONDS.sleep(REQUEST_INTERVAL);
             }
+
         }
         return list;
     }
 
-    public static List<JdGoods> getGoodsList(int tabId, int page, String cookie) {
+    public static List<JdGoods> getGoodsList(int tabId, int page, String cookie) throws InterruptedException {
         List<JdGoods> list = new ArrayList<>();
         //1.获取试用商品列表
         //链式构建请求{"tabId":"3","page":1,"version":2,"source":"default","client":"app","previewTime":""}
@@ -170,7 +175,8 @@ public class JdTryUtil {
 
 
         String result2 = HttpRequest.post(URL)
-                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":1649917022756,\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
+                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
+                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
                 .header(Header.HOST, HOST)
                 .header(Header.CONNECTION, "keep-alive")
@@ -182,15 +188,23 @@ public class JdTryUtil {
 
                 .timeout(20000)//超时，毫秒;
                 .execute().body();
+        if ("Error request, response status: 403".equals(result2)) {
+            log.error("【异常】 403错误，休眠100秒后重新申请-获取商品" );
+            TimeUnit.SECONDS.sleep(100);
+            return new ArrayList<>();
+        }
         JSONObject result = JSONObject.parseObject(result2);
         JSONObject data = result.getJSONObject("data");
         JSONArray feedList = data.getJSONArray("feedList");
         for (int i = 0; i < feedList.size(); i++) {
             JdGoods goods = feedList.getJSONObject(i).toJavaObject(JdGoods.class);
+            System.out.println(goods.toString());
             if (ObjectUtil.isNotNull(goods) && validGoods(goods)) {
+
                 list.add(goods);
             }
         }
+
         return list;
 
     }
@@ -239,11 +253,14 @@ public class JdTryUtil {
 
 
     public static void main(String[] args) throws JSONException, InterruptedException {
+        System.out.println(    Instant.now().toEpochMilli());
         StopWatch sw = new StopWatch();
         sw.start();
         String cookie = "pt_key=AAJiitlYADB2Hfeiq2BRpPVkph2OSW_bPFBX0JStVe09lqWsH1erO6x8193lB2jDQg2sIYjbLvM; pt_pin=as15621009921;";
         Set<JdGoods> list = getAllGoodsList(cookie);
-        goodsService.saveBatch(list);
+      //  goodsService.saveBatch(list);
+
+
         list.stream().sorted(Comparator.comparing(JdGoods::getJdPrice).reversed())
                 .forEach(x -> {
                     if (allpuNum >= 300) {
