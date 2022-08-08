@@ -49,7 +49,7 @@ public class FakerUtils {
         accessDevices(RandomUtil.randomInt(250,270), "深圳市有方科技股份有限公司" , "共享雨伞" , "GXYS" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
 
-        accessDevices(RandomUtil.randomInt(250,260), "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "其他" , "低端" ,
+        accessDevices(RandomUtil.randomInt(500,520), "深圳市有方科技股份有限公司" , "共享充电宝" , "GXCDB" , "MQTT" , "其他" , "低端" ,
                 "工业品" , "广东省" , "深圳市" , "10" , ja);
     }
 
