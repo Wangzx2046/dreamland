@@ -100,7 +100,7 @@ public class JdTryUtil {
                 .header(Header.CONTENT_TYPE, "application/x-www-form-urlencoded")
                 .header(Header.CONTENT_LENGTH, String.valueOf(paramMap.toString().length()))
                 .header(Header.COOKIE, cookie)
-                //      .header("X-Requested-With", "com.jingdong.app.mall")
+                .header("X-Requested-With", "com.jingdong.app.mall")
                 .form(paramMap)
 
                 .timeout(20000)//超时，毫秒;
@@ -267,7 +267,7 @@ public class JdTryUtil {
         System.out.println(    Instant.now().toEpochMilli());
         StopWatch sw = new StopWatch();
         sw.start();
-        String cookie = "wxa_level=1; retina=1; cid=9; jxsid=16560041971857637730; webp=1; __jda=122270672.16560041972122039466545.1656004197.1656004197.1656004197.1; __jdv=122270672%7Cdirect%7C-%7Cnone%7C-%7C1656004197213; __jdc=122270672; mba_muid=16560041972122039466545; visitkey=64064769461851656004197730; visitkey=53459085786297064; PPRD_P=UUID.16560041972122039466545; share_cpin=; share_open_id=; share_gpin=; shareChannel=; source_module=; erp=; jxsid_s_u=https%3A//home.m.jd.com/myJd/home.action; sc_width=393; shshshfpb=fS1bwDKUqbmhvNujNZOTtlQ; shshshfpa=e94b68c0-a23f-7861-8654-9f560d890b4b-1649678268; equipmentId=LMLRSKPZS3FAP72R5VFNSTRMIVAFR5JASUBBHYQBMIXBM36Q3QJ7Y7NGXKIR4HSIJM7NZFCGMSJFVXT7H5KNTISSDU; fingerprint=36c75d0ec78fa64e20ac0fab2f238937; deviceVersion=96.0.4664.104; deviceOS=android; deviceOSVersion=12; deviceName=Chrome; jcap_dvzw_fp=1esiaxff_WgckhCHnYQU0DYY7FzS7hHIc1OjKpkxvBKu6fZNS0xBCAOJaEzugLf8GZ3Z5Q==; TrackerID=VMHoCeBLhYi27A_BBaIQnh3LRPwXR05rMHgM1M2kSpMtO_ydlkI83NsBpbQ38P-bDOuuc4siPefNeAQ6lib-DxMneB6mgSHaIzbp7RMf6wjyhqMJPSw8HktVztuXf7Fe; pt_key=AAJitJ6DADCLqC7Dr8WxTTfK7L2rdrxRSgIVOMvvQUCOJF25JXvzfHo6y_A44CGc2lmbm_7EGW4; pt_pin=as15621009921; pt_token=ryrtoetp; pwdt_id=as15621009921; sfstoken=tk01mc6171c22a8sMXgyQy8vWVZ4ouowUGd12JkOYbIrurCdQg2ePtK9d4FHr2HRCh6l3P8xQED1Y1NzpBbsNiW4pYZ7; whwswswws=; wqmnx1=MDEyNjM3MXRoam1tbzYxMDNsKCBkMilXNSggZWg2NG9hMzJZZi00WUQjKEg%3D; __jdb=122270672.5.16560041972122039466545|1.1656004197; mba_sid=16560041972156225141632122475.5; __wga=1656004228413.1656004197814.1656004197814.1656004197814.2.1; jxsid_s_t=1656004228505; shshshfp=41a6d24e8d44a4dfafd5a860b175f3d4; shshshsID=c7337324271343f61bb889749e89a189_3_1656004228725";
+        String cookie ="pt_key=AAJi3NsPADDx2gb_Aa2AJ7hHj17pOfWnJYVN6kdlGQDqxRMpO88zEQX6xgADThKvfa_2gwQ8BB4; pt_pin=as15621009921;";
         Set<JdGoods> list = getAllGoodsList(cookie);
       //  goodsService.saveBatch(list);
 
