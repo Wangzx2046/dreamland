@@ -38,9 +38,9 @@ public class JdTryUtil {
     private static final String ORIGIN = "https://prodev.m.jd.com";
     private static final String HOST = "api.m.jd.com";
     //每个Tab页要便遍历的申请页数
-    private static final int JD_TRY_TOTALPAGES = 30;
+    private static final int JD_TRY_TOTALPAGES = 3;
     //获取试用商品请求发送间隔
-    private static final int REQUEST_INTERVAL = 3;
+    private static final int REQUEST_INTERVAL = 2;
     //申请试用商品请求发送间隔
     private static final int REQUEST_APPLY = 5;
     //是否过滤已申请
@@ -100,7 +100,7 @@ public class JdTryUtil {
                 .header(Header.CONTENT_TYPE, "application/x-www-form-urlencoded")
                 .header(Header.CONTENT_LENGTH, String.valueOf(paramMap.toString().length()))
                 .header(Header.COOKIE, cookie)
-                //      .header("X-Requested-With", "com.jingdong.app.mall")
+                .header("X-Requested-With", "com.jingdong.app.mall")
                 .form(paramMap)
 
                 .timeout(20000)//超时，毫秒;
@@ -169,19 +169,29 @@ public class JdTryUtil {
         jb.put("previewTime", "");
 
         Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("ext", "{\"prstate\":\"0\"}");
         paramMap.put("appid", "newtry");
         paramMap.put("functionId", "try_feedsList");
+        paramMap.put("uuid", "4303263343263303-6373538363360316");
+        paramMap.put("clientVersion", "11.0.4");
+        paramMap.put("client", "wh5");
+        paramMap.put("osVersion", "11");
+        paramMap.put("area", "13_1007_37918_37970");
+        paramMap.put("networkType", "wifi");
         paramMap.put("body", jb.toString());
 
 
         String result2 = HttpRequest.post(URL)
-                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
-                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
+                .header(Header.USER_AGENT,"jdapp;android;11.0.4;;;appBuild/97892;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
+                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")
+//                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
+//                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
                 .header(Header.HOST, HOST)
                 .header(Header.CONNECTION, "keep-alive")
                 .header(Header.CONTENT_TYPE, "application/x-www-form-urlencoded")
                 .header(Header.CONTENT_LENGTH, String.valueOf(paramMap.toString().length()))
+                .header(Header.ORIGIN,"https://pro.m.jd.com")
                 .header(Header.COOKIE, cookie)
                 //      .header("X-Requested-With", "com.jingdong.app.mall")
                 .form(paramMap)
@@ -189,8 +199,9 @@ public class JdTryUtil {
                 .timeout(20000)//超时，毫秒;
                 .execute().body();
         if ("Error request, response status: 403".equals(result2)) {
-            log.error("【异常】 403错误，休眠100秒后重新申请-获取商品" );
-            TimeUnit.SECONDS.sleep(100);
+            long wt=RandomUtil.randomLong(100,120);
+            log.error("【异常】 403错误，休眠"+wt+"秒后重新申请-获取商品" );
+            TimeUnit.SECONDS.sleep(wt);
             return new ArrayList<>();
         }
         JSONObject result = JSONObject.parseObject(result2);
@@ -230,7 +241,7 @@ public class JdTryUtil {
                 flag = false;
                 log.info("【商品过滤】付费过滤：" + goods.getSkuTitle());
             }
-        } else if (JD_PRICE_MIN.compareTo(goods.getJdPrice()) >= 0) {//最低价过滤
+        } else if (null==goods.getJdPrice()||JD_PRICE_MIN.compareTo(goods.getJdPrice()) >= 0) {//最低价过滤
             flag = false;
             log.info("【商品过滤】最低价过滤：" + goods.getJdPrice() + "元  " + goods.getSkuTitle());
         } else if (SUPPLY_NUM_MAX < goods.getSupplyNum()) {
@@ -256,7 +267,7 @@ public class JdTryUtil {
         System.out.println(    Instant.now().toEpochMilli());
         StopWatch sw = new StopWatch();
         sw.start();
-        String cookie = "pt_key=AAJiitlYADB2Hfeiq2BRpPVkph2OSW_bPFBX0JStVe09lqWsH1erO6x8193lB2jDQg2sIYjbLvM; pt_pin=as15621009921;";
+        String cookie ="pt_key=AAJi3NsPADDx2gb_Aa2AJ7hHj17pOfWnJYVN6kdlGQDqxRMpO88zEQX6xgADThKvfa_2gwQ8BB4; pt_pin=as15621009921;";
         Set<JdGoods> list = getAllGoodsList(cookie);
       //  goodsService.saveBatch(list);
 

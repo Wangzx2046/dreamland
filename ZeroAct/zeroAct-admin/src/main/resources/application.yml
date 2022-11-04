@@ -61,10 +61,10 @@ spring:
 #    host: 127.0.0.1
 #    port: 6379
 #    database: 15
-    host: 10.206.97.13
-    port: 6381
-    password: Z-7h-LVmU^En7].y
-    database: 16
+    host: 124.223.110.116
+    port: 63791
+    password:
+    database: 0
     # 连接超时时间
     timeout: 10s
     lettuce:
