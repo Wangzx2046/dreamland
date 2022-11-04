@@ -72,8 +72,8 @@ public class IDCardUtil {
 	 * @return 是否有效 null和"" 都是false
 	 */
 	public static boolean isIDCard(String certNo) {
-		if (certNo == null || (certNo.length() != 15 && certNo.length() != 18))
-			return false;
+		if (certNo == null || (certNo.length() != 15 && certNo.length() != 18)){
+			return false;}
 		final char[] cs = certNo.toUpperCase().toCharArray();
 		// 校验位数
 		int power = 0;

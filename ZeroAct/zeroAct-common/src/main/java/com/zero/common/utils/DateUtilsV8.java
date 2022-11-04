@@ -41,7 +41,7 @@ public class DateUtilsV8 {
      */
     public static List<String> getMonthForNearlyYear() {
         List<String> ymList = new ArrayList<String>();
-        YearMonth ym = YearMonth.now().minusYears(1l);
+        YearMonth ym = YearMonth.now().minusYears(1L);
         for (int i = 0; i < 12; i++) {
             ym = ym.plusMonths(1);
             ymList.add(ym.toString());
@@ -122,7 +122,7 @@ public class DateUtilsV8 {
             YearMonth endDate = YearMonth.parse(end, DateTimeFormatter.ofPattern("yyyy-MM"));
             Long months = Period.between(beginDate.atDay(1), endDate.atDay(1)).toTotalMonths();
 
-            for (Long i = 0l; i <= months; i++) {
+            for (Long i = 0L; i <= months; i++) {
                 ymList.add(beginDate.toString());
                 beginDate = beginDate.plusMonths(1);
             }

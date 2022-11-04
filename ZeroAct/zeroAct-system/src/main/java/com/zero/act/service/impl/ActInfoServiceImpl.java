@@ -38,7 +38,7 @@ public class ActInfoServiceImpl extends ServiceImpl<ActInfoMapper, ActInfo> impl
         this.baseMapper.insert(actInfo);
 
         //获取需要提醒的用户列表
-        Long[] userIds = new Long[]{100l, 101l};
+        Long[] userIds = new Long[]{100L, 101L};
 
         List<ActRemind> arList = new ArrayList<>();
         for (Long userid : userIds) {

@@ -129,7 +129,7 @@ public class JdGoods extends BaseEntity {
     @Excel(name = "原价")
     @ApiModelProperty(value = "原价")
     @TableField("jdPrice")
-    private BigDecimal jdPrice =new BigDecimal(0);
+    private BigDecimal jdPrice = new BigDecimal(0);
 
     /**
      * 标签
@@ -224,8 +224,12 @@ public class JdGoods extends BaseEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         JdGoods goods = (JdGoods) o;
         return Objects.equals(trialActivityId, goods.trialActivityId);
     }
