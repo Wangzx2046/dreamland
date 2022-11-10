@@ -266,7 +266,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenu> impleme
     //@Cacheable(key = "'pid:' + #p0")
     public List<SysMenu> getMenus(String pid) {
         List<SysMenu> menusList;
-        if (StringUtils.isNotBlank(pid) && !pid.equals("0")) {
+        if (StringUtils.isNotBlank(pid) && !"0".equals(pid)) {
             menusList = sysMenuDao.selectList(new QueryWrapper<SysMenu>().eq("pid", pid));
         } else {
             menusList = sysMenuDao.selectList(new QueryWrapper<SysMenu>().isNull("pid"));

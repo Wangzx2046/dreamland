@@ -68,7 +68,7 @@ public class MqttReceiverConfig {
     public MqttConnectOptions getReceiverMqttConnectOptions() {
         MqttConnectOptions options = new MqttConnectOptions();
         // 设置连接的用户名
-        if (!username.trim().equals("")) {
+        if (!"".equals(username.trim())) {
             options.setUserName(username);
         }
         // 设置连接的密码

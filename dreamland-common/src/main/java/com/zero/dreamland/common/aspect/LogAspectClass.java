@@ -124,7 +124,7 @@ public class LogAspectClass {
         argsname = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
         String paramsString = "";
         for (int i = 0; i < argsname.length; i++) {
-            if (!argsname[i].equals("model")) {
+            if (!"model".equals(argsname[i])) {
                 map.put(argsname[i], args[i]);
             }
         }

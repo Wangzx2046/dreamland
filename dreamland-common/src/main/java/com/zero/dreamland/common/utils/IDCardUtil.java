@@ -78,10 +78,12 @@ public class IDCardUtil {
 		// 校验位数
 		int power = 0;
 		for (int i = 0; i < cs.length; i++) {
-			if (i == cs.length - 1 && cs[i] == 'X')
+			if (i == cs.length - 1 && cs[i] == 'X') {
 				break;// 最后一位可以 是X或x
-			if (cs[i] < '0' || cs[i] > '9')
+			}
+			if (cs[i] < '0' || cs[i] > '9') {
 				return false;
+			}
 			if (i < cs.length - 1) {
 				power += (cs[i] - '0') * POWER_LIST[i];
 			}
@@ -96,8 +98,9 @@ public class IDCardUtil {
 		String year = certNo.length() == 15 ? getIdcardCalendar() + certNo.substring(6, 8) : certNo.substring(6, 10);
 
 		final int iyear = Integer.parseInt(year);
-		if (iyear < 1900 || iyear > Calendar.getInstance().get(Calendar.YEAR))
+		if (iyear < 1900 || iyear > Calendar.getInstance().get(Calendar.YEAR)) {
 			return false;// 1900年的PASS，超过今年的PASS
+		}
 
 		// 校验月份
 		String month = certNo.length() == 15 ? certNo.substring(8, 10) : certNo.substring(10, 12);
@@ -109,12 +112,14 @@ public class IDCardUtil {
 		// 校验天数
 		String day = certNo.length() == 15 ? certNo.substring(10, 12) : certNo.substring(12, 14);
 		final int iday = Integer.parseInt(day);
-		if (iday < 1 || iday > 31)
+		if (iday < 1 || iday > 31) {
 			return false;
+		}
 
 		// 校验"校验码"
-		if (certNo.length() == 15)
+		if (certNo.length() == 15) {
 			return true;
+		}
 		return cs[cs.length - 1] == PARITYBIT[power % 11];
 	}
 
@@ -155,14 +160,16 @@ public class IDCardUtil {
 		boolean flag = true;
 		if (number.length == 15) {
 			for (int x = 0; x < number.length; x++) {
-				if (!flag)
+				if (!flag) {
 					return new HashMap<String, String>();
+				}
 				flag = Character.isDigit(number[x]);
 			}
 		} else if (number.length == 18) {
 			for (int x = 0; x < number.length - 1; x++) {
-				if (!flag)
+				if (!flag) {
 					return new HashMap<String, String>();
+				}
 				flag = Character.isDigit(number[x]);
 			}
 		}

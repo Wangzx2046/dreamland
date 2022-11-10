@@ -68,7 +68,7 @@ public class YamlUtil
         if (map != null && !map.isEmpty() && qualifiedKey != null)
         {
             String input = String.valueOf(qualifiedKey);
-            if (!input.equals(""))
+            if (!"".equals(input))
             {
                 if (input.contains("."))
                 {

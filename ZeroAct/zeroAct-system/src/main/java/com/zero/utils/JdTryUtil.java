@@ -28,8 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class JdTryUtil {
-    private static IJdGoodsService goodsService = null;
-
+    private final IJdGoodsService goodsService;
     public JdTryUtil(IJdGoodsService goodsService) {
         this.goodsService = goodsService;
     }
@@ -54,8 +53,8 @@ public class JdTryUtil {
     //提供的最大份数
     private static final int SUPPLY_NUM_MAX = 20;
     //获取试用商品类型
-    private static final int[] JD_TRY_TABID = {212,104, 3, 4, 5, 9, 10, 15, 12, 6, 7, 8, 13, 14, 11, 16};
-   // private static final int[] JD_TRY_TABID = {212,208,209,210,211,202,203,201,204,205,207};
+    private static final int[] JD_TRY_TABID = {212, 104, 3, 4, 5, 9, 10, 15, 12, 6, 7, 8, 13, 14, 11, 16};
+    // private static final int[] JD_TRY_TABID = {212,208,209,210,211,202,203,201,204,205,207};
 
     //过滤的关键词
     private static final String[] INNER_KEYS = {
@@ -72,6 +71,8 @@ public class JdTryUtil {
     };
 
     private static int allpuNum = 0;
+
+
 
 
     /**
@@ -92,8 +93,8 @@ public class JdTryUtil {
         paramMap.put("body", jb.toString());
 
         String result2 = HttpRequest.post(URL)
-                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
-                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
+                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":" + Instant.now().toEpochMilli()
+                        + ",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
                 .header(Header.HOST, HOST)
                 .header(Header.CONNECTION, "keep-alive")
@@ -114,23 +115,23 @@ public class JdTryUtil {
         } else {
             log.info("【申请商品】" + "休眠" + sleepTimes + "秒，价值" + goods.getJdPrice() + " " + goods.getSkuTitle());
             JSONObject data = JSONObject.parseObject(result2);
-            if (data.getBoolean("success") && data.getString("code").equals("1")) {  // 申请成功
+            if (data.getBoolean("success") && "1".equals(data.getString("code"))) {  // 申请成功
                 allpuNum += 1;
                 log.info("【申请提交成功】 第" + allpuNum + "个" + goods.getSkuTitle());
-            } else if (data.getString("code").equals("-106")) {
+            } else if ("-106".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 未在申请时间内！
-            } else if (data.getString("code").equals("-110")) {
+            } else if ("-110".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getApplyState() + " " + goods.getSkuTitle() + " \n" + data.getString("message")); // 您的申请已成功提交，请勿重复申请…
-            } else if (data.getString("code").equals("-110")) {
+            } else if ("-110".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.toString() + "\n" + data.getString("message")); // 您的申请已成功提交，请勿重复申请…
-            } else if (data.getString("code").equals("-120")) {
+            } else if ("-120".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 您还不是会员，本品只限会员申请试用，请注册会员后申请！
-            } else if (data.getString("code").equals("-167")) {
+            } else if ("-167".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));// 抱歉，此试用需为种草官才能申请。查看下方详情了解更多。
-            } else if (data.getString("code").equals("-131")) {
+            } else if ("-131".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));  // 申请次数上限。
                 allpuNum = 300;
-            } else if (data.getString("code").equals("-113")) {
+            } else if ("-113".equals(data.getString("code"))) {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message")); // 操作不要太快哦！
             } else {
                 log.info("【申请提交失败】 " + goods.getSkuTitle() + " \n" + data.getString("message"));
@@ -182,8 +183,8 @@ public class JdTryUtil {
 
 
         String result2 = HttpRequest.post(URL)
-                .header(Header.USER_AGENT,"jdapp;android;11.0.4;;;appBuild/97892;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
-                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")
+                .header(Header.USER_AGENT, "jdapp;android;11.0.4;;;appBuild/97892;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":" + Instant.now().toEpochMilli()
+                        + ",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")
 //                .header(Header.USER_AGENT, "jdapp;android;10.5.0;;;appBuild/95837;ef/1;ep/{\"hdid\":\"JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw=\",\"ts\":"+ Instant.now().toEpochMilli()
 //                        +",\"ridx\":-1,\"cipher\":{\"sv\":\"CJO=\",\"ad\":\"DNLsCzHsCzK2DzU4DwCmYG==\",\"od\":\"YJY5EJq0CzcnCwS5Czq3Zq==\",\"ov\":\"CzK=\",\"ud\":\"DNLsCzHsCzK2DzU4DwCmYG==\"},\"ciphertype\":5,\"version\":\"1.2.0\",\"appname\":\"com.jingdong.app.mall\"};jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.72 MQQBrowser/6.2 TBS/045947 Mobile Safari/537.36")//头信息，多个头信息多次调用此方法即可
                 .header(Header.ORIGIN, ORIGIN)
@@ -191,7 +192,7 @@ public class JdTryUtil {
                 .header(Header.CONNECTION, "keep-alive")
                 .header(Header.CONTENT_TYPE, "application/x-www-form-urlencoded")
                 .header(Header.CONTENT_LENGTH, String.valueOf(paramMap.toString().length()))
-                .header(Header.ORIGIN,"https://pro.m.jd.com")
+                .header(Header.ORIGIN, "https://pro.m.jd.com")
                 .header(Header.COOKIE, cookie)
                 //      .header("X-Requested-With", "com.jingdong.app.mall")
                 .form(paramMap)
@@ -199,8 +200,8 @@ public class JdTryUtil {
                 .timeout(20000)//超时，毫秒;
                 .execute().body();
         if ("Error request, response status: 403".equals(result2)) {
-            long wt=RandomUtil.randomLong(100,120);
-            log.error("【异常】 403错误，休眠"+wt+"秒后重新申请-获取商品" );
+            long wt = RandomUtil.randomLong(100, 120);
+            log.error("【异常】 403错误，休眠" + wt + "秒后重新申请-获取商品");
             TimeUnit.SECONDS.sleep(wt);
             return new ArrayList<>();
         }
@@ -241,7 +242,7 @@ public class JdTryUtil {
                 flag = false;
                 log.info("【商品过滤】付费过滤：" + goods.getSkuTitle());
             }
-        } else if (null==goods.getJdPrice()||JD_PRICE_MIN.compareTo(goods.getJdPrice()) >= 0) {//最低价过滤
+        } else if (null == goods.getJdPrice() || JD_PRICE_MIN.compareTo(goods.getJdPrice()) >= 0) {//最低价过滤
             flag = false;
             log.info("【商品过滤】最低价过滤：" + goods.getJdPrice() + "元  " + goods.getSkuTitle());
         } else if (SUPPLY_NUM_MAX < goods.getSupplyNum()) {
@@ -264,12 +265,12 @@ public class JdTryUtil {
 
 
     public static void main(String[] args) throws JSONException, InterruptedException {
-        System.out.println(    Instant.now().toEpochMilli());
+        System.out.println(Instant.now().toEpochMilli());
         StopWatch sw = new StopWatch();
         sw.start();
-        String cookie ="pt_key=AAJi3NsPADDx2gb_Aa2AJ7hHj17pOfWnJYVN6kdlGQDqxRMpO88zEQX6xgADThKvfa_2gwQ8BB4; pt_pin=as15621009921;";
+        String cookie = "pt_key=AAJi3NsPADDx2gb_Aa2AJ7hHj17pOfWnJYVN6kdlGQDqxRMpO88zEQX6xgADThKvfa_2gwQ8BB4; pt_pin=as15621009921;";
         Set<JdGoods> list = getAllGoodsList(cookie);
-      //  goodsService.saveBatch(list);
+        //  goodsService.saveBatch(list);
 
 
         list.stream().sorted(Comparator.comparing(JdGoods::getJdPrice).reversed())
