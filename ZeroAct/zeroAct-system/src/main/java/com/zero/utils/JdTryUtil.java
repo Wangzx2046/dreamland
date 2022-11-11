@@ -87,7 +87,7 @@ public class JdTryUtil {
         jb.put("activityId", goods.getTrialActivityId());
         jb.put("previewTime", "");
 
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>(3);
         paramMap.put("appid", "newtry");
         paramMap.put("functionId", "try_apply");
         paramMap.put("body", jb.toString());
@@ -169,7 +169,7 @@ public class JdTryUtil {
         jb.put("client", "app");
         jb.put("previewTime", "");
 
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>(10);
         paramMap.put("ext", "{\"prstate\":\"0\"}");
         paramMap.put("appid", "newtry");
         paramMap.put("functionId", "try_feedsList");

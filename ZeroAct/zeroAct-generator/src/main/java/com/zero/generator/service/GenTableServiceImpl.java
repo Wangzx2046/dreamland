@@ -120,7 +120,7 @@ public class GenTableServiceImpl implements IGenTableService
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateGenTable(GenTable genTable)
     {
         String options = JSON.toJSONString(genTable.getParams());
@@ -142,7 +142,7 @@ public class GenTableServiceImpl implements IGenTableService
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteGenTableByIds(Long[] tableIds)
     {
         genTableMapper.deleteGenTableByIds(tableIds);

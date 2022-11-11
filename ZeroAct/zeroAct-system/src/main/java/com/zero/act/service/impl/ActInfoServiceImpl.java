@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2021-08-27
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ActInfoServiceImpl extends ServiceImpl<ActInfoMapper, ActInfo> implements IActInfoService {
     @Autowired
     private ISysUserService sysUserService;

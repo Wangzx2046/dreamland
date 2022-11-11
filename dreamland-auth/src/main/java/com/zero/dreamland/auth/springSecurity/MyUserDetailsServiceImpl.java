@@ -33,7 +33,7 @@ import java.util.List;
 @Service("MyUserDetailsService")
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "data")
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private ISysUserService sysUserService;
