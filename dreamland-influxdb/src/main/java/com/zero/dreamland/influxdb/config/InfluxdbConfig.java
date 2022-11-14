@@ -13,13 +13,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 public class InfluxdbConfig {
  
     @Value("${spring.influx.url:''}")
-    private String influxDBUrl;
+    private String influxDbUrl;
     @Value("${spring.influx.token:''}")
     private String token;
  
     @Bean
     public InfluxDBClient influxDBClient() {
-        InfluxDBClient influxDBClient = InfluxDBClientFactory.create(influxDBUrl, token.toCharArray());
+        InfluxDBClient influxDBClient = InfluxDBClientFactory.create(influxDbUrl, token.toCharArray());
         influxDBClient.setLogLevel(LogLevel.BASIC);
         return influxDBClient;
     }

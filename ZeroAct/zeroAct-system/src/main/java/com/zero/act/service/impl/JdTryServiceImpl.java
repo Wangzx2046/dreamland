@@ -46,11 +46,11 @@ public class JdTryServiceImpl implements IJdTryService {
     public void tryApply() {
         //1.获取试用商品列表
         //链式构建请求
-        Map<String, Object> bodyMap = new HashMap<>();
+        Map<String, Object> bodyMap = new HashMap<>(2);
         bodyMap.put("activityId", 2062052);
         bodyMap.put("previewTime", "s");
 
-        Map<String, String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>(3);
         paramMap.put("appid", "newtry");
         paramMap.put("functionId", "try_apply");
         paramMap.put("body", "newtry");
