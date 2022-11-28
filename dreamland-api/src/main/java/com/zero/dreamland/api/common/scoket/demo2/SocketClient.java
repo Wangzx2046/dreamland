@@ -11,10 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
  
 public class SocketClient {
-    public static String _pattern = "yyyy-MM-dd HH:mm:ss SSS";
-    public static SimpleDateFormat format = new SimpleDateFormat(_pattern);
+    public static String pattern = "yyyy-MM-dd HH:mm:ss SSS";
+    public static SimpleDateFormat format = new SimpleDateFormat(pattern);
     // 设置超时间
-    public static int _sec = 5;
+    public static int sec = 5;
  
     public static void main(String[] args) {
         System.out.println("----------Client----------");
@@ -24,7 +24,7 @@ public class SocketClient {
             // 与服务端建立连接
             socket = new Socket("127.0.0.1", 8002);
             socket.setKeepAlive(true);
-            socket.setSoTimeout(_sec * 1000);
+            socket.setSoTimeout(sec * 1000);
  
             System.out.println(format.format(new Date())+" : 建立了链接");
 
@@ -47,7 +47,7 @@ public class SocketClient {
 
 
         } catch (SocketTimeoutException e) {
-            System.out.println(format.format(new Date()) + "\n" + _sec + "秒没收到回复 我下啦\n\n\n\n\n");
+            System.out.println(format.format(new Date()) + "\n" + sec + "秒没收到回复 我下啦\n\n\n\n\n");
             e.printStackTrace();
         } catch (SocketException e) {
             e.printStackTrace();
