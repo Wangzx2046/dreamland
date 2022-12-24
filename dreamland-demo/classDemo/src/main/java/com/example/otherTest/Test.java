@@ -21,7 +21,8 @@ public class Test {
 
     public static boolean exist1(String str) {
 
-        return StopChar.isStopChar(str);
+        char a=str.charAt(1);
+        return StopChar.isStopChar(a);
 
     }
 
