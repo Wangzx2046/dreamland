@@ -33,7 +33,7 @@ import java.util.Map;
  * @date 2021-08-27
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class JdTryServiceImpl implements IJdTryService {
     private final String URL = "https://api.m.jd.com/client.action";
     private final String ORIGIN = "https://prodev.m.jd.com";
