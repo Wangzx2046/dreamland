@@ -65,7 +65,7 @@ public class GenController extends BaseController
         GenTable table = genTableService.selectGenTableById(talbleId);
         List<GenTable> tables = genTableService.selectGenTableAll();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(talbleId);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(3);
         map.put("info", table);
         map.put("rows", list);
         map.put("tables", tables);
