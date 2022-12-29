@@ -185,7 +185,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         List<SysMenu> permiList = sysMenusService.getAllByUserId(userId);
         //  List<String> permiSignList = permiList.stream().map(e -> e.getPermission()).collect(Collectors.toList());
 
-        HashMap<String, Object> reMap = new HashMap<String, Object>();
+        HashMap<String, Object> reMap = new HashMap<String, Object>(2);
         reMap.put("roleList", roleList);
         reMap.put("permiList", permiList);
       /*HashMap<String,Set<String>> reMap=new  HashMap<String,Set<String>>();

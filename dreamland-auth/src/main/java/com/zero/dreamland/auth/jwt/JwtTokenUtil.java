@@ -198,7 +198,7 @@ public class JwtTokenUtil {
      * @return
      */
     public String generateToken(AuthUser userDetails, String nowDate) {
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>(2);
         claims.put(md5Key, "987654321");
         claims.put("currentTimeMillis", nowDate);
         String token = doGenerateToken(claims, userDetails);

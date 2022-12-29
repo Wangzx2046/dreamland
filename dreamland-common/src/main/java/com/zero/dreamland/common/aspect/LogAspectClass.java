@@ -115,7 +115,7 @@ public class LogAspectClass {
 
     // 处理参数格式,并返回需要的参数
     public static Map<String, Object> getParam(JoinPoint joinPoint, String argsname[], String methodname) {
-        Map<String, Object> detailmap = new HashMap<>();
+        Map<String, Object> detailmap = new HashMap<>(2);
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> mapCODE = new HashMap<>();
         // 获取参数值
