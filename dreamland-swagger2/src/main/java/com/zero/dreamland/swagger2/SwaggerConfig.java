@@ -25,7 +25,7 @@ public class SwaggerConfig {
     @Autowired
     private SwaggerProperties properties;
     // 定义分隔符
-    private static final String splitor = ";";
+    private static final String SPLITOR = ";";
 
     @Bean
     public Docket createDocket() {
@@ -50,7 +50,7 @@ public class SwaggerConfig {
     private static Function<Class<?>, Boolean> handlerPackage(final String basePackage)     {
         return input -> {
             // 循环判断匹配
-            for (String strPackage : basePackage.split(splitor)) {
+            for (String strPackage : basePackage.split(SPLITOR)) {
                 boolean isMatch = input.getPackage().getName().startsWith(strPackage);
                 if (isMatch) {
                     return true;
