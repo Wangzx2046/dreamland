@@ -82,6 +82,7 @@ public class IpUtils
                     case SECTION_6:
                         return true;
                 }
+                break;
             default:
                 return false;
         }
