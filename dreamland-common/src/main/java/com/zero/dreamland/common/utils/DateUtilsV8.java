@@ -1,5 +1,6 @@
 package com.zero.dreamland.common.utils;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -225,7 +226,7 @@ public class DateUtilsV8 {
 		List<String> dateList = new ArrayList<String>();
 		switch (dateType) {
 		case "date":
-			dateList = (StringUtils.isEmpty((String) begin) || StringUtils.isEmpty((String) end)) ? getDayOfThisMonth()
+			dateList = (ObjectUtils.isEmpty(begin) || ObjectUtils.isEmpty( end)) ? getDayOfThisMonth()
 					: getDaysBetweenDate(begin, end);
 			break;
 		case "week":
@@ -233,12 +234,12 @@ public class DateUtilsV8 {
 			dateList = null;
 			break;
 		case "month":
-			dateList = (StringUtils.isEmpty((String) begin) || StringUtils.isEmpty((String) end))
+			dateList = (ObjectUtils.isEmpty( begin) || ObjectUtils.isEmpty(end))
 					? getMonthForNearlyYear()
 					: getMonthsBetweenDate(begin, end);
 			break;
 		case "year":
-			dateList = (StringUtils.isEmpty((String) begin) || StringUtils.isEmpty((String) end))
+			dateList = (ObjectUtils.isEmpty( begin) || ObjectUtils.isEmpty(end))
 			? getYearsBetweenYear("2018",Year.now().toString())
 			: getYearsBetweenYear(begin, end);
 		
