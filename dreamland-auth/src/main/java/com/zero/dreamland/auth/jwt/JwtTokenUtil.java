@@ -36,7 +36,7 @@ import java.util.Map;
 @Configuration
 public class JwtTokenUtil {
 
-    private String TOKEN_TYPE_BEARER = Constant.TOKEN_TYPE_BEARER;
+    private final String TOKEN_TYPE_BEARER = Constant.TOKEN_TYPE_BEARER;
     private String header = Constant.TOKEN_HEADER;
     @Value("${jwt.secret}")
     private String secret;
