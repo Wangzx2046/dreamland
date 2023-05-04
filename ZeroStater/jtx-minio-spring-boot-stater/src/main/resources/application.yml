@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+minio:
+  endpoint: http://10.203.58.2:9000
+  accessKey: dingkaiye #访问的key
+  secretKey: dingkaiye #访问的秘钥
+  defaultBucketName: coe
