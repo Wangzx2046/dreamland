@@ -86,6 +86,7 @@ public class IpUtils
             default:
                 return false;
         }
+        return false;
     }
 
     /**
