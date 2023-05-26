@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Spring会自动寻找同样类型的具体类注入，这里就是JwtUserDetailsServiceImpl了
     @Resource
-    MyUserDetailsService userDetailsService;
+    MyUserDetailsServiceImpl userDetailsService;
     //登录成功处理类，如返回自定义jwt
     @Resource
     MyAuthenticationSuccessHandler authenticationSuccessHandler;

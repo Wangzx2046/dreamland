@@ -1,12 +1,15 @@
 package com.cosmoplat.jtx.minio.config;
 
+import com.cosmoplat.jtx.common.constant.MinioConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-@ConfigurationProperties(prefix = "minio")
-@Component
+/**
+ * @author admin
+ */
 @Data
+@Component
+@ConfigurationProperties(prefix = MinioConstant.PREFIX)
 public class MinioProperties {
 
     private String endpoint;
@@ -15,5 +18,5 @@ public class MinioProperties {
 
     private String secretKey;
 
-    private String defaultBucketName;
+    private String defaultBucketName ="default";
 }

@@ -1,7 +1,6 @@
 package com.cosmoplat.jtx.minio.util;
 
 import com.cosmoplat.jtx.common.exception.BusiException;
-import com.cosmoplat.jtx.minio.config.MinioConfig;
 import com.cosmoplat.jtx.minio.config.MinioProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
@@ -18,7 +17,6 @@ import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.multipart.MultipartFile;

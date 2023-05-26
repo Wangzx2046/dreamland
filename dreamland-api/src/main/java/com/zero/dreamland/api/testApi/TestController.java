@@ -45,5 +45,13 @@ public class TestController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/a/{id}")//http://192.168.30.112:8088/dreamland/test/a/1
+    // @PreAuthorize("@el.check('roles:list')")
+    public ResponseEntity<Object> aquery1(@PathVariable String id) {
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+
 
 }

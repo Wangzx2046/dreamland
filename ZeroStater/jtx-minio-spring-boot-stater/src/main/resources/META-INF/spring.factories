@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.cosmoplat.jtx.minio.config.MinioConfig
+  com.cosmoplat.jtx.minio.config.MinioConfig

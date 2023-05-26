@@ -30,8 +30,8 @@ import java.io.IOException;
 @Component
 public class MyJwtTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;//这里直接取redis缓存没有查数据库，所以用不着这个
+ //   @Autowired
+ //   private MyUserDetailsService myUserDetailsService;//这里直接取redis缓存没有查数据库，所以用不着这个
     @Autowired
     private JwtTokenUtil jwtUtil;
     @Autowired
