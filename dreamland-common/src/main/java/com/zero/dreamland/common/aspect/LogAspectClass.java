@@ -75,7 +75,7 @@ public class LogAspectClass {
         // 生成uuid
         String uuid = UUID.randomUUID().toString();
         // 获取请求的参数
-        String argsname[] = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
+        String[] argsname = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
         Map<String, Object> parammap = new HashMap<>();
         if (argsname.length > 0) {
             parammap = getParam(joinPoint, argsname, methodname);
@@ -114,12 +114,12 @@ public class LogAspectClass {
 
 
     // 处理参数格式,并返回需要的参数
-    public static Map<String, Object> getParam(JoinPoint joinPoint, String argsname[], String methodname) {
+    public static Map<String, Object> getParam(JoinPoint joinPoint, String[] argsname, String methodname) {
         Map<String, Object> detailmap = new HashMap<>(2);
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> mapCODE = new HashMap<>();
         // 获取参数值
-        Object args[] = joinPoint.getArgs();
+        Object[] args = joinPoint.getArgs();
         // 获取参数名
         argsname = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
         String paramsString = "";
