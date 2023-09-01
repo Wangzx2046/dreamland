@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2022-04-29
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class JdGoodsServiceImpl extends ServiceImpl<JdGoodsMapper, JdGoods> implements IJdGoodsService {
 
 }
