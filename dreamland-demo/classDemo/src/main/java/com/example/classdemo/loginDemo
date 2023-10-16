@@ -1,0 +1,115 @@
+package com.cosmoplat.hyida.sso.config.security.provider;
+
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import com.cosmoplat.hyida.core.result.Result;
+import com.cosmoplat.hyida.sso.config.exception.catetory.CaptchaCodeException;
+import com.cosmoplat.hyida.sso.config.exception.catetory.UsernameOrPasswordErrorException;
+import com.cosmoplat.hyida.sso.config.security.service.ICaptchaService;
+import com.google.common.base.Strings;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author 陈建峰
+ * @date 2023/3/4 10:13 PM
+ * @since V1.0.0
+ */
+@Slf4j
+public class PasswordAuthenticationProvider extends DaoAuthenticationProvider {
+
+    @Setter
+    private ICaptchaService captchaService;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    //用户登录次数计数  redisKey 前缀
+    private String LOGIN_COUNT = "login-count:";
+    //用户登录是否被锁定    一小时 redisKey 前缀
+    private String IS_LOCK = "is-lock:";
+    @Value("${spring.redis.prefix:jtx_sso_dev}:")
+    private String env_prefix;
+
+
+
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        authentication.getDetails();
+        // 1. 验证captcha, 如果有就验证。根据生成规则验证，如果没有就忽略.captcha的有效期缩短下。OK
+        // 2. 验证auth_type，只有auth_type=sms的时候，password=smsCode。OK
+        // 3. 如果不存在auth_type 密码要经过加密后验证。OK
+        // 4. 考略passwordEnco, 是否可以使用Aes方式重写。OK
+        // 5. userDetailsPasswordService 重写userDetailsPasswordService。
+        Map<String, Object> detailsMap = BeanUtil.beanToMap(authentication.getDetails());
+        log.info(JSON.toJSONString(detailsMap));
+        String authType = (String) detailsMap.get("auth_type");
+        if(Strings.isNullOrEmpty(authType)){
+            additionalCaptchaChecks(detailsMap);
+        } else if("sms".equals(authType)){
+            additionalSmsCodeChecks(detailsMap);
+        }
+        return super.authenticate(authentication);
+    }
+
+    @Override
+    protected void additionalAuthenticationChecks(
+            UserDetails userDetails,
+            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+        String username = userDetails.getUsername();
+        String presentedPassword = authentication.getCredentials().toString();
+        ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
+        if("LOCK".equals(opsForValue.get(env_prefix+IS_LOCK + username))){
+            throw new UsernameOrPasswordErrorException("登录失败次数过多已锁定,请20分钟后再试");
+        }
+        if (!super.getPasswordEncoder().matches(presentedPassword, userDetails.getPassword())) {
+            opsForValue.increment(env_prefix+LOGIN_COUNT + username, 1);
+            //计数大于5时，设置用户被锁定三小时
+            if (Integer.parseInt(opsForValue.get(LOGIN_COUNT + username)) >= 5) {
+                opsForValue.set(env_prefix+IS_LOCK + username, "LOCK", 20, TimeUnit.MINUTES);
+                redisTemplate.expire(env_prefix+LOGIN_COUNT + username,20, TimeUnit.MINUTES);
+            }
+            throw new UsernameOrPasswordErrorException("登录失败" + opsForValue.get(env_prefix+LOGIN_COUNT + username) + "次，请检查用户名或密码");
+        }
+
+        opsForValue.set(LOGIN_COUNT + username, "0");
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+    @Override
+    protected void doAfterPropertiesSet() {
+        super.doAfterPropertiesSet();
+    }
+
+
+    public void additionalCaptchaChecks(Map<String, Object> params){
+        String captcha = (String) params.get("captcha");
+        if(!Strings.isNullOrEmpty(captcha)){
+            String username = (String) params.get("username");
+            Result<String> result = captchaService.checkCaptcha("", captcha, true, username);
+            if(!result.isSuccess()){
+                throw new CaptchaCodeException(result.getMessage());
+            }
+        }
+    }
+
+    public void additionalSmsCodeChecks(Map<String, Object> params){
+
+    }
+}
